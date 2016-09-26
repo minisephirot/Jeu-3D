@@ -1,3 +1,5 @@
+
+//Fonction qui initialise l'affichage
 void sdl3d(int x, int y, int c){
     SDL_Init(SDL_INIT_VIDEO);
     atexit(SDL_Quit);
@@ -7,30 +9,30 @@ void sdl3d(int x, int y, int c){
     gluPerspective(c,(double)x/y,1,1000);
     glEnable(GL_DEPTH_TEST);
 }
-
+//Fonctions qui initalise la camera
 void camera(int x, int y, int z, int e1, int e2, int e3){
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
     gluLookAt(x,y,z,e1,e2,e3,0,0,1);
 }
-
+//Fonction qui dessine les cubes
 void cube(int taille, int x, int y, int z,double a, double b, double c){
     glTranslated(x,y,z);
-    glRotated(a,b,c,1);    
+    glRotated(a,b,c,1);
 glBegin(GL_QUADS);
     glColor3ub(255,0,0); //1
     glVertex3d(taille,taille,taille);
     glVertex3d(taille,taille,-taille);
     glVertex3d(-taille,taille,-taille);
-    glVertex3d(-taille,taille,taille);   
+    glVertex3d(-taille,taille,taille);
 glColor3ub(0,0,255);    //2
-    glVertex3d(taille,-taille,taille); 
+    glVertex3d(taille,-taille,taille);
     glVertex3d(taille,taille,taille);
     glVertex3d(-taille,taille,taille);
     glVertex3d(-taille,-taille,taille);
 glColor3ub(0,255,0);    //3
-    glVertex3d(taille,-taille,-taille); 
+    glVertex3d(taille,-taille,-taille);
     glVertex3d(taille,-taille,taille);
     glVertex3d(-taille,-taille,taille);
     glVertex3d(-taille,-taille,-taille);
