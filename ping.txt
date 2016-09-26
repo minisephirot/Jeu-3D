@@ -1,0 +1,2 @@
+Jette un oeil a ça pour la doc SDL :
+https://www.libsdl.org/release/SDL-1.2.15/docs/html/guidevideo.html
