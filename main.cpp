@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
     double x = 3;
     double y = 4;
-    SDL_EnableKeyRepeat(10, 10);
+    SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier en régénérant l'evenement de touche préssée toute les 10ms
     while(exit) //Permet de gérer les inputs de l'utilisateurs
     {
         if(SDL_PollEvent(&event)){
@@ -24,16 +24,16 @@ int main(int argc, char *argv[])
                 exit = 0;
                 break;
             case SDLK_w: // Si l'utilisateur appuie sur Z, faire avancer la caméra (axe x)
-                x=x+0.5;
+                x=x+1;
                 break;
             case SDLK_s: // Si l'utilisateur appuie sur S, faire reculer la caméra (axe x)
-                x=x-0.5;
+                x=x-1;
                 break;
             case SDLK_a: // Si l'utilisateur appuie sur Q, faire aller la caméra a gauche (axe y)
-                y=y+0.5;
+                y=y+1;
                 break;
             case SDLK_d: // Si l'utilisateur appuie sur Z, faire aller la caméra a droite (axe y)
-                y=y-0.5;
+                y=y-1;
                 break;
             default:
                 break;
@@ -41,18 +41,19 @@ int main(int argc, char *argv[])
         }
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-        camera(x,y,3,x+3,y,0);
+        camera(x,y,20,x+3,y,20);
         glPopMatrix();
 
-        glPushMatrix();
-        cube(1,0,0,0,50,0,0);
-        cube(1,-3,-3,0,0,0,0);
-        glPopMatrix();
-
-        glPushMatrix();
-        cube(1,-3,-3,0,0,0,0);
-        glPopMatrix();
-
+        // Boucle qui forme les cubes utilisés pour "parquer" le joueur (fais par Rémi sur mon PC)
+        int i=0;
+        int j=0;
+        while(i<=15){
+            cube_position(18,15*38,i*38,0,0,0,0);
+            cube_position(18,i*38,15*38,0,0,0,0);
+            cube_position(18,i*38,0,0,0,0,0);
+            cube_position(18,0,i*38,0,0,0,0);
+            i++;
+        }
 
         glFlush();
         SDL_GL_SwapBuffers();
