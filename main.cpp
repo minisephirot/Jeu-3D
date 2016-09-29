@@ -12,9 +12,11 @@ int main(int argc, char *argv[])
     SDL_WM_SetCaption("Base 3D", NULL);
     int exit=1;
 
+    int x = 54;
+    int y = 54;
+    double a = 0;
+    double b = 0;
 
-    double x = 3;
-    double y = 4;
     SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier en régénérant l'evenement de touche préssée toute les 10ms
     while(exit) //Permet de gérer les inputs de l'utilisateurs
     {
@@ -35,18 +37,29 @@ int main(int argc, char *argv[])
             case SDLK_d: // Si l'utilisateur appuie sur Z, faire aller la caméra a droite (axe y)
                 y=y-1;
                 break;
+            case SDLK_UP: // Si l'utilisateur appuie sur Fleche haut, faire pivoter la caméra vers le haut (axe z)
+                a=a+1;
+                break;
+            case SDLK_DOWN: // Si l'utilisateur appuie sur fleche bas , faire pivoter la caméra vers le bas (axe z)
+                a=a-1;
+                break;
+            case SDLK_LEFT: // Si l'utilisateur appuie sur fleche gauche, faire pivoter la caméra vers la gauche (axe y)
+                b=b+1;
+                break;
+            case SDLK_RIGHT: // Si l'utilisateur appuie sur fleche droite, faire pivoter la caméra vers la droite (axe y)
+                b=b-1;
+                break;
             default:
                 break;
          }
         }
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-        camera(x,y,20,x+3,y,20);
+        camera(x,y,20,x+3,y+b,20+a);
         glPopMatrix();
 
-        // Boucle qui forme les cubes utilisés pour "parquer" le joueur (fais par Rémi sur mon PC)
+        // Boucle qui forme les cubes utilisés pour "parquer" le joueur (fais à deux sur mon PC)
         int i=0;
-        int j=0;
         while(i<=15){
             cube_position(18,15*38,i*38,0,0,0,0);
             cube_position(18,i*38,15*38,0,0,0,0);
