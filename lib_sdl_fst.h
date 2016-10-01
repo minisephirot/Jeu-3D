@@ -54,3 +54,10 @@ glColor3ub(100,50,100);    //6
     glEnd();
 
 }
+
+void cube_position(int taille,int x,int y,int z,int a,int b,int c){
+        glPushMatrix();
+        cube(taille,x,y,z,a,b,c);
+        glPopMatrix();
+}
+
