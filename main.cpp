@@ -8,12 +8,12 @@
 int main(int argc, char *argv[])
 {
     SDL_Event event;
-    sdl3d(600,600, 100);
+    sdl3d(800,600, 100);
     SDL_WM_SetCaption("Base 3D", NULL);
     int exit=1;
 
-    int x = 54;
-    int y = 54;
+    int x = 19;
+    int y = 19;
     double a = 0;
     double b = 0;
 
@@ -26,22 +26,26 @@ int main(int argc, char *argv[])
                 exit = 0;
                 break;
             case SDLK_w: // Si l'utilisateur appuie sur Z, faire avancer la caméra (axe x)
-                x=x+1;
+                x=x+2;
                 break;
             case SDLK_s: // Si l'utilisateur appuie sur S, faire reculer la caméra (axe x)
-                x=x-1;
+                x=x-2;
                 break;
             case SDLK_a: // Si l'utilisateur appuie sur Q, faire aller la caméra a gauche (axe y)
-                y=y+1;
+                y=y+2;
                 break;
             case SDLK_d: // Si l'utilisateur appuie sur Z, faire aller la caméra a droite (axe y)
-                y=y-1;
+                y=y-2;
                 break;
             case SDLK_UP: // Si l'utilisateur appuie sur Fleche haut, faire pivoter la caméra vers le haut (axe z)
-                a=a+1;
+                if (a < 10){
+                    a=a+1;
+                }
                 break;
             case SDLK_DOWN: // Si l'utilisateur appuie sur fleche bas , faire pivoter la caméra vers le bas (axe z)
-                a=a-1;
+                if (a > -10){
+                    a=a-1;
+                }
                 break;
             case SDLK_LEFT: // Si l'utilisateur appuie sur fleche gauche, faire pivoter la caméra vers la gauche (axe y)
                 b=b+1;
