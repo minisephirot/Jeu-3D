@@ -1,3 +1,13 @@
+/************************************
+ *           NOM DU JEU             *
+ *          Projet d'AP3            *
+ *                                  *
+ * fait par : Elliot This           *
+ *         et Rémi Le Brech         *
+ *                                  *
+ * Crée le 28 septembre 2016        *
+ ************************************/
+
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -6,23 +16,37 @@
 #include <math.h>
 #include "lib_sdl_fst.h"
 
+// Les define :
+#define TAILLE_X_PLATEAU 15 
+#define TAILLE_CUBES 38
+
 
 int main(int argc, char *argv[])
 {
 /*  *****************
     * Les Variables *
     *****************  */
+    
+     // variable annoncant la fin de jeu
+    int exit=1; 
+    
+    //Position de la camera
+    int x = 39;
+    int y = 39;
+ 
+    //oriantation de la camera
+    double b = 2;
 
-    int x = 19;
-    int y = 19;
-    double a = 0;
-    double b = 0;
 
-// initialisation
+/*  *****************
+    *     Debut     *
+    *****************  */
+
+    // initialisation de la fenetre 
     SDL_Event event;
     sdl3d(800,600, 100);
     SDL_WM_SetCaption("Base 3D", NULL);
-    int exit=1;
+    
 
 
 
@@ -53,40 +77,42 @@ int main(int argc, char *argv[])
                 break;
             //orientation de la caméra sur l'axe x et y
             case SDLK_LEFT:
-                b=b-0.1;
-                printf ("%f   ", b);
+                b=b-0.1;          
                 break;
             case SDLK_RIGHT: 
                 b=b+0.1;
                 break;
             default:
                 break;
-         }
         }
-    // La variable b n'a pas besoin d'etre plus grand que 2PI
-    if (b>2*3.14)
-      b = 0;
-    if (b<-2*3.14)
-      b=0;
+      }
+      // La variable b n'a pas besoin d'etre plus grand que 2PI
+      if (b>2*3.14)
+        b = 0;
+      if (b<-2*3.14)
+        b=0;
+  
+      glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+          
+      camera(x,y,20,x-cos(b)*20,y+sin(b)*20,20);
+  
+      // creation du plateau
+      int i=0;
+      while(i<=TAILLE_X_PLATEAU){
+        cube_position(TAILLE_CUBES/2,TAILLE_X_PLATEAU*(TAILLE_CUBES+2),i*(TAILLE_CUBES+2),0,0,0,0);
+        cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES+2),TAILLE_X_PLATEAU*(TAILLE_CUBES+2),0,0,0,0);
+        cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES+2),0,0,0,0,0);
+        cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES+2),0,0,0,0);
+        i++;
+      }
 
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-        
-        camera(x,y,20,x-cos(b)*20,y+sin(b)*20,20);
+      glFlush();
+      SDL_GL_SwapBuffers();
 
-        // creation du plateau
-        int i=0;
-        while(i<=15){
-            cube_position(18,15*38,i*38,0,0,0,0);
-            cube_position(18,i*38,15*38,0,0,0,0);
-            cube_position(18,i*38,0,0,0,0,0);
-            cube_position(18,0,i*38,0,0,0,0);
-            i++;
-        }
+      }
 
-        glFlush();
-        SDL_GL_SwapBuffers();
-
-    }
-
-    return 0;
+  return 0;
 }
+
+
+
