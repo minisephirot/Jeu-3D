@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     //Position de la camera
     int x, y;
  
-    //oriantation de la camera
+    //direction
     double b;
 
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
      exit=1;
      x = 39;
      y = 39;
-     b = 2;
+     b = 100;
 
     //---------initialisation de la fenetre---------
     SDL_Event event;
@@ -74,26 +74,28 @@ int main(int argc, char *argv[])
 
             //Déplcement de la caméra sur l'axe x et y
             case SDLK_z: 
-                x-=2*cos(b);
-                y+=2*sin(b);
+                x=x-cos(b*M_PI/180)*5;
+                y=y+sin(b*M_PI/180)*5;
                 break;
             case SDLK_s: 
-                x+=2*cos(b);
-                y-=2*sin(b);
+                x=x+cos(b*M_PI/180)*5;
+                y=y-sin(b*M_PI/180)*5;
                 break;
             case SDLK_q: 
-                y=y+2;
+                x=x-cos((b-90)*M_PI/180)*5;
+                y=y+sin((b-90)*M_PI/180)*5;
                 break;
             case SDLK_d: 
-                y=y-2;
+                x=x-cos((b+90)*M_PI/180)*5;
+                y=y+sin((b+90)*M_PI/180)*5;
                 break;
 
             //orientation de la caméra sur l'axe x et y
             case SDLK_LEFT:
-                b=b-0.1;          
+                b=b-5;          
                 break;
             case SDLK_RIGHT: 
-                b=b+0.1;
+                b=b+5;
                 break;
             default:
                 break;
@@ -102,14 +104,14 @@ int main(int argc, char *argv[])
       //---------Fin des Events---------
 
 
-      // La variable b n'a pas besoin d'etre plus grand que 2PI
-      if (b>2*3.14)
+      // La variable b n'a pas besoin d'etre plus grand que 360
+      if (b>360)
         b = 0;
-      if (b<-2*3.14)
-        b=0;
+      if (b<-1)
+        b=359;
   
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );    
-      camera(x,y,20,x-cos(b)*20,y+sin(b)*20,20);
+      camera(x,y,20,x-cos(b*M_PI/180)*20,y+sin(b*M_PI/180)*20,20);
   
 
       //---------Debut Du Plateau---------
