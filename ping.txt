@@ -1,2 +1,5 @@
 Jette un oeil a ça pour la doc SDL :
 https://www.libsdl.org/release/SDL-1.2.15/docs/html/guidevideo.html
+
+compilation : g++ main.cpp -o main `sdl-config --cflags --libs` -lglut -lGLU -lGL -lm
+
