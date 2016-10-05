@@ -27,22 +27,28 @@ int main(int argc, char *argv[])
     * Les Variables *
     *****************  */
     
-     // variable annoncant la fin de jeu
-    int exit=1; 
+    // variable annoncant la fin de jeu
+    int exit; 
     
     //Position de la camera
-    int x = 39;
-    int y = 39;
+    int x, y;
  
     //oriantation de la camera
-    double b = 2;
+    double b;
 
 
 /*  *****************
     *     Debut     *
     *****************  */
 
-    // initialisation de la fenetre 
+
+    //---------Initialisation des variables---------
+     exit=1;
+     x = 39;
+     y = 39;
+     b = 2;
+
+    //---------initialisation de la fenetre---------
     SDL_Event event;
     sdl3d(800,600, 100);
     SDL_WM_SetCaption("Base 3D", NULL);
@@ -51,23 +57,29 @@ int main(int argc, char *argv[])
 
 
     SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier toute les 10ms
+
+    /************************
+     *     Debut du jeu     *
+     ************************/
     while(exit) 
     {
+
+        //---------Début Des Events---------
         if(SDL_PollEvent(&event)){
          switch(event.key.keysym.sym){
             // Fin du jeu : echap ou fermé
-            case SDL_QUIT:
-                exit = 0;
-            break;
             case SDLK_ESCAPE: 
                 exit = 0;
                 break;
+
             //Déplcement de la caméra sur l'axe x et y
             case SDLK_z: 
-                x=x+2;
+                x-=2*cos(b);
+                y+=2*sin(b);
                 break;
             case SDLK_s: 
-                x=x-2;
+                x+=2*cos(b);
+                y-=2*sin(b);
                 break;
             case SDLK_q: 
                 y=y+2;
@@ -75,6 +87,7 @@ int main(int argc, char *argv[])
             case SDLK_d: 
                 y=y-2;
                 break;
+
             //orientation de la caméra sur l'axe x et y
             case SDLK_LEFT:
                 b=b-0.1;          
@@ -86,17 +99,20 @@ int main(int argc, char *argv[])
                 break;
         }
       }
+      //---------Fin des Events---------
+
+
       // La variable b n'a pas besoin d'etre plus grand que 2PI
       if (b>2*3.14)
         b = 0;
       if (b<-2*3.14)
         b=0;
   
-      glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-          
+      glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );    
       camera(x,y,20,x-cos(b)*20,y+sin(b)*20,20);
   
-      // creation du plateau
+
+      //---------Debut Du Plateau---------
       int i=0;
       while(i<=TAILLE_X_PLATEAU){
         cube_position(TAILLE_CUBES/2,TAILLE_X_PLATEAU*(TAILLE_CUBES+2),i*(TAILLE_CUBES+2),0,0,0,0);
@@ -105,13 +121,23 @@ int main(int argc, char *argv[])
         cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES+2),0,0,0,0);
         i++;
       }
+      //---------Fin Du Plateau---------
+
 
       glFlush();
       SDL_GL_SwapBuffers();
 
-      }
+
+    }
+    /************************
+     *      Fin du jeu      *
+     ************************/
 
   return 0;
+
+/****************
+ *     Fin      *
+ ****************/
 }
 
 
