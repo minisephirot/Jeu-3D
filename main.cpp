@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
      exit=1;
      x = 39;
      y = 39;
-     b = 100;
+     b = 0;
 
     //---------initialisation de la fenetre---------
     SDL_Event event;
@@ -74,12 +74,12 @@ int main(int argc, char *argv[])
 
             //Déplcement de la caméra sur l'axe x et y
             case SDLK_z: 
-                x=x-cos(b*M_PI/180)*5;
-                y=y+sin(b*M_PI/180)*5;
-                break;
-            case SDLK_s: 
                 x=x+cos(b*M_PI/180)*5;
                 y=y-sin(b*M_PI/180)*5;
+                break;
+            case SDLK_s: 
+                x=x-cos(b*M_PI/180)*5;
+                y=y+sin(b*M_PI/180)*5;
                 break;
             case SDLK_q: 
                 x=x-cos((b-90)*M_PI/180)*5;
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
         b=359;
   
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );    
-      camera(x,y,20,x-cos(b*M_PI/180)*20,y+sin(b*M_PI/180)*20,20);
+      camera(x,y,20,x+cos(b*M_PI/180)*20,y-sin(b*M_PI/180)*20,20);
   
 
       //---------Debut Du Plateau---------
