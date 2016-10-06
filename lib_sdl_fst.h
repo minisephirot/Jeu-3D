@@ -9,7 +9,8 @@
  ************************************/
 
 
-/*fonction qui initialise opengl et sdl
+/*Protocol sdl3d
+  protocol qui initialise opengl et sdl
   x et y sont la taille de la fenetre
   c est le fovy, le cham de vision */
 void sdl3d(int x, int y, int c){
@@ -24,7 +25,8 @@ void sdl3d(int x, int y, int c){
 
 
 
-/*Fonctions qui initalise la camera 
+/*Fonction Camera
+  Fonctions qui initalise la camera 
   x, y et z sont les coordonné de la camera
   e1, e2 et e3 sont les coordonné du point qui fixe la camera */
 void camera(int x, int y, int z, int e1, int e2, int e3){

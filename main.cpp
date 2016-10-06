@@ -17,8 +17,10 @@
 #include "lib_sdl_fst.h"
 
 // Les define :
-#define TAILLE_X_PLATEAU 15 
+#define TAILLE_PLATEAU 15 
 #define TAILLE_CUBES 38
+#define VITESSE_DEPLACEMENT 5
+#define VITESSE_ORIENTATION 5
 
 
 int main(int argc, char *argv[])
@@ -34,7 +36,7 @@ int main(int argc, char *argv[])
     int x, y;
  
     //direction
-    double b;
+    double b,a;
 
 
 /*  *****************
@@ -74,28 +76,28 @@ int main(int argc, char *argv[])
 
             //Déplcement de la caméra sur l'axe x et y
             case SDLK_z: 
-                x=x+cos(b*M_PI/180)*5;
-                y=y-sin(b*M_PI/180)*5;
+                x=x+cos(b*M_PI/180)*VITESSE_DEPLACEMENT;
+                y=y-sin(b*M_PI/180)*VITESSE_DEPLACEMENT;
                 break;
             case SDLK_s: 
-                x=x-cos(b*M_PI/180)*5;
-                y=y+sin(b*M_PI/180)*5;
+                x=x-cos(b*M_PI/180)*VITESSE_DEPLACEMENT;
+                y=y+sin(b*M_PI/180)*VITESSE_DEPLACEMENT;
                 break;
             case SDLK_q: 
-                x=x-cos((b-90)*M_PI/180)*5;
-                y=y+sin((b-90)*M_PI/180)*5;
+                x=x+cos((b-90)*M_PI/180)*VITESSE_DEPLACEMENT;
+                y=y-sin((b-90)*M_PI/180)*VITESSE_DEPLACEMENT;
                 break;
             case SDLK_d: 
-                x=x-cos((b+90)*M_PI/180)*5;
-                y=y+sin((b+90)*M_PI/180)*5;
+                x=x+cos((b+90)*M_PI/180)*VITESSE_DEPLACEMENT;
+                y=y-sin((b+90)*M_PI/180)*VITESSE_DEPLACEMENT;
                 break;
 
             //orientation de la caméra sur l'axe x et y
             case SDLK_LEFT:
-                b=b-5;          
+                b=b-VITESSE_ORIENTATION;          
                 break;
             case SDLK_RIGHT: 
-                b=b+5;
+                b=b+VITESSE_ORIENTATION;
                 break;
             default:
                 break;
@@ -111,16 +113,16 @@ int main(int argc, char *argv[])
         b=359;
   
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );    
-      camera(x,y,20,x+cos(b*M_PI/180)*20,y-sin(b*M_PI/180)*20,20);
+      camera(x,y,20,x+cos(b*M_PI/180)*20,y-sin(b*M_PI/180)*20,20+a); //explication en annexe 
   
 
       //---------Debut Du Plateau---------
       int i=0;
-      while(i<=TAILLE_X_PLATEAU){
-        cube_position(TAILLE_CUBES/2,TAILLE_X_PLATEAU*(TAILLE_CUBES+2),i*(TAILLE_CUBES+2),0,0,0,0);
-        cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES+2),TAILLE_X_PLATEAU*(TAILLE_CUBES+2),0,0,0,0);
-        cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES+2),0,0,0,0,0);
-        cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES+2),0,0,0,0);
+      while(i<=TAILLE_PLATEAU){
+        cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),0,0,0,0);
+        cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),TAILLE_PLATEAU*(TAILLE_CUBES),0,0,0,0);
+        cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),0,0,0,0,0);
+        cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES),0,0,0,0);
         i++;
       }
       //---------Fin Du Plateau---------
