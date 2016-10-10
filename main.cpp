@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     double x, y;
     double dx, dy;
     //direction
-    double b;
+    double b, azerty;
 
     bool w=false;
     bool s=false;
@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
      x = TAILLE_CUBES*2;
      y = TAILLE_CUBES*2;
      b = 0;
+     azerty = 0;
 
     //---------initialisation de la fenetre---------
     SDL_Event event;
@@ -77,22 +78,37 @@ int main(int argc, char *argv[])
             dy = sin(b*M_PI/180)*VITESSE_DEPLACEMENT;
 
             Uint8 *keystates = SDL_GetKeyState(NULL);
-
-            w = keystates[SDLK_w];
-            s = keystates[SDLK_s];
-            a = keystates[SDLK_a];
-            d = keystates[SDLK_d];
+            if(azerty == 0){
+              w = keystates[SDLK_w];
+              s = keystates[SDLK_s];
+              a = keystates[SDLK_a];
+              d = keystates[SDLK_d];
+            }
+            else
+            {
+              w = keystates[SDLK_z];
+              s = keystates[SDLK_s];
+              a = keystates[SDLK_q];
+              d = keystates[SDLK_d];
+            }
             esc = keystates[SDLK_ESCAPE];
             fgauche = keystates[SDLK_LEFT];
             fdroite = keystates[SDLK_RIGHT];
             
 
             // Fin du jeu : echap ou fermé
-            SDL_Event croix;
-            SDL_PollEvent(&croix);
-            if ((esc) || (croix.type == SDL_QUIT)){
+            SDL_Event event;
+            SDL_PollEvent(&event);
+            if ((esc) || (event.type == SDL_QUIT)){
               exit=0;
             }
+            if (event.key.keysym.sym == SDLK_TAB){
+              if(azerty == 0)
+                azerty = 1;
+              else
+                azerty = 0;
+            }
+
             //Déplcement de la caméra sur l'axe x et y
             if (w){
               x += dx;
