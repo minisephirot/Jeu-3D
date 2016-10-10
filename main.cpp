@@ -15,12 +15,13 @@
 #include <stdio.h>
 #include <math.h>
 #include "lib_sdl_fst.h"
-
+#include "class.h"
+ 
 // Les define :
 #define TAILLE_PLATEAU 20
-#define TAILLE_CUBES 45
-#define VITESSE_DEPLACEMENT 0.75
-#define VITESSE_ORIENTATION 0.75
+#define TAILLE_CUBES 44
+#define VITESSE_DEPLACEMENT 5
+#define VITESSE_ORIENTATION 5
 
 
 int main(int argc, char *argv[])
@@ -53,8 +54,8 @@ int main(int argc, char *argv[])
 
     //---------Initialisation des variables---------
      exit=1;
-     x = 39;
-     y = 39;
+     x = TAILLE_CUBES*2;
+     y = TAILLE_CUBES*2;
      b = 0;
 
     //---------initialisation de la fenetre---------
@@ -67,13 +68,10 @@ int main(int argc, char *argv[])
     /************************
      *     Debut du jeu     *
      ************************/
-   freopen("CON", "w", stdout);
-   freopen("CON", "w", stderr);
 
     while(exit)
     {
         //---------Début Des Events---------
-        /*while (SDL_PollEvent(&event))*/{
             SDL_PumpEvents();
             dx = cos(b*M_PI/180)*VITESSE_DEPLACEMENT;
             dy = sin(b*M_PI/180)*VITESSE_DEPLACEMENT;
@@ -87,36 +85,37 @@ int main(int argc, char *argv[])
             esc = keystates[SDLK_ESCAPE];
             fgauche = keystates[SDLK_LEFT];
             fdroite = keystates[SDLK_RIGHT];
+            
 
             // Fin du jeu : echap ou fermé
-            if (esc){
-            exit=0;
+            SDL_Event croix;
+            SDL_PollEvent(&croix);
+            if ((esc) || (croix.type == SDL_QUIT)){
+              exit=0;
             }
-            printf("%d %d %d %d %d %d \n", w, a, s, d, fgauche, fdroite);
             //Déplcement de la caméra sur l'axe x et y
             if (w){
-            x += dx;
-            y += dy;
+              x += dx;
+              y += dy;
             }
             if (s){
-            x -= dx;
-            y -= dy;
+              x -= dx;
+              y -= dy;
             }
             if (a){
-            x -= dy;
-            y += dx;
+              x -= dy;
+              y += dx;
             }
             if (d){
-            x += dy;
-            y -= dx;
+              x += dy;
+              y -= dx;
             }
             if (fgauche){
-            b=b+VITESSE_ORIENTATION;
+              b=b+VITESSE_ORIENTATION;
             }
             if (fdroite){
-            b=b-VITESSE_ORIENTATION;
+              b=b-VITESSE_ORIENTATION;
             }
-      }
       //---------Fin des Events---------
 
 
@@ -127,13 +126,33 @@ int main(int argc, char *argv[])
         b=359;
 
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-      camera(x,y,20,x+dx,y+dy,20); //explnication en annexe
+      camera(x,y,20,x+dx,y+dy,20); //explication en annexe
 
-      //---------Génération des cubes qui tuent---------
-        cube_position(TAILLE_CUBES/2.5,7*(TAILLE_CUBES),7*(TAILLE_CUBES),3,1,2,3);
 
+      //---------Génération des Ennemis---------
+      //****************************************
+
+        //---------Enemis 1---------
+          Ennemis cube1;
+          cube1.x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
+          cube1.y = TAILLE_PLATEAU*(TAILLE_CUBES)-(5*TAILLE_CUBES);
+          cube_position(TAILLE_CUBES/2,cube1.x,cube1.y,0,0,0,0);
+
+        //---------Enemis 2---------
+          Ennemis cube2;
+          cube2.x = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
+          cube2.y = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
+          cube_position(TAILLE_CUBES/2,cube2.x,cube2.y,0,0,0,0);
+
+        //---------Enemis 3---------
+          Ennemis cube3;
+          cube3.x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
+          cube3.y = 5*(TAILLE_CUBES);
+          cube_position(TAILLE_CUBES/2,cube3.x,cube3.y,0,0,0,0);
 
       //---------Fin de la génération---------
+      //**************************************
+
 
       //---------Debut Du Plateau---------
       int i=0;
@@ -162,6 +181,3 @@ int main(int argc, char *argv[])
  *     Fin      *
  ****************/
 }
-
-
-
