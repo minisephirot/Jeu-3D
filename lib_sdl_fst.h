@@ -29,7 +29,7 @@ void sdl3d(int x, int y, int c){
   Fonctions qui initalise la camera 
   x, y et z sont les coordonné de la camera
   e1, e2 et e3 sont les coordonné du point qui fixe la camera */
-void camera(int x, int y, int z, int e1, int e2, int e3){
+void camera(double x, double y, double z, double e1, double e2, double e3){
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
@@ -42,7 +42,7 @@ void camera(int x, int y, int z, int e1, int e2, int e3){
   taille est la taille des cube
   x, y et z la postion par rapport a la matrice
   a, b et c l'angle du cube sur la matrice */
-void cube(int taille, int x, int y, int z,double a, double b, double c){
+void cube(int taille, double x, double y, double z,double a, double b, double c){
     glTranslated(x,y,z);
     glRotated(a,b,c,1);
 glBegin(GL_QUADS);
@@ -84,7 +84,7 @@ glColor3ub(100,50,100);    //6
   taille est la taille des cube
   x, y et z la postion
   a, b et c l'angle des cubes */
-void cube_position(int taille,int x,int y,int z,int a,int b,int c){
+void cube_position(int taille, double x, double y, double z,double a, double b, double c){
         glPushMatrix();
         cube(taille,x,y,z,a,b,c);
         glPopMatrix();
