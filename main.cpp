@@ -17,10 +17,10 @@
 #include "lib_sdl_fst.h"
 
 // Les define :
-#define TAILLE_PLATEAU 15
-#define TAILLE_CUBES 38
-#define VITESSE_DEPLACEMENT 2
-#define VITESSE_ORIENTATION 2
+#define TAILLE_PLATEAU 20
+#define TAILLE_CUBES 45
+#define VITESSE_DEPLACEMENT 0.75
+#define VITESSE_ORIENTATION 0.75
 
 
 int main(int argc, char *argv[])
@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
     int exit;
 
     //Position de la camera
-    int x, y;
-
+    double x, y;
+    double dx, dy;
     //direction
     double b;
 
@@ -67,12 +67,18 @@ int main(int argc, char *argv[])
     /************************
      *     Debut du jeu     *
      ************************/
+   freopen("CON", "w", stdout);
+   freopen("CON", "w", stderr);
+
     while(exit)
     {
         //---------Début Des Events---------
-        while (SDL_PollEvent(&event)){
-            Uint8 *keystates = SDL_GetKeyState(NULL);
+        /*while (SDL_PollEvent(&event))*/{
+            SDL_PumpEvents();
+            dx = cos(b*M_PI/180)*VITESSE_DEPLACEMENT;
+            dy = sin(b*M_PI/180)*VITESSE_DEPLACEMENT;
 
+            Uint8 *keystates = SDL_GetKeyState(NULL);
 
             w = keystates[SDLK_w];
             s = keystates[SDLK_s];
@@ -86,28 +92,29 @@ int main(int argc, char *argv[])
             if (esc){
             exit=0;
             }
+            printf("%d %d %d %d %d %d \n", w, a, s, d, fgauche, fdroite);
             //Déplcement de la caméra sur l'axe x et y
             if (w){
-            x=x+cos(b*M_PI/180)*VITESSE_DEPLACEMENT;
-            y=y-sin(b*M_PI/180)*VITESSE_DEPLACEMENT;
+            x += dx;
+            y += dy;
             }
             if (s){
-            x=x-cos(b*M_PI/180)*VITESSE_DEPLACEMENT;
-            y=y+sin(b*M_PI/180)*VITESSE_DEPLACEMENT;
+            x -= dx;
+            y -= dy;
             }
             if (a){
-            x=x+cos((b-90)*M_PI/180)*VITESSE_DEPLACEMENT;
-            y=y-sin((b-90)*M_PI/180)*VITESSE_DEPLACEMENT;
+            x -= dy;
+            y += dx;
             }
             if (d){
-            x=x+cos((b+90)*M_PI/180)*VITESSE_DEPLACEMENT;
-            y=y-sin((b+90)*M_PI/180)*VITESSE_DEPLACEMENT;
+            x += dy;
+            y -= dx;
             }
             if (fgauche){
-            b=b-VITESSE_ORIENTATION;
+            b=b+VITESSE_ORIENTATION;
             }
             if (fdroite){
-            b=b+VITESSE_ORIENTATION;
+            b=b-VITESSE_ORIENTATION;
             }
       }
       //---------Fin des Events---------
@@ -120,8 +127,13 @@ int main(int argc, char *argv[])
         b=359;
 
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-      camera(x,y,20,x+cos(b*M_PI/180)*20,y-sin(b*M_PI/180)*20,20); //explication en annexe
+      camera(x,y,20,x+dx,y+dy,20); //explnication en annexe
 
+      //---------Génération des cubes qui tuent---------
+        cube_position(TAILLE_CUBES/2.5,7*(TAILLE_CUBES),7*(TAILLE_CUBES),3,1,2,3);
+
+
+      //---------Fin de la génération---------
 
       //---------Debut Du Plateau---------
       int i=0;
