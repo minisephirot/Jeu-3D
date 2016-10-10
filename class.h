@@ -1,3 +1,13 @@
+/************************************
+ *          Les Fonctions           *
+ *          Projet d'AP3            *
+ *                                  *
+ * fait par : Elliot This           *
+ *         et Rémi Le Brech         *
+ *                                  *
+ * Crée le 28 septembre 2016        *
+ ************************************/
+
 class Ennemis
 {
   public :
