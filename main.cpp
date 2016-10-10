@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     double x, y;
     double dx, dy;
     //direction
-    double b, azerty;
+    double b;
 
     bool w=false;
     bool s=false;
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     bool esc=false;
     bool fgauche=false;
     bool fdroite=false;
-
+    bool azerty = false;
 /*  *****************
     *     Debut     *
     *****************  */
@@ -74,11 +74,13 @@ int main(int argc, char *argv[])
     {
         //---------Début Des Events---------
             SDL_PumpEvents();
+            
             dx = cos(b*M_PI/180)*VITESSE_DEPLACEMENT;
             dy = sin(b*M_PI/180)*VITESSE_DEPLACEMENT;
+            
 
             Uint8 *keystates = SDL_GetKeyState(NULL);
-            if(azerty == 0){
+            if(!azerty){
               w = keystates[SDLK_w];
               s = keystates[SDLK_s];
               a = keystates[SDLK_a];
@@ -102,35 +104,48 @@ int main(int argc, char *argv[])
             if ((esc) || (event.type == SDL_QUIT)){
               exit=0;
             }
-            if (event.key.keysym.sym == SDLK_TAB){
-              if(azerty == 0)
-                azerty = 1;
-              else
-                azerty = 0;
+            if (event.key.keysym.sym == SDLK_F1)
+            {
+               azerty = false; 
+               printf("azerty");
             }
+            if (event.key.keysym.sym == SDLK_F2)
+            {
+              azerty = true;
+              printf("querty");
+            }
+           
 
             //Déplcement de la caméra sur l'axe x et y
-            if (w){
-              x += dx;
-              y += dy;
+            if((x<(TAILLE_PLATEAU*TAILLE_CUBES-(TAILLE_CUBES*0.7)) && x>(TAILLE_CUBES*0.7)) && (y<(TAILLE_PLATEAU*TAILLE_CUBES-(TAILLE_CUBES*0.7)) && y>(TAILLE_CUBES*0.7))){
+              if (w){
+                x += dx;
+                y += dy;
+              }
+              if (s){
+                x -= dx;
+                y -= dy;
+              }
+              if (a){
+                x -= dy;
+                y += dx;
+              }
+              if (d){
+                x += dy;
+                y -= dx;
+              }
+              if (fgauche){
+                b=b+VITESSE_ORIENTATION;
+              }
+              if (fdroite){
+                b=b-VITESSE_ORIENTATION;
+              }
             }
-            if (s){
-              x -= dx;
-              y -= dy;
-            }
-            if (a){
-              x -= dy;
-              y += dx;
-            }
-            if (d){
-              x += dy;
-              y -= dx;
-            }
-            if (fgauche){
-              b=b+VITESSE_ORIENTATION;
-            }
-            if (fdroite){
-              b=b-VITESSE_ORIENTATION;
+            else
+            {
+              printf("perdu ! \n");
+              x = TAILLE_CUBES*2;
+              y = TAILLE_CUBES*2;
             }
       //---------Fin des Events---------
 
@@ -153,19 +168,19 @@ int main(int argc, char *argv[])
           cube1.x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
           cube1.y = TAILLE_PLATEAU*(TAILLE_CUBES)-(5*TAILLE_CUBES);
           cube_position(TAILLE_CUBES/2,cube1.x,cube1.y,0,0,0,0);
-
+/*
         //---------Enemis 2---------
           Ennemis cube2;
           cube2.x = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
           cube2.y = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
           cube_position(TAILLE_CUBES/2,cube2.x,cube2.y,0,0,0,0);
-
+									Enlever les commentaire lorsque la structure sera fini
         //---------Enemis 3---------
           Ennemis cube3;
           cube3.x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
           cube3.y = 5*(TAILLE_CUBES);
           cube_position(TAILLE_CUBES/2,cube3.x,cube3.y,0,0,0,0);
-
+*/
       //---------Fin de la génération---------
       //**************************************
 
