@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     double x, y;
     double dx, dy;
     //direction
-    double b, azerty;
+    double b;
 
     bool w=false;
     bool s=false;
@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
     bool esc=false;
     bool fgauche=false;
     bool fdroite=false;
+    bool azerty = false;
 
 /*  *****************
     *     Debut     *
@@ -78,7 +79,7 @@ int main(int argc, char *argv[])
             dy = sin(b*M_PI/180)*VITESSE_DEPLACEMENT;
 
             Uint8 *keystates = SDL_GetKeyState(NULL);
-            if(azerty == 0){
+            if(!azerty){
               w = keystates[SDLK_w];
               s = keystates[SDLK_s];
               a = keystates[SDLK_a];
