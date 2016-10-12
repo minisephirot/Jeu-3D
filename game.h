@@ -20,8 +20,8 @@
 // Les define :
 #define TAILLE_PLATEAU 20
 #define TAILLE_CUBES 44
-#define VITESSE_DEPLACEMENT 1
-#define VITESSE_ORIENTATION 1
+#define VITESSE_DEPLACEMENT 3
+#define VITESSE_ORIENTATION 3
 
 void gameStart(){
 /*  *****************
@@ -57,7 +57,6 @@ void gameStart(){
      b = 0;
 
     //---------initialisation de la fenetre---------
-    SDL_Event event;
     sdl3d(800,600, 100);
     SDL_WM_SetCaption("Base 3D", NULL);
 
@@ -117,7 +116,21 @@ void gameStart(){
             if (fdroite){
               b=b-VITESSE_ORIENTATION;
             }
-      //---------Fin des Events---------
+      //---------Gestion des collisions---------
+        if (x <= ((TAILLE_CUBES/2)+2)){
+          x = x + TAILLE_CUBES/8;
+        }
+        if (x >= (((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES/2)-2)){
+          x = x - TAILLE_CUBES/8;
+        }
+        if (y >= (((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES/2)-2)){
+          y = y - TAILLE_CUBES/8;
+        }
+        if (y <= ((TAILLE_CUBES/2)+2)){
+          y = y + TAILLE_CUBES/8;
+        }
+
+      //---------Fin de la gestion des collisions---------
 
 
       // La variable b n'a pas besoin d'etre plus grand que 360
@@ -125,6 +138,8 @@ void gameStart(){
         b = 0;
       if (b<-1)
         b=359;
+
+      //---------Fin des Events---------
 
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
       camera(x,y,20,x+dx,y+dy,20); //explication en annexe
