@@ -19,14 +19,14 @@ void sdl3d(int x, int y, int c){
     SDL_SetVideoMode(x, y, 32, SDL_OPENGL);
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    gluPerspective(c,(double)x/y,1,1000);
+    gluPerspective(c,(double)x/y,1,1500);
     glEnable(GL_DEPTH_TEST);
 }
 
 
 
 /*Fonction Camera
-  Fonctions qui initalise la camera 
+  Fonctions qui initalise la camera
   x, y et z sont les coordonné de la camera
   e1, e2 et e3 sont les coordonné du point qui fixe la camera */
 void camera(double x, double y, double z, double e1, double e2, double e3){
@@ -80,6 +80,24 @@ glColor3ub(100,50,100);    //6
 
 }
 
+/*Fonction qui dessine le sol sur une meme matrice
+  taille est la taille du sol
+  x, y et z la postion par rapport a la matrice
+  a, b et c l'angle du cube sur la matrice */
+void sol(int taille, double x, double y, double z,double a, double b, double c){
+glPushMatrix();
+    glTranslated(x,y,z);
+    glRotated(a,b,c,1);
+glBegin(GL_QUADS);
+    glColor3ub(255,255,255);
+    glVertex3d(taille,-taille,taille);
+    glVertex3d(taille,taille,taille);
+    glVertex3d(-taille,taille,taille);
+    glVertex3d(-taille,-taille,taille);
+glEnd();
+glPopMatrix();
+}
+
 /*Fonction qui dessine les cubes sur un repere
   taille est la taille des cube
   x, y et z la postion
@@ -89,4 +107,3 @@ void cube_position(int taille, double x, double y, double z,double a, double b, 
         cube(taille,x,y,z,a,b,c);
         glPopMatrix();
 }
-
