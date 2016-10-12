@@ -3,4 +3,7 @@ https://www.libsdl.org/release/SDL-1.2.15/docs/html/guidevideo.html
 
 compilation : g++ main.cpp -o main `sdl-config --cflags --libs` -lglut -lGLU -lGL -lm
 
-Charger textures : https://openclassrooms.com/courses/creez-des-programmes-en-3d-avec-opengl/les-textures-3
+Charger textures : 
+1) https://openclassrooms.com/courses/creez-des-programmes-en-3d-avec-opengl/les-textures-3
+2) http://www.opengl-tutorial.org/fr/beginners-tutorials/tutorial-5-a-textured-cube/
+
