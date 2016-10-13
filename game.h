@@ -129,18 +129,16 @@ void gameStart(){
             if (event.key.keysym.sym == SDLK_F1)
             {
                if (azerty == true)
-                 printf("querty\n");
-               azerty = false; 
-               
+               azerty = false;
+
             }
             if (event.key.keysym.sym == SDLK_F2)
             {
               if (azerty == false)
-                printf("azerty \n");
               azerty = true;
 }
 
-            printf("%d %d %d %d %d %d %f %f %f %f \n", w, a, s, d, fgauche, fdroite, x, y, dx, dy);
+            printf("%d %d %d %d %d %d %f %f %f %f %d\n", w, a, s, d, fgauche, fdroite, x, y, dx, dy, azerty);
             //Déplcement de la caméra sur l'axe x et y
             if (w){
               x += dx;
@@ -177,6 +175,15 @@ void gameStart(){
         if (y <= ((TAILLE_CUBES/2)+2)){
           y = y + TAILLE_CUBES/8;
         }
+      //---------Gestion des Collisions aux Ennemis---------
+        if (x >= ((cube1.x)-TAILLE_CUBES/2) &&
+            x <= ((cube1.x)+TAILLE_CUBES/2) &&
+            y >= ((cube1.y)-TAILLE_CUBES/2) &&
+            y <= ((cube1.y)+TAILLE_CUBES/2))
+            {
+                x = x + TAILLE_CUBES/8;
+                // Gameover();
+            }
 
       //---------Fin de la gestion des collisions---------
 
@@ -201,7 +208,7 @@ void gameStart(){
           cube1.x = cube1.x+cube1.sens;
           if (cube1.x >= ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES) || cube1.x <= TAILLE_CUBES)
             cube1.sens = cube1.sens*(-1);
-          
+
 
 /*
         //---------Enemis 2---------
@@ -223,6 +230,10 @@ void gameStart(){
         cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),TAILLE_PLATEAU*(TAILLE_CUBES),0,0,0,0);
         cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),0,0,0,0,0);
         cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES),0,0,0,0);
+        cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),22,0,0,0);
+        cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),TAILLE_PLATEAU*(TAILLE_CUBES),22,0,0,0);
+        cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),0,22,0,0,0);
+        cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES),22,0,0,0);
         i++;
       }
       //---------Fin Du Plateau---------
