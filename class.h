@@ -14,4 +14,8 @@ class Ennemis
 
   double x;
   double y;
+  int vitesse;
+  int sens;
+  double dx;
+  double dy;
 };

@@ -61,7 +61,7 @@ glColor3ub(0,255,0);    //3
     glVertex3d(taille,-taille,taille);
     glVertex3d(-taille,-taille,taille);
     glVertex3d(-taille,-taille,-taille);
-glColor3ub(50,50,50);    //4
+glColor3ub(210,210,210);    //4
     glVertex3d(-taille,taille,-taille);
     glVertex3d(taille,taille,-taille);
     glVertex3d(taille,-taille,-taille);

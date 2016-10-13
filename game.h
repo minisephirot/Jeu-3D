@@ -44,6 +44,7 @@ void gameStart(){
     bool esc=false;
     bool fgauche=false;
     bool fdroite=false;
+    bool azerty = false;
 
 /*  *****************
     *     Debut     *
@@ -55,6 +56,30 @@ void gameStart(){
      x = TAILLE_CUBES*2;
      y = TAILLE_CUBES*2;
      b = 0;
+
+      //---------Génération des Ennemis---------
+      //****************************************
+
+        //---------Enemis 1---------
+          Ennemis cube1;
+          cube1.x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
+          cube1.y = TAILLE_PLATEAU*(TAILLE_CUBES)-(5*TAILLE_CUBES);
+          cube1.sens = -5;
+/*
+        //---------Enemis 2---------
+          Ennemis cube2;
+          cube2.x = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
+          cube2.y = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
+          cube2.sens= 1;
+
+        //---------Enemis 3---------
+          Ennemis cube3;
+          cube3.x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
+          cube3.y = 5*(TAILLE_CUBES);
+          cube3.sens= 1;
+*/
+      //---------Fin de la génération---------
+      //**************************************
 
     //---------initialisation de la fenetre---------
     sdl3d(800,600, 100);
@@ -77,21 +102,44 @@ void gameStart(){
 
             Uint8 *keystates = SDL_GetKeyState(NULL);
 
-            w = keystates[SDLK_w];
-            s = keystates[SDLK_s];
-            a = keystates[SDLK_a];
-            d = keystates[SDLK_d];
+            if(!azerty){
+              w = keystates[SDLK_w];
+              s = keystates[SDLK_s];
+              a = keystates[SDLK_a];
+              d = keystates[SDLK_d];
+            }
+            else
+            {
+              w = keystates[SDLK_z];
+              s = keystates[SDLK_s];
+              a = keystates[SDLK_q];
+              d = keystates[SDLK_d];
+}
             esc = keystates[SDLK_ESCAPE];
             fgauche = keystates[SDLK_LEFT];
             fdroite = keystates[SDLK_RIGHT];
 
 
             // Fin du jeu : echap ou fermé
-            SDL_Event croix;
-            SDL_PollEvent(&croix);
-            if ((esc) || (croix.type == SDL_QUIT)){
+            SDL_Event event;
+            SDL_PollEvent(&event);
+            if ((esc) || (event.type == SDL_QUIT)){
               exit=0;
             }
+            if (event.key.keysym.sym == SDLK_F1)
+            {
+               if (azerty == true)
+                 printf("querty\n");
+               azerty = false; 
+               
+            }
+            if (event.key.keysym.sym == SDLK_F2)
+            {
+              if (azerty == false)
+                printf("azerty \n");
+              azerty = true;
+}
+
             printf("%d %d %d %d %d %d %f %f %f %f \n", w, a, s, d, fgauche, fdroite, x, y, dx, dy);
             //Déplcement de la caméra sur l'axe x et y
             if (w){
@@ -145,48 +193,39 @@ void gameStart(){
       camera(x,y,20,x+dx,y+dy,20); //explication en annexe
 
 
-      //---------Génération des Ennemis---------
+      //---------Géstion des Ennemis---------
       //****************************************
 
         //---------Enemis 1---------
-          Ennemis cube1;
-          cube1.x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
-          cube1.y = TAILLE_PLATEAU*(TAILLE_CUBES)-(5*TAILLE_CUBES);
-          cube_position(TAILLE_CUBES/2,cube1.x,cube1.y,0,0,0,0);
+          cube_position(TAILLE_CUBES/2,cube1.x,cube1.y,0,90,0,0);
+          cube1.x = cube1.x+cube1.sens;
+          if (cube1.x >= ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES) || cube1.x <= TAILLE_CUBES)
+            cube1.sens = cube1.sens*(-1);
+          
 
+/*
         //---------Enemis 2---------
-          Ennemis cube2;
-          cube2.x = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
-          cube2.y = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
-          cube_position(TAILLE_CUBES/2,cube2.x,cube2.y,0,0,0,0);
+          cube_position(TAILLE_CUBES/2,cube2.x,cube2.y,0,90,0,0);
 
         //---------Enemis 3---------
-          Ennemis cube3;
-          cube3.x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
-          cube3.y = 5*(TAILLE_CUBES);
-          cube_position(TAILLE_CUBES/2,cube3.x,cube3.y,0,0,0,0);
-
-      //---------Fin de la génération---------
+          cube_position(TAILLE_CUBES/2,cube3.x,cube3.y,0,90,0,0);
+*/
+      //---------Fin de géstion---------
       //**************************************
 
 
       //---------Debut Du Plateau---------
+        //cube en fond
+      cube_position(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,(TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2,0,0,0);
       int i=0;
       while(i<=TAILLE_PLATEAU){
         cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),0,0,0,0);
         cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),TAILLE_PLATEAU*(TAILLE_CUBES),0,0,0,0);
         cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),0,0,0,0,0);
         cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES),0,0,0,0);
-        cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),22,0,0,0);
-        cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),TAILLE_PLATEAU*(TAILLE_CUBES),22,0,0,0);
-        cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),0,22,0,0,0);
-        cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES),22,0,0,0);
-        sol((TAILLE_PLATEAU*TAILLE_CUBES)/2,(TAILLE_PLATEAU*TAILLE_CUBES)/2,(TAILLE_PLATEAU*TAILLE_CUBES)/2,(((TAILLE_PLATEAU*TAILLE_CUBES)/2)-TAILLE_PLATEAU*TAILLE_CUBES-22),0,0,0);
-        cube_position((TAILLE_PLATEAU*TAILLE_CUBES)/2,(TAILLE_PLATEAU*TAILLE_CUBES)/2,(TAILLE_PLATEAU*TAILLE_CUBES)/2,(((TAILLE_PLATEAU*TAILLE_CUBES)/2)-24),0,0,0);
         i++;
       }
       //---------Fin Du Plateau---------
-
 
       glFlush();
       SDL_GL_SwapBuffers();
