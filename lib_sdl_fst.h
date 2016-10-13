@@ -80,24 +80,6 @@ glColor3ub(100,50,100);    //6
 
 }
 
-/*Fonction qui dessine le sol sur une meme matrice
-  taille est la taille du sol
-  x, y et z la postion par rapport a la matrice
-  a, b et c l'angle du cube sur la matrice */
-void sol(int taille, double x, double y, double z,double a, double b, double c){
-glPushMatrix();
-    glTranslated(x,y,z);
-    glRotated(a,b,c,1);
-glBegin(GL_QUADS);
-    glColor3ub(255,255,255);
-    glVertex3d(taille,-taille,taille);
-    glVertex3d(taille,taille,taille);
-    glVertex3d(-taille,taille,taille);
-    glVertex3d(-taille,-taille,taille);
-glEnd();
-glPopMatrix();
-}
-
 /*Fonction qui dessine les cubes sur un repere
   taille est la taille des cube
   x, y et z la postion
