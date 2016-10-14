@@ -4,19 +4,19 @@
 
 int menu()
 {
-  
+
   bool continuer;
   int choix;
-  SDL_Surface *ecran = NULL, 
+  SDL_Surface *ecran = NULL,
   *fond = NULL,
   *fleche = NULL;
   SDL_Rect position, posFleche;
 
-  
+
   SDL_Init(SDL_INIT_VIDEO);
   ecran = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
   SDL_WM_SetCaption("NOM DU JEU", NULL);
-  
+
   position.x = 0;
   position.y = 0;
   posFleche.x= 330;
@@ -41,14 +41,14 @@ int menu()
       case SDL_KEYDOWN:
         switch (event.key.keysym.sym)
         {
-          case SDLK_ESCAPE: 
+          case SDLK_ESCAPE:
             continuer = 0;
             choix = 0;
           break;
-          case SDLK_SPACE: 
+          case SDLK_SPACE:
             continuer = 0;
           break;
-          case SDLK_RETURN: 
+          case SDLK_RETURN:
             continuer = 0;
           break;
           case SDLK_DOWN:
@@ -57,7 +57,7 @@ int menu()
             posFleche.x= 330;
             posFleche.y= 220;
             choix = 2;
-            SDL_Delay(200);
+            SDL_Delay(100);
             }
             else
               if (choix == 2)
@@ -65,15 +65,15 @@ int menu()
                 posFleche.x= 330;
                 posFleche.y= 300;
                 choix = 3;
-                SDL_Delay(200);
+                SDL_Delay(100);
               }
-              else 
+              else
                 if (choix == 3)
                 {
                   posFleche.x= 330;
                   posFleche.y= 150;
                   choix = 1;
-                  SDL_Delay(200);
+                  SDL_Delay(100);
                 }
           break;
           case SDLK_UP:
@@ -82,7 +82,7 @@ int menu()
             posFleche.x= 330;
             posFleche.y= 300;
             choix = 3;
-            SDL_Delay(200);
+            SDL_Delay(100);
             }
             else
               if (choix == 2)
@@ -90,19 +90,21 @@ int menu()
                 posFleche.x= 330;
                 posFleche.y= 150;
                 choix = 1;
-                SDL_Delay(200);
+                SDL_Delay(100);
               }
-              else 
+              else
                 if (choix == 3)
                 {
                   posFleche.x= 330;
                   posFleche.y= 220;
                   choix = 2;
-                  SDL_Delay(200);
+                  SDL_Delay(100);
 
                 }
+          default:
           break;
         }
+        default:
         break;
     }
 
