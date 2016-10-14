@@ -158,10 +158,10 @@ int gameStart(){
           y = y + TAILLE_CUBES/8;
         }
       //---------Gestion des Collisions aux Ennemis---------
-        if (x >= ((cube1.x)-TAILLE_CUBES/2) &&
-            x <= ((cube1.x)+TAILLE_CUBES/2) &&
-            y >= ((cube1.y)-TAILLE_CUBES/2) &&
-            y <= ((cube1.y)+TAILLE_CUBES/2))
+        if (x >= (((cube1.x)-TAILLE_CUBES/2)-7) &&
+            x <= (((cube1.x)+TAILLE_CUBES/2)+7) &&
+            y >= (((cube1.y)-TAILLE_CUBES/2)-7) &&
+            y <= (((cube1.y)+TAILLE_CUBES/2)+7))
             {
                 exit=0;
             }
