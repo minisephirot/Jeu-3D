@@ -4,18 +4,18 @@
 
 int tuto()
 {
-  
+
   bool continuer;
   int choix;
-  SDL_Surface *ecran = NULL, 
+  SDL_Surface *ecran = NULL,
   *tuto = NULL;
   SDL_Rect position;
 
-  
+
   SDL_Init(SDL_INIT_VIDEO);
   ecran = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
   SDL_WM_SetCaption("NOM DU JEU", NULL);
-  
+
   position.x = 0;
   position.y = 0;
 
@@ -36,15 +36,17 @@ int tuto()
       case SDL_KEYDOWN:
         switch (event.key.keysym.sym)
         {
-          case SDLK_ESCAPE: 
-            continuer = 0;
-            choix = 0;
-          break;
-          case SDLK_SPACE: 
+          case SDLK_ESCAPE:
             continuer = 0;
           break;
+          case SDLK_SPACE:
+            continuer = 0;
+          break;
+          default:
+           break;
         }
-        break;
+          default:
+            break;
     }
 
     SDL_BlitSurface(tuto, NULL, ecran, &position);
