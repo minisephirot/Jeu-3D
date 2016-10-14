@@ -1,4 +1,5 @@
-#include "constante.h"
+
+#include "ennemis.h"
 
 int gameStart(){
 /*  *****************
@@ -7,12 +8,13 @@ int gameStart(){
 
     // variable annoncant la fin de jeu
     int exit, choix;
+    int i;
 
     //Position de la camera
     double x, y;
     double dx, dy;
     //direction
-    double b;
+    double direc;
 
     bool w=false;
     bool s=false;
@@ -33,28 +35,31 @@ int gameStart(){
      choix = 1;
      x = TAILLE_CUBES*2;
      y = TAILLE_CUBES*2;
-     b = 0;
+     direc = 0;
 
       //---------Génération des Ennemis---------
       //****************************************
 
+	const int ncubes = 3;
+          Ennemis cubes[ncubes];
+
         //---------Enemis 1---------
-          Ennemis cube1;
-          cube1.x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES)+40;
-          cube1.y = TAILLE_PLATEAU*(TAILLE_CUBES)-(5*TAILLE_CUBES);
-          cube1.b = 45;
-/*
+//          Ennemis cube1;
+          cubes[0].x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES)+40;
+          cubes[0].y = TAILLE_PLATEAU*(TAILLE_CUBES)-(5*TAILLE_CUBES);
+          cubes[0].direc = 65;
+
         //---------Enemis 2---------
-          Ennemis cube2;
-          cube2.x = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
-          cube2.y = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
-          cube2.sens= 1;
+//          Ennemis cube2;
+          cubes[1].x = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
+          cubes[1].y = (TAILLE_PLATEAU*(TAILLE_CUBES))/2;
+          cubes[1].direc = 37;
         //---------Enemis 3---------
-          Ennemis cube3;
-          cube3.x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
-          cube3.y = 5*(TAILLE_CUBES);
-          cube3.sens= 1;
-*/
+//          Ennemis cube3;
+          cubes[2].x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
+          cubes[2].y = 5*(TAILLE_CUBES);
+          cubes[2].direc = -45;
+
       //---------Fin de la génération---------
       //**************************************
 
@@ -71,14 +76,17 @@ int gameStart(){
      *     Debut du jeu     *
      ************************/
 
+for (i=0; i<ncubes; i++) {
+            cubes[i].dx = cos(cubes[i].direc*M_PI/180)*VITESSE_DEPLACEMENT;
+            cubes[i].dy = sin(cubes[i].direc*M_PI/180)*VITESSE_DEPLACEMENT;
+}
+
     while(exit)
     {
         //---------Début Des Events---------
             SDL_PumpEvents();
-            dx = cos(b*M_PI/180)*VITESSE_DEPLACEMENT;
-            dy = sin(b*M_PI/180)*VITESSE_DEPLACEMENT;
-            cube1.dx = cos(cube1.b*M_PI/180)*VITESSE_DEPLACEMENT;
-            cube1.dy = sin(cube1.b*M_PI/180)*VITESSE_DEPLACEMENT;
+            dx = cos(direc*M_PI/180)*VITESSE_DEPLACEMENT;
+            dy = sin(direc*M_PI/180)*VITESSE_DEPLACEMENT;
 
             Uint8 *keystates = SDL_GetKeyState(NULL);
 
@@ -139,10 +147,10 @@ int gameStart(){
               y -= dx;
             }
             if (fgauche){
-              b=b+VITESSE_ORIENTATION;
+              direc=direc+VITESSE_ORIENTATION;
             }
             if (fdroite){
-              b=b-VITESSE_ORIENTATION;
+              direc=direc-VITESSE_ORIENTATION;
             }
       //---------Gestion des collisions---------
         if (x <= ((TAILLE_CUBES/2)+2)){
@@ -157,68 +165,34 @@ int gameStart(){
         if (y <= ((TAILLE_CUBES/2)+2)){
           y = y + TAILLE_CUBES/8;
         }
+
       //---------Gestion des Collisions aux Ennemis---------
-        if (x >= (((cube1.x)-TAILLE_CUBES/2)-7) &&
-            x <= (((cube1.x)+TAILLE_CUBES/2)+7) &&
-            y >= (((cube1.y)-TAILLE_CUBES/2)-7) &&
-            y <= (((cube1.y)+TAILLE_CUBES/2)+7))
+        for (i=0; i<ncubes; i++){
+          if (x >= (((cubes[i].x)-TAILLE_CUBES/2)-7) &&
+            x <= (((cubes[i].x)+TAILLE_CUBES/2)+7) &&
+            y >= (((cubes[i].y)-TAILLE_CUBES/2)-7) &&
+            y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
                 exit=0;
             }
+        }
 
       //---------Fin de la gestion des collisions---------
 
 
       // La variable b n'a pas besoin d'etre plus grand que 360
-      b = direction(b);
+      direc = direction(direc);
       //---------Fin des Events---------
 
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
       camera(x,y,20,x+dx,y+dy,20); //explication en annexe
 
-
-      //---------Géstion des Ennemis---------
-      //****************************************
-
-        //---------Enemis 1---------
-          cube1.x+=cube1.dx;
-          cube1.y+=cube1.dy;
-          //---gestion mouvement---
-          if (((cube1.x)+TAILLE_CUBES/2) >= (((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES/2)-2))
-          {
-             cube1.b += 180+b;
-             printf("b = %f\n",cube1.b);
-          }
-          if (((cube1.x)-TAILLE_CUBES/2) <= ((TAILLE_CUBES/2)+2))
-          {
-             cube1.b += 180+b;
-             printf("b = %f\n",cube1.b);
-          }
-
-          if (((cube1.y)-TAILLE_CUBES/2) <= ((TAILLE_CUBES/2)+2))
-          {
-             cube1.b += 180+b;
-             printf("b = %f\n",cube1.b);
-          }
-          if(((cube1.y)+TAILLE_CUBES/2) >= (((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES/2)-2))
-          {
-             cube1.b += 180+b;
-             printf("b = %f\n",cube1.b);
-          }
-          //---fin gestion---
-
-          cube1.b = direction(cube1.b);
-
-          cube_position(TAILLE_CUBES/2,cube1.x,cube1.y,0,90,0,0);
-
-
-      //---------Fin de géstion---------
-      //**************************************
+      deplcementEnnemis(cubes, ncubes);
 
 
       //---------Debut Du Plateau---------
         //cube en fond
-      cube_position(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,(TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2,0,0,0);
+      cube_position(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2,0,0,0);
       int i=0;
       while(i<=TAILLE_PLATEAU){
         cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),0,0,0,0);
