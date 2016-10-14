@@ -13,7 +13,7 @@ int gameStart(){
     double dx, dy;
     //direction
     double b;
-    
+
     bool w=false;
     bool s=false;
     bool a=false;
@@ -63,6 +63,9 @@ int gameStart(){
     SDL_WM_SetCaption("Base 3D", NULL);
 
     SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier toute les 10ms
+
+    freopen("CON", "w", stdout); // redirects stdout
+    freopen("CON", "w", stderr); // redirects stderr
 
     /************************
      *     Debut du jeu     *
@@ -181,25 +184,25 @@ int gameStart(){
           cube1.x+=cube1.dx;
           cube1.y+=cube1.dy;
           //---gestion mouvement---
-          if (cube1.x >= ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES))
+          if (((cube1.x)+TAILLE_CUBES/2) >= (((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES/2)-2))
           {
-             cube1.b += 180+b; 
+             cube1.b += 180+b;
              printf("b = %f\n",cube1.b);
           }
-          if (cube1.x <= TAILLE_CUBES)
+          if (((cube1.x)-TAILLE_CUBES/2) <= ((TAILLE_CUBES/2)+2))
           {
-             cube1.b += 180+b; 
+             cube1.b += 180+b;
              printf("b = %f\n",cube1.b);
           }
 
-          if (cube1.y <= TAILLE_CUBES)
+          if (((cube1.y)-TAILLE_CUBES/2) <= ((TAILLE_CUBES/2)+2))
           {
-             cube1.b += 180+b; 
+             cube1.b += 180+b;
              printf("b = %f\n",cube1.b);
           }
-          if(cube1.y >= ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES))
+          if(((cube1.y)+TAILLE_CUBES/2) >= (((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES/2)-2))
           {
-             cube1.b += 180+b; 
+             cube1.b += 180+b;
              printf("b = %f\n",cube1.b);
           }
           //---fin gestion---
