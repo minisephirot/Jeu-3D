@@ -16,7 +16,7 @@ int menu()
   SDL_Init(SDL_INIT_VIDEO);
   ecran = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
   SDL_WM_SetCaption("NOM DU JEU", NULL);
-
+  SDL_EnableKeyRepeat(0,0);
   position.x = 0;
   position.y = 0;
   posFleche.x= 330;
