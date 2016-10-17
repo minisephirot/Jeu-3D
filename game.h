@@ -2,6 +2,7 @@
 #include "ennemis.h"
 
 int gameStart(){
+
 /*  *****************
     * Les Variables *
     *****************  */
@@ -9,6 +10,7 @@ int gameStart(){
     // variable annoncant la fin de jeu
     int exit, choix;
     int i;
+    int Lasttime = 0, Time = 0;
 
     //Position de la camera
     double x, y;
@@ -69,8 +71,7 @@ int gameStart(){
 
     SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier toute les 10ms
 
-    freopen("CON", "w", stdout); // redirects stdout
-    freopen("CON", "w", stderr); // redirects stderr
+
 
     /************************
      *     Debut du jeu     *
@@ -83,6 +84,12 @@ for (i=0; i<ncubes; i++) {
 
     while(exit)
     {
+    //-------Actualisation tout les  10ms---
+      Time = SDL_GetTicks();
+      if (Time - Lasttime > 10) {
+
+      printf("%d  %d" "\n" , Time, Lasttime);
+      Lasttime = Time;
         //---------Début Des Events---------
             SDL_PumpEvents();
             dx = cos(direc*M_PI/180)*VITESSE_DEPLACEMENT;
@@ -154,16 +161,16 @@ for (i=0; i<ncubes; i++) {
             }
       //---------Gestion des collisions---------
         if (x <= ((TAILLE_CUBES/2)+2)){
-          x = x + TAILLE_CUBES/8;
+          x = x + TAILLE_CUBES/7;
         }
         if (x >= (((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES/2)-2)){
-          x = x - TAILLE_CUBES/8;
+          x = x - TAILLE_CUBES/7;
         }
         if (y >= (((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES/2)-2)){
-          y = y - TAILLE_CUBES/8;
+          y = y - TAILLE_CUBES/7;
         }
         if (y <= ((TAILLE_CUBES/2)+2)){
-          y = y + TAILLE_CUBES/8;
+          y = y + TAILLE_CUBES/7;
         }
 
       //---------Gestion des Collisions aux Ennemis---------
@@ -174,6 +181,7 @@ for (i=0; i<ncubes; i++) {
             y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
                 exit=0;
+                choix= gameover();
             }
         }
 
@@ -210,7 +218,7 @@ for (i=0; i<ncubes; i++) {
       glFlush();
       SDL_GL_SwapBuffers();
 
-
+      }
     }
     /************************
      *      Fin du jeu      *
