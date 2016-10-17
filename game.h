@@ -201,6 +201,7 @@ for (i=0; i<ncubes; i++) {
       //---------Debut Du Plateau---------
         //cube en fond
       cube_position(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2,0,0,0);
+      sphere_position(172,172,22,1,1,1);
       int i=0;
       while(i<=TAILLE_PLATEAU){
         cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),0,0,0,0);
