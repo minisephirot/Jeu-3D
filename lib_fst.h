@@ -7,7 +7,7 @@
  *                                  *
  * Crée le 28 septembre 2016        *
  ************************************/
-
+#include <GL/glu.h>
 
 /*Protocol sdl3d
   protocol qui initialise opengl et sdl
@@ -78,6 +78,21 @@ glColor3ub(100,50,100);    //6
     glVertex3d(taille,taille,-taille);
     glEnd();
 
+}
+
+void sphere(int x, int y , int z, int a, int b, int c) {
+glTranslated(x,y,z);
+glRotated(a,b,c,1);
+GLUquadricObj* pQuadric = gluNewQuadric();
+glColor3f(255,255,0);
+glScalef(0.5, 1.0, 1.0);
+gluSphere(pQuadric,25,64,16);
+}
+
+void sphere_position(int x,int y , int z, int a, int b, int c){
+glPushMatrix();
+sphere(x,y,z,a,b,c);
+glPopMatrix();
 }
 
 /*Fonction qui dessine les cubes sur un repere
