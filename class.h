@@ -19,3 +19,12 @@ class Ennemis
   double dy;
   double direc;
 };
+
+class Bonus
+{
+  public :
+
+  double x;
+  double y;
+
+};
