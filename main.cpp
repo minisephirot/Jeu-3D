@@ -14,6 +14,9 @@
 
 int main(int argc, char *argv[])
 {
+  freopen( "CON", "w", stdout );
+  freopen( "CON", "w", stderr );
+
   int choix;
   choix = 1;
   while(choix!=0){
@@ -27,7 +30,7 @@ int main(int argc, char *argv[])
         if(choix == 3)
           choix = 0;
   }
-  
+
 
   return 0;
 }
