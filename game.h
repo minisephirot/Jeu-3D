@@ -197,7 +197,7 @@ for (i=0; i<ncubes; i++) {
             {
                 Time2 = SDL_GetTicks();
                 if (Time2 - Lasttime2 > 1000) {
-                scorejoueur = (scorejoueur+1)*10;
+                scorejoueur = (scorejoueur+10);
                 Lasttime2 = Time2;
                 }
             }
