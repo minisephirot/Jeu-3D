@@ -1,4 +1,3 @@
-
 #include "ennemis.h"
 
 int gameStart(){
@@ -10,7 +9,8 @@ int gameStart(){
     // variable annoncant la fin de jeu
     int exit, choix;
     int i;
-    int Lasttime = 0, Time = 0;
+    int Lasttime = 0, Time = 0, Lasttime2 = 0, Time2 = 0;
+    int scorejoueur = 0;
 
     //Position de la camera
     double x, y;
@@ -39,11 +39,13 @@ int gameStart(){
      y = TAILLE_CUBES*2;
      direc = 0;
 
-      //---------Génération des Ennemis---------
+      //---------Génération des Ennemis et du bonus---------
       //****************************************
 
 	const int ncubes = 3;
+	const int nbonus = 1;
           Ennemis cubes[ncubes];
+          Bonus scoring[nbonus];
 
         //---------Enemis 1---------
 //          Ennemis cube1;
@@ -61,6 +63,9 @@ int gameStart(){
           cubes[2].x = TAILLE_PLATEAU*(TAILLE_CUBES)-(4*TAILLE_CUBES);
           cubes[2].y = 5*(TAILLE_CUBES);
           cubes[2].direc = -45;
+        //---------Bonus-----------
+          scoring[0].x = ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES)/2;
+          scoring[0].y = ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES)/2;
 
       //---------Fin de la génération---------
       //**************************************
@@ -88,7 +93,7 @@ for (i=0; i<ncubes; i++) {
       Time = SDL_GetTicks();
       if (Time - Lasttime > 10) {
 
-      printf("%d  %d" "\n" , Time, Lasttime);
+      printf("%d  %d  %d" "\n" , Time, Lasttime, scorejoueur);
       Lasttime = Time;
         //---------Début Des Events---------
             SDL_PumpEvents();
@@ -184,6 +189,19 @@ for (i=0; i<ncubes; i++) {
                 choix= gameover();
             }
         }
+        for (i=0; i<nbonus; i++){
+            if (x >= (((scoring[i].x)-25/2)-7) &&
+            x <= (((scoring[i].x)+25/2)+7) &&
+            y >= (((scoring[i].y)-25)-7) &&
+            y <= (((scoring[i].y)+25)+7))
+            {
+                Time2 = SDL_GetTicks();
+                if (Time2 - Lasttime2 > 1000) {
+                scorejoueur = (scorejoueur+1)*10;
+                Lasttime2 = Time2;
+                }
+            }
+        }
 
       //---------Fin de la gestion des collisions---------
 
@@ -196,12 +214,11 @@ for (i=0; i<ncubes; i++) {
       camera(x,y,20,x+dx,y+dy,20); //explication en annexe
 
       deplcementEnnemis(cubes, ncubes);
-
+      generationbonus(scoring, nbonus);
 
       //---------Debut Du Plateau---------
         //cube en fond
       cube_position(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2,0,0,0);
-      sphere_position(172,172,22,1,1,1);
       int i=0;
       while(i<=TAILLE_PLATEAU){
         cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),0,0,0,0);
