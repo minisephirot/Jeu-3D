@@ -36,3 +36,14 @@ void deplcementEnnemis(Ennemis *cube, int ncubes)
       //---------Fin de géstion---------
       //**************************************
 }
+
+void generationbonus(Bonus *scoring, int nbonus)
+{
+	for (int i=0; i<=nbonus; i++) {
+
+          sphere_position(scoring[i].x,scoring[i].y,11,1,1,1);
+
+	}
+
+
+}
