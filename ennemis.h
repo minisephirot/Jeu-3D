@@ -39,11 +39,11 @@ void deplcementEnnemis(Ennemis *cube, int ncubes)
 
 void generationbonus(Bonus *scoring, int nbonus)
 {
-	for (int i=0; i<=nbonus; i++) {
+ for (int i=0; i<nbonus; i++) {
 
-          sphere_position(scoring[i].x,scoring[i].y,11,1,1,1);
+     scoring[i].z = scoring[i].z+sin(scoring[i].z)*4;
+
+     sphere_position(scoring[i].x,scoring[i].y,scoring[i].z,1,1,1);
 
 	}
-
-
 }
