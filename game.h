@@ -66,6 +66,7 @@ int gameStart(){
         //---------Bonus-----------
           scoring[0].x = ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES)/2;
           scoring[0].y = ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES)/2;
+          scoring[0].z = 9;
 
       //---------Fin de la génération---------
       //**************************************
@@ -93,7 +94,7 @@ for (i=0; i<ncubes; i++) {
       Time = SDL_GetTicks();
       if (Time - Lasttime > 10) {
 
-      printf("%d  %d  %d" "\n" , Time, Lasttime, scorejoueur);
+      printf("%d %f %f %f" "\n",scorejoueur ,x ,y, scoring[0].z);
       Lasttime = Time;
         //---------Début Des Events---------
             SDL_PumpEvents();
@@ -185,11 +186,11 @@ for (i=0; i<ncubes; i++) {
             y >= (((cubes[i].y)-TAILLE_CUBES/2)-7) &&
             y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
-                exit=0;
-                choix= gameover();
+                //exit=0;
+                //choix= gameover();
             }
         }
-        for (i=0; i<nbonus; i++){
+        for (int i=0; i<=nbonus; i++) {
             if (x >= (((scoring[i].x)-25/2)-7) &&
             x <= (((scoring[i].x)+25/2)+7) &&
             y >= (((scoring[i].y)-25)-7) &&
@@ -197,8 +198,10 @@ for (i=0; i<ncubes; i++) {
             {
                 Time2 = SDL_GetTicks();
                 if (Time2 - Lasttime2 > 1000) {
-                scorejoueur = (scorejoueur+10);
-                Lasttime2 = Time2;
+                    scorejoueur = (scorejoueur+10);
+                    Lasttime2 = Time2;
+                    scoring[i].x= rand() % ((TAILLE_CUBES*TAILLE_PLATEAU)-80) + (TAILLE_PLATEAU+6);
+                    scoring[i].y= rand() % ((TAILLE_CUBES*TAILLE_PLATEAU)-80) + (TAILLE_PLATEAU+6);
                 }
             }
         }
