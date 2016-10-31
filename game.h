@@ -17,7 +17,7 @@ int gameStart(){
     double dx, dy;
     //direction
     double direc;
-
+    bool monter = false;
     bool w=false;
     bool s=false;
     bool a=false;
@@ -191,6 +191,19 @@ for (i=0; i<ncubes; i++) {
             }
         }
         for (int i=0; i<=nbonus; i++) {
+            if (scoring[0].z > 17) {
+                monter = false;
+            }
+            if (scoring[0].z < 1) {
+                monter = true;
+            }
+            if (monter == true) {
+                scoring[0].z = scoring[0].z + 0.1;
+            }
+            if (monter == false) {
+                scoring[0].z = scoring[0].z - 0.1;
+            }
+
             if (x >= (((scoring[i].x)-25/2)-7) &&
             x <= (((scoring[i].x)+25/2)+7) &&
             y >= (((scoring[i].y)-25)-7) &&
