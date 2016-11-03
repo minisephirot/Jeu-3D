@@ -126,7 +126,7 @@ for (i=0; i<ncubes; i++) {
             SDL_PollEvent(&event);
             if ((esc) || (event.type == SDL_QUIT)){
               exit=0;
-              choix = 0;
+              choix = 1;
             }
 
             //choix clavié
@@ -186,22 +186,22 @@ for (i=0; i<ncubes; i++) {
             y >= (((cubes[i].y)-TAILLE_CUBES/2)-7) &&
             y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
-                //exit=0;
-                //choix= gameover();
+                exit=0;
+                choix= gameover();
             }
         }
-        for (int i=0; i<=nbonus; i++) {
-            if (scoring[0].z > 17) {
+        for (int i=0; i<=nbonus-1; i++) {
+            if (scoring[i].z > 17) {
                 monter = false;
             }
-            if (scoring[0].z < 1) {
+            if (scoring[i].z < 1) {
                 monter = true;
             }
             if (monter == true) {
-                scoring[0].z = scoring[0].z + 0.1;
+                scoring[i].z = scoring[i].z + 0.2;
             }
             if (monter == false) {
-                scoring[0].z = scoring[0].z - 0.1;
+                scoring[i].z = scoring[i].z - 0.2;
             }
 
             if (x >= (((scoring[i].x)-25/2)-7) &&
@@ -229,7 +229,7 @@ for (i=0; i<ncubes; i++) {
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
       camera(x,y,20,x+dx,y+dy,20); //explication en annexe
 
-      deplcementEnnemis(cubes, ncubes);
+      deplcementEnnemis(cubes, ncubes, scorejoueur+40);
       generationbonus(scoring, nbonus);
 
       //---------Debut Du Plateau---------
