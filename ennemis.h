@@ -1,30 +1,30 @@
 #include "constante.h"
 
-void deplcementEnnemis(Ennemis *cube, int ncubes)
+void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur)
 {
 	for (int i=0; i<ncubes; i++) {
       //---------Géstion des Ennemis---------
       //****************************************
 
-          cube[i].x+=cube[i].dx;
-          cube[i].y+=cube[i].dy;
+          cube[i].x+=cube[i].dx * (scorejoueur/40) ;
+          cube[i].y+=cube[i].dy * (scorejoueur/40) ;
           //---gestion mouvement---
           if (cube[i].x >= ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES))
           {
-		cube[i].dx *= -1;
+		cube[i].dx *= -1 ;
           }
           if (cube[i].x <= TAILLE_CUBES)
           {
-		cube[i].dx *= -1;
+		cube[i].dx *= -1 ;
           }
 
           if (cube[i].y <= TAILLE_CUBES)
           {
-		cube[i].dy *= -1;
+		cube[i].dy *= -1 ;
           }
           if(cube[i].y >= ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES))
           {
-		cube[i].dy *= -1;
+		cube[i].dy *= -1 ;
           }
           //---fin gestion---
 
