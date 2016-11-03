@@ -24,8 +24,8 @@ int menu()
 
   choix = 1;
 
-  fond = SDL_LoadBMP("cube.bmp");
-  fleche = SDL_LoadBMP("fleche.bmp");
+  fond = SDL_LoadBMP("texture/cube.bmp");
+  fleche = SDL_LoadBMP("texture/fleche.bmp");
   SDL_SetColorKey(fleche, SDL_SRCCOLORKEY, SDL_MapRGB(fleche->format, 0, 255, 0));
 
   continuer = true;
