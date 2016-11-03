@@ -21,7 +21,7 @@ int tuto()
 
   choix = 1;
 
-  tuto = SDL_LoadBMP("tuto.bmp");
+  tuto = SDL_LoadBMP("texture/tuto.bmp");
 
   continuer = true;
   SDL_Event event;
@@ -80,7 +80,7 @@ int gameover()
 
   choix = 1;
 
-  gover = SDL_LoadBMP("gameover.bmp");
+  gover = SDL_LoadBMP("texture/gameover.bmp");
 
   continuer = true;
   SDL_Event event;
