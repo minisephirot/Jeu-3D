@@ -1,2 +1,3 @@
 g++ main.cpp sdlglutils.cpp -o main `sdl-config --cflags --libs` -lglut -lGLU -lGL -ljpeg -lm -lSDL_image
 
+
