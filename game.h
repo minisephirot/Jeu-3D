@@ -9,8 +9,8 @@ int gameStart(){
     // variable annoncant la fin de jeu
     int exit, choix;
     int i;
-    int Lasttime = 0, Time = 0, Lasttime2 = 0, Time2 = 0;
-    int scorejoueur = 0;
+    int Lasttime = 0, Time = 0, Lasttime2 = 0, Time2 = 0, Timer = 10;
+    int scorejoueur = 0, cd = 100;
 
     //Position de la camera
     double x, y;
@@ -21,6 +21,7 @@ int gameStart(){
 
     //Touche directionnelle
     bool w=false;
+    bool spc=false;
     bool s=false;
     bool a=false;
     bool d=false;
@@ -93,17 +94,17 @@ int gameStart(){
     {
     //-------Actualisation tout les  10ms---
       Time = SDL_GetTicks();
-      if (Time - Lasttime > 10) {
-  
-        printf("%d %f %f %f" "\n",scorejoueur ,x ,y, scoring[0].z);
+      if (Time - Lasttime > Timer) {
+
+        printf("%d %d %f %f %f" "\n",scorejoueur, cd ,x ,y, scoring[0].z);
         Lasttime = Time;
         //---------Début Des Events---------
           SDL_PumpEvents();
           dx = cos(direc*M_PI/180)*VITESSE_DEPLACEMENT;
           dy = sin(direc*M_PI/180)*VITESSE_DEPLACEMENT;
           Uint8 *keystates = SDL_GetKeyState(NULL);
-  
-          
+
+
           if(!azerty){
             w = keystates[SDLK_w];
             s = keystates[SDLK_s];
@@ -120,8 +121,9 @@ int gameStart(){
           esc = keystates[SDLK_ESCAPE];
           fgauche = keystates[SDLK_LEFT];
           fdroite = keystates[SDLK_RIGHT];
-  
-  
+          spc = keystates[SDLK_SPACE];
+
+
           // Fin du jeu : echap ou fermé
            SDL_Event event;
            SDL_PollEvent(&event);
@@ -129,7 +131,7 @@ int gameStart(){
              exit=0;
              choix = 1;
            }
-  
+
            //choix clavié
            if (event.key.keysym.sym == SDLK_F1)
            {
@@ -142,7 +144,7 @@ int gameStart(){
                azerty = true;
            }
         //---------Fin Des Events---------
-  
+
         //Déplcement de la caméra sur l'axe x et y
         if (w){
           x += dx;
@@ -166,7 +168,19 @@ int gameStart(){
         if (fdroite){
           direc=direc-VITESSE_ORIENTATION;
         }
-  
+        if (spc && cd > 0){
+          Timer=20;
+          cd -= 1;
+        }
+        else {
+          Timer = 10;
+          if(spc == false && cd < 100)
+          {
+           cd += 1;
+          }
+        }
+
+
         //---------Gestion des collisions---------
         if (x <= ((TAILLE_CUBES/2)+2)){
           x = x + TAILLE_CUBES/7;
@@ -180,7 +194,7 @@ int gameStart(){
         if (y <= ((TAILLE_CUBES/2)+2)){
           y = y + TAILLE_CUBES/7;
         }
-  
+
         //---------Gestion des Collisions aux Ennemis---------
         for (i=0; i<ncubes; i++){
           if (x >= (((cubes[i].x)-TAILLE_CUBES/2)-7) &&
@@ -192,21 +206,21 @@ int gameStart(){
                 choix= gameover();
             }
         }
-        for (int i=0; i<=nbonus-1; i++) 
+        for (int i=0; i<=nbonus-1; i++)
         {
-            if (scoring[i].z > 17) 
+            if (scoring[i].z > 17)
             {
                 monter = false;
             }
-            if (scoring[i].z < 1) 
+            if (scoring[i].z < 1)
             {
                 monter = true;
             }
-            if (monter == true) 
+            if (monter == true)
             {
                 scoring[i].z = scoring[i].z + 0.2;
             }
-            if (monter == false) 
+            if (monter == false)
             {
                 scoring[i].z = scoring[i].z - 0.2;
             }
@@ -225,17 +239,17 @@ int gameStart(){
             }
         }
         //---------Fin de la gestion des collisions---------
-    
-  
+
+
         // La variable b n'a pas besoin d'etre plus grand que 360
         direc = direction(direc);
-    
+
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
         camera(x,y,20,x+dx,y+dy,20); //explication en annexe
-    
+
         deplcementEnnemis(cubes, ncubes, scorejoueur+40);
         generationbonus(scoring, nbonus);
-    
+
         //---------Debut Du Plateau---------
           //cube en fond
           cube_position(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2,0,0,0);
@@ -252,17 +266,17 @@ int gameStart(){
             i++;
           }
         //---------Fin Du Plateau---------
-      
+
         glFlush();
         SDL_GL_SwapBuffers();
-      
+
       }//--Attente de 30ms
-    }//--Fin de boucle 
+    }//--Fin de boucle
 
     /************************
     *      Fin du jeu      *
     ************************/
-     
+
   return choix;
 
 /****************
