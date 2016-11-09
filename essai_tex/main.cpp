@@ -1,93 +1,4 @@
-#include <SDL/SDL.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <cstdlib>
-#include <stdio.h>
-#include <math.h>
-#include "sdlglutils.h"
-
-    GLuint texture1;
-
-//----------------------------------------Gestion Camera-------------------------------------------
-//-------------------------------------------------------------------------------------------------
-void camera(double x, double y, double z, double e1, double e2, double e3){
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity( );
-    gluLookAt(x,y,z,e1,e2,e3,0,0,1);
-}
-
-//---------------------------------------Fonction Cube---------------------------------------------
-//-------------------------------------------------------------------------------------------------
-void cube(double taille,double x,double y,double z,double a,double b,double c){
-
-glEnable(GL_TEXTURE_2D);
-texture1 = loadTexture("stainedglass05.jpg");
-glBindTexture(GL_TEXTURE_2D, texture1);
-    
-    glBegin(GL_QUADS);
-    glTexCoord2d(0,1);
-    glVertex3d(taille,taille,taille);
-    glTexCoord2d(0,0);
-    glVertex3d(taille,taille,-taille);
-    glTexCoord2d(1,0);
-    glVertex3d(-taille,taille,-taille);
-    glTexCoord2d(1,1);
-    glVertex3d(-taille,taille,taille);
-   //2
-    glTexCoord2d(0,1);
-    glVertex3d(taille,-taille,taille);
-    glTexCoord2d(0,0);
-    glVertex3d(taille,taille,taille);
-    glTexCoord2d(1,0);
-    glVertex3d(-taille,taille,taille);
-    glTexCoord2d(1,1);
-    glVertex3d(-taille,-taille,taille);
-   //3
-    glTexCoord2d(0,1);
-    glVertex3d(taille,-taille,-taille);
-    glTexCoord2d(0,0);
-    glVertex3d(taille,-taille,taille);
-    glTexCoord2d(1,0);
-    glVertex3d(-taille,-taille,taille);
-    glTexCoord2d(1,1);
-    glVertex3d(-taille,-taille,-taille);
-    //4
-    glTexCoord2d(0,1);
-    glVertex3d(-taille,taille,-taille);
-    glTexCoord2d(0,0);
-    glVertex3d(taille,taille,-taille);
-    glTexCoord2d(1,0);
-    glVertex3d(taille,-taille,-taille);
-    glTexCoord2d(1,1);
-    glVertex3d(-taille,-taille,-taille);
-    //5
-    glTexCoord2d(0,1);
-    glVertex3d(-taille,taille,taille);
-    glTexCoord2d(0,0);
-    glVertex3d(-taille,-taille,taille);
-    glTexCoord2d(1,0);
-    glVertex3d(-taille,-taille,-taille);
-    glTexCoord2d(1,1);
-    glVertex3d(-taille,taille,-taille);
-    //6
-    glTexCoord2d(0,1);
-    glVertex3d(taille,taille,taille);
-    glTexCoord2d(0,0);
-    glVertex3d(taille,-taille,taille);
-    glTexCoord2d(1,0);
-    glVertex3d(taille,-taille,-taille);
-    glTexCoord2d(1,1);
-    glVertex3d(taille,taille,-taille);
-    glEnd();
-}
-
-void cube_position(double taille,double x,double y,double z,double a,double b,double c){
-        glPushMatrix();
-        cube(taille,x,y,z,a,b,c);
-        glPopMatrix();
-}
-
+#include "main.h"
 
 //-------------------------------------------------------------------------------------------------
 //----------------------------------------Debut Du Main--------------------------------------------
@@ -104,7 +15,9 @@ int main(){
     gluPerspective(100,(double)640/480,1,1500);
     glEnable(GL_DEPTH_TEST);
 
-
+glEnable(GL_TEXTURE_2D);
+texture1 = loadTexture("stainedglass05.jpg");
+glBindTexture(GL_TEXTURE_2D, texture1);
 
 
     int continuer = 1 ;
@@ -147,7 +60,9 @@ int main(){
       
     //-------------Camera+Cube------------------------
       camera(x,y,0,y,x+3,0);
-      cube_position(3,0,0,0,0,0,0);
+      for(int i = 0; i<20*5; i=i+5){
+        cube_position(3,i,0,0,0,0,0);
+      }
 
     glFlush();
     SDL_GL_SwapBuffers();
