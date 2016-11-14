@@ -78,6 +78,10 @@ int gameStart(){
     SDL_WM_SetCaption("Base 3D", NULL);
     SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier toute les 10ms
 
+glEnable(GL_TEXTURE_2D);
+texture1 = loadTexture("stainedglass05.jpg");
+glBindTexture(GL_TEXTURE_2D, texture1);
+
 
 
     /************************
@@ -96,7 +100,6 @@ int gameStart(){
       Time = SDL_GetTicks();
       if (Time - Lasttime > Timer) {
 
-        printf("%d %d %f %f %f" "\n",scorejoueur, cd ,x ,y, scoring[0].z);
         Lasttime = Time;
         //---------Début Des Events---------
           SDL_PumpEvents();
@@ -276,7 +279,7 @@ int gameStart(){
     /************************
     *      Fin du jeu      *
     ************************/
-
+  printf("score : %d\n",scorejoueur);
   return choix;
 
 /****************

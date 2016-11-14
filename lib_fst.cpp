@@ -42,49 +42,76 @@ void camera(double x, double y, double z, double e1, double e2, double e3){
   taille est la taille des cube
   x, y et z la postion par rapport a la matrice
   a, b et c l'angle du cube sur la matrice */
-void cube(int taille, double x, double y, double z,double a, double b, double c){
+GLuint texture1;
+
+void cube(double taille,double x,double y,double z,double a,double b,double c){
+
+
     glTranslated(x,y,z);
     glRotated(a,b,c,1);
-glBegin(GL_QUADS);
-    glColor3ub(255,0,0); //1
+    
+    glBegin(GL_QUADS);
+    glTexCoord2d(0,1);
     glVertex3d(taille,taille,taille);
+    glTexCoord2d(0,0);
     glVertex3d(taille,taille,-taille);
+    glTexCoord2d(1,0);
     glVertex3d(-taille,taille,-taille);
+    glTexCoord2d(1,1);
     glVertex3d(-taille,taille,taille);
-glColor3ub(0,0,255);    //2
+   //2
+    glTexCoord2d(0,1);
     glVertex3d(taille,-taille,taille);
+    glTexCoord2d(0,0);
     glVertex3d(taille,taille,taille);
+    glTexCoord2d(1,0);
     glVertex3d(-taille,taille,taille);
+    glTexCoord2d(1,1);
     glVertex3d(-taille,-taille,taille);
-glColor3ub(0,255,0);    //3
+   //3
+    glTexCoord2d(0,1);
     glVertex3d(taille,-taille,-taille);
+    glTexCoord2d(0,0);
     glVertex3d(taille,-taille,taille);
+    glTexCoord2d(1,0);
     glVertex3d(-taille,-taille,taille);
+    glTexCoord2d(1,1);
     glVertex3d(-taille,-taille,-taille);
-glColor3ub(210,210,210);    //4
+    //4
+    glTexCoord2d(0,1);
     glVertex3d(-taille,taille,-taille);
+    glTexCoord2d(0,0);
     glVertex3d(taille,taille,-taille);
+    glTexCoord2d(1,0);
     glVertex3d(taille,-taille,-taille);
+    glTexCoord2d(1,1);
     glVertex3d(-taille,-taille,-taille);
-glColor3ub(50,100,200);    //5
+    //5
+    glTexCoord2d(0,1);
     glVertex3d(-taille,taille,taille);
+    glTexCoord2d(0,0);
     glVertex3d(-taille,-taille,taille);
+    glTexCoord2d(1,0);
     glVertex3d(-taille,-taille,-taille);
+    glTexCoord2d(1,1);
     glVertex3d(-taille,taille,-taille);
-glColor3ub(100,50,100);    //6
+    //6
+    glTexCoord2d(0,1);
     glVertex3d(taille,taille,taille);
+    glTexCoord2d(0,0);
     glVertex3d(taille,-taille,taille);
+    glTexCoord2d(1,0);
     glVertex3d(taille,-taille,-taille);
+    glTexCoord2d(1,1);
     glVertex3d(taille,taille,-taille);
     glEnd();
-
 }
 
 void sphere(int x, int y , int z, int a, int b, int c) {
 glTranslated(x,y,z);
 glRotated(a,b,c,1);
 GLUquadricObj* pQuadric = gluNewQuadric();
-glColor3f(255,255,0);
+//glColor3f(255,255,0);
 glScalef(0.5, 1.0, 1.0);
 gluSphere(pQuadric,25,64,16);
 }
