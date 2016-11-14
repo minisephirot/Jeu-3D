@@ -7,7 +7,6 @@
  *                                  *
  * Crée le 28 septembre 2016        *
  ************************************/
-#include <GL/glu.h>
 
 /*Protocol sdl3d
   protocol qui initialise opengl et sdl

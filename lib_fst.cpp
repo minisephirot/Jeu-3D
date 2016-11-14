@@ -8,7 +8,6 @@
  * Crée le 28 septembre 2016        *
  ************************************/
 
-
 /*Protocol sdl3d
   protocol qui initialise opengl et sdl
   x et y sont la taille de la fenetre
