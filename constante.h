@@ -14,7 +14,7 @@
 #include <cstdlib>
 #include <stdio.h>
 #include <math.h>
-#include "lib_fst.h"
+#include "lib_fst.cpp"
 #include "class.h"
 
 // Les define :

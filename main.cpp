@@ -7,15 +7,13 @@
  *                                  *
  * Crée le 28 septembre 2016        *
  ************************************/
-#include "accueil.h"
-#include "tuto.h"
-#include "game.h"
+#include "accueil.cpp"
+#include "tuto.cpp"
+#include "game.cpp"
 
 
 int main(int argc, char *argv[])
 {
-  freopen( "CON", "w", stdout );
-  freopen( "CON", "w", stderr );
 
   int choix;
   choix = 1;
