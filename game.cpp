@@ -13,7 +13,7 @@ int gameStart(){
     int scorejoueur = 0, cd = 100;
 
     //Position de la camera
-    double x, y;
+    double x, y, z;
     double dx, dy;
     //direction
     double direc;
@@ -26,6 +26,7 @@ int gameStart(){
     bool a=false;
     bool d=false;
     bool azerty = false;
+    bool F3 = false;
 
     bool esc=false;
     bool fgauche=false;
@@ -41,6 +42,7 @@ int gameStart(){
      choix = 1;
      x = TAILLE_CUBES*2;
      y = TAILLE_CUBES*2;
+     z = 20;
      direc = 0;
 
     //---------Génération des Ennemis et du bonus---------
@@ -125,6 +127,7 @@ glBindTexture(GL_TEXTURE_2D, texture1);
           fgauche = keystates[SDLK_LEFT];
           fdroite = keystates[SDLK_RIGHT];
           spc = keystates[SDLK_SPACE];
+          F3 = keystates[SDLK_F3];
 
 
           // Fin du jeu : echap ou fermé
@@ -135,7 +138,7 @@ glBindTexture(GL_TEXTURE_2D, texture1);
              choix = 1;
            }
 
-           //choix clavié
+           //choix clavier/debugage
            if (event.key.keysym.sym == SDLK_F1)
            {
              if (azerty == true)
@@ -145,6 +148,9 @@ glBindTexture(GL_TEXTURE_2D, texture1);
            {
              if (azerty == false)
                azerty = true;
+           }
+           if (F3){
+            z = 400;
            }
         //---------Fin Des Events---------
 
@@ -248,7 +254,7 @@ glBindTexture(GL_TEXTURE_2D, texture1);
         direc = direction(direc);
 
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-        camera(x,y,20,x+dx,y+dy,20); //explication en annexe
+        camera(x,y,z,x+dx,y+dy,20); //explication en annexe
 
         deplcementEnnemis(cubes, ncubes, scorejoueur+40);
         generationbonus(scoring, nbonus);
