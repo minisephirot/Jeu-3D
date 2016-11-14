@@ -1,5 +1,6 @@
 #include "ennemis.h"
-void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur){
+void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur)
+{
 	for (int i=0; i<ncubes; i++) {
       //---------Géstion des Ennemis---------
       //****************************************
@@ -10,19 +11,40 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur){
           if (cube[i].x >= ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES))
           {
 		cube[i].dx *= -1 ;
+		cube[i].x = cube[i].x - 6;
           }
           if (cube[i].x <= TAILLE_CUBES)
           {
 		cube[i].dx *= -1 ;
+		cube[i].x = cube[i].x + 6;
           }
 
           if (cube[i].y <= TAILLE_CUBES)
           {
 		cube[i].dy *= -1 ;
+		cube[i].y = cube[i].y + 6;
           }
           if(cube[i].y >= ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES))
           {
 		cube[i].dy *= -1 ;
+		cube[i].y = cube[i].y - 6;
+          }
+          //---gestion collision intercubes---
+          if ((((cube[i-1].x)-TAILLE_CUBES/2)-33) >= (((cube[i].x)-TAILLE_CUBES/2)-33) &&
+            (((cube[i-1].x)+TAILLE_CUBES/2)-33) <= (((cube[i].x)+TAILLE_CUBES/2)+33) &&
+            (((cube[i-1].y)-TAILLE_CUBES/2)-33) >= (((cube[i].y)-TAILLE_CUBES/2)-33) &&
+            (((cube[i-1].y)+TAILLE_CUBES/2)-33) <= (((cube[i].y)+TAILLE_CUBES/2)+33))
+          {
+            cube[i].dx *= -1 ;
+            cube[i-1].dx *= -1 ;
+          }
+          if ((((cube[i+1].x)-TAILLE_CUBES/2)-33) >= (((cube[i].x)-TAILLE_CUBES/2)-33) &&
+            (((cube[i+1].x)+TAILLE_CUBES/2)-33) <= (((cube[i].x)+TAILLE_CUBES/2)+33) &&
+            (((cube[i+1].y)-TAILLE_CUBES/2)-33) >= (((cube[i].y)-TAILLE_CUBES/2)-33) &&
+            (((cube[i+1].y)+TAILLE_CUBES/2)-33) <= (((cube[i].y)+TAILLE_CUBES/2)+33))
+          {
+            cube[i].dx *= -1 ;
+            cube[i+1].dx *= -1 ;
           }
           //---fin gestion---
 
