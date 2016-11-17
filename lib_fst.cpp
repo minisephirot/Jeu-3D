@@ -7,6 +7,7 @@
  *                                  *
  * Crée le 28 septembre 2016        *
  ************************************/
+#include "lib_fst.h"
 
 /*Protocol sdl3d
   protocol qui initialise opengl et sdl
@@ -41,14 +42,14 @@ void camera(double x, double y, double z, double e1, double e2, double e3){
   taille est la taille des cube
   x, y et z la postion par rapport a la matrice
   a, b et c l'angle du cube sur la matrice */
-GLuint texture1;
+//GLuint texture1;
 
 void cube(double taille,double x,double y,double z,double a,double b,double c){
 
 
     glTranslated(x,y,z);
     glRotated(a,b,c,1);
-    
+
     glBegin(GL_QUADS);
     glTexCoord2d(0,1);
     glVertex3d(taille,taille,taille);

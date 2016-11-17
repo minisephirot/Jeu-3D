@@ -1,4 +1,7 @@
 #include "ennemis.h"
+#include "lib_fst.h"
+
+
 void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur)
 {
 	for (int i=0; i<ncubes; i++) {

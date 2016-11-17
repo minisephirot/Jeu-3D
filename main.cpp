@@ -7,14 +7,19 @@
  *                                  *
  * Crée le 28 septembre 2016        *
  ************************************/
-#include "accueil.cpp"
-#include "tuto.cpp"
-#include "game.cpp"
-
+#include <SDL/SDL.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <cstdlib>
+#include <stdio.h>
+#include <math.h>
+#include "accueil.h"
+#include "game.h"
 
 int main(int argc, char *argv[])
 {
-
+  freopen( "CON", "w", stdout );
+  freopen( "CON", "w", stderr );
   int choix;
   choix = 1;
   while(choix!=0){
