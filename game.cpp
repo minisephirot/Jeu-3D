@@ -87,8 +87,13 @@ int gameStart(){
     SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier toute les 10ms
 
     glEnable(GL_TEXTURE_2D);
-    GLuint texture1 = loadTexture("texture/stainedglass05.jpg");
-    glBindTexture(GL_TEXTURE_2D, texture1);
+    GLuint texture1 = loadTexture("texture/ciel.jpg");
+    GLuint texture2 = loadTexture("texture/mur.jpg");
+    GLuint texture3 = loadTexture("texture/sol.jpg");
+
+    GLuint texture4 = loadTexture("texture/cieluni.jpg");
+
+    
 
 
 
@@ -104,6 +109,7 @@ int gameStart(){
 
     while(exit)
     {
+
     printf("%d %d %f %f %f" "\n",scorejoueur, cd ,x ,y, scoring[0].z);
     //-------Actualisation tout les  10ms---
       Time = SDL_GetTicks();
@@ -263,24 +269,39 @@ int gameStart(){
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
         camera(x,y,z,x+dx,y+dy,20); //explication en annexe
 
+
+        
+
         deplcementEnnemis(cubes, ncubes, scorejoueur+40);
         generationbonus(scoring, nbonus);
 
         //---------Debut Du Plateau---------
+           glBindTexture(GL_TEXTURE_2D, texture1);
           //cube en fond
           cube_position(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2,0,0,0);
+          
+          glBindTexture(GL_TEXTURE_2D, texture3);
+          plat_pos(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2+1,0,0,0);
+
+          glBindTexture(GL_TEXTURE_2D, texture4);
+          plaf_pos(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)+(TAILLE_PLATEAU*TAILLE_CUBES/2),0,0,0);
+
           int i=0;
+
+          
           while(i<=TAILLE_PLATEAU){
+            glBindTexture(GL_TEXTURE_2D, texture2);
             cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),0,0,0,0);
             cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),TAILLE_PLATEAU*(TAILLE_CUBES),0,0,0,0);
             cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),0,0,0,0,0);
             cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES),0,0,0,0);
-            cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),22,0,0,0);
-            cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),TAILLE_PLATEAU*(TAILLE_CUBES),22,0,0,0);
-            cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),0,22,0,0,0);
-            cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES),22,0,0,0);
+            cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),TAILLE_CUBES,0,0,0);
+            cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),TAILLE_PLATEAU*(TAILLE_CUBES),TAILLE_CUBES,0,0,0);
+            cube_position(TAILLE_CUBES/2,i*(TAILLE_CUBES),0,TAILLE_CUBES,0,0,0);
+            cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES),TAILLE_CUBES,0,0,0);
             i++;
           }
+
         //---------Fin Du Plateau---------
 
         glFlush();
@@ -299,3 +320,7 @@ int gameStart(){
  *     Fin      *
  ****************/
 }
+
+
+
+

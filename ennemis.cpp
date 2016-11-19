@@ -1,9 +1,11 @@
 #include "ennemis.h"
 #include "lib_fst.h"
+#include "sdlglutils.h"
 
 
 void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur)
 {
+    GLuint texture2 = loadTexture("texture/mur.jpg");
 	for (int i=0; i<ncubes; i++) {
       //---------Géstion des Ennemis---------
       //****************************************
@@ -51,8 +53,7 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur)
           }
           //---fin gestion---
 
-
-
+          glBindTexture(GL_TEXTURE_2D, texture2);
           cube_position(TAILLE_CUBES/2,cube[i].x,cube[i].y,0,90,0,0);
 
 	}

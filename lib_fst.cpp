@@ -51,7 +51,8 @@ void cube(double taille,double x,double y,double z,double a,double b,double c){
     glRotated(a,b,c,1);
 
     glBegin(GL_QUADS);
-    glTexCoord2d(0,1);
+    //1 gauche
+    glTexCoord2d(1,1);
     glVertex3d(taille,taille,taille);
     glTexCoord2d(0,0);
     glVertex3d(taille,taille,-taille);
@@ -59,7 +60,7 @@ void cube(double taille,double x,double y,double z,double a,double b,double c){
     glVertex3d(-taille,taille,-taille);
     glTexCoord2d(1,1);
     glVertex3d(-taille,taille,taille);
-   //2
+   //2 haut
     glTexCoord2d(0,1);
     glVertex3d(taille,-taille,taille);
     glTexCoord2d(0,0);
@@ -68,16 +69,16 @@ void cube(double taille,double x,double y,double z,double a,double b,double c){
     glVertex3d(-taille,taille,taille);
     glTexCoord2d(1,1);
     glVertex3d(-taille,-taille,taille);
-   //3
-    glTexCoord2d(0,1);
-    glVertex3d(taille,-taille,-taille);
-    glTexCoord2d(0,0);
-    glVertex3d(taille,-taille,taille);
+   //3 droite
     glTexCoord2d(1,0);
-    glVertex3d(-taille,-taille,taille);
+    glVertex3d(taille,-taille,-taille);
     glTexCoord2d(1,1);
+    glVertex3d(taille,-taille,taille);
+    glTexCoord2d(0,1);
+    glVertex3d(-taille,-taille,taille);
+    glTexCoord2d(0,0);
     glVertex3d(-taille,-taille,-taille);
-    //4
+    //4 sol
     glTexCoord2d(0,1);
     glVertex3d(-taille,taille,-taille);
     glTexCoord2d(0,0);
@@ -86,40 +87,81 @@ void cube(double taille,double x,double y,double z,double a,double b,double c){
     glVertex3d(taille,-taille,-taille);
     glTexCoord2d(1,1);
     glVertex3d(-taille,-taille,-taille);
-    //5
+    //5 deriere 
     glTexCoord2d(0,1);
     glVertex3d(-taille,taille,taille);
-    glTexCoord2d(0,0);
+    glTexCoord2d(1,1);
     glVertex3d(-taille,-taille,taille);
     glTexCoord2d(1,0);
     glVertex3d(-taille,-taille,-taille);
-    glTexCoord2d(1,1);
+    glTexCoord2d(0,0);
     glVertex3d(-taille,taille,-taille);
-    //6
+    //6 devant
     glTexCoord2d(0,1);
     glVertex3d(taille,taille,taille);
-    glTexCoord2d(0,0);
+    glTexCoord2d(1,1);
     glVertex3d(taille,-taille,taille);
     glTexCoord2d(1,0);
     glVertex3d(taille,-taille,-taille);
-    glTexCoord2d(1,1);
+    glTexCoord2d(0,0);
     glVertex3d(taille,taille,-taille);
     glEnd();
 }
 
 void sphere(int x, int y , int z, int a, int b, int c) {
-glTranslated(x,y,z);
-glRotated(a,b,c,1);
-GLUquadricObj* pQuadric = gluNewQuadric();
-//glColor3f(255,255,0);
-glScalef(0.5, 1.0, 1.0);
-gluSphere(pQuadric,25,64,16);
+  glTranslated(x,y,z);
+  glRotated(a,b,c,1);
+  GLUquadricObj* pQuadric = gluNewQuadric();
+  glTexCoord2d(0,0);
+  //glColor3f(255,255,0);
+  glScalef(0.5, 1.0, 1.0);
+  gluSphere(pQuadric,25,64,16);
 }
 
 void sphere_position(int x,int y , int z, int a, int b, int c){
-glPushMatrix();
-sphere(x,y,z,a,b,c);
-glPopMatrix();
+  glPushMatrix();
+  sphere(x,y,z,a,b,c);
+  glPopMatrix();
+}
+
+void plat(double taille,double x,double y,double z,double a,double b,double c){
+    glTranslated(x,y,z);
+    glRotated(a,b,c,1);
+    glBegin(GL_QUADS);
+    glTexCoord2d(0,3);
+    glVertex3d(-taille,taille,-taille);
+    glTexCoord2d(0,0);
+    glVertex3d(taille,taille,-taille);
+    glTexCoord2d(3,0);
+    glVertex3d(taille,-taille,-taille);
+    glTexCoord2d(3,3);
+    glVertex3d(-taille,-taille,-taille);
+}
+
+void plat_pos(double taille,double x,double y,double z,double a,double b,double c){
+        glPushMatrix();
+        plat(taille,x,y,z,a,b,c);
+        glPopMatrix();
+}
+
+void plafond(double taille,double x,double y,double z,double a,double b,double c){
+    glTranslated(x,y,z);
+    glRotated(a,b,c,1);
+    glBegin(GL_QUADS);
+    glTexCoord2d(0,1);
+    glVertex3d(taille,-taille,taille);
+    glTexCoord2d(0,0);
+    glVertex3d(taille,taille,taille);
+    glTexCoord2d(1,0);
+    glVertex3d(-taille,taille,taille);
+    glTexCoord2d(1,1);
+    glVertex3d(-taille,-taille,taille);
+}
+
+void plaf_pos(double taille,double x,double y,double z,double a,double b,double c){
+        glPushMatrix();
+        plafond(taille,x,y,z,a,b,c);
+        glPopMatrix();
 }
 
 /*Fonction qui dessine les cubes sur un repere
