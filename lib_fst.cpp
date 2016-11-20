@@ -8,6 +8,7 @@
  * Crée le 28 septembre 2016        *
  ************************************/
 #include "lib_fst.h"
+#include "sdlglutils.h"
 
 /*Protocol sdl3d
   protocol qui initialise opengl et sdl
@@ -178,9 +179,11 @@ void cubeennemis_position(int taille, double x, double y, double z,double a, dou
         glPopMatrix();
 }
 
-void sphere(int x, int y , int z, int a, int b, int c) {
+void sphere(int x, int y , int z) {
+  static double a = 1;
+  a = a + 1.5;
   glTranslated(x,y,z);
-  glRotated(a,b,c,1);
+  glRotated(a,0,0,1);
   GLUquadricObj* pQuadric = gluNewQuadric();
   glTexCoord2d(0,1);
   //glColor3f(255,255,0);
@@ -189,9 +192,9 @@ void sphere(int x, int y , int z, int a, int b, int c) {
   gluSphere(pQuadric,25,64,16);
 }
 
-void sphere_position(int x,int y , int z, int a, int b, int c){
+void sphere_position(int x,int y , int z){
   glPushMatrix();
-  sphere(x,y,z,a,b,c);
+  sphere(x,y,z);
   glPopMatrix();
 }
 
@@ -254,4 +257,32 @@ double direction(double a){
     while (a<0)
       a+= 360;
     return a;
+}
+
+void interface(){
+    GLuint texture1 = loadTexture("texture/score.jpg");
+    glEnable(GL_TEXTURE_2D);
+    glMatrixMode (GL_PROJECTION);
+    glPushMatrix ();
+    glLoadIdentity ();
+    glOrtho (0,800,0,600, -1.0f, 1.0f);
+    glMatrixMode (GL_MODELVIEW);
+    glLoadIdentity ();
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBindTexture(GL_TEXTURE_2D,texture1);
+    glBegin(GL_QUADS);
+    glTexCoord2d(0, 0); glVertex2i(0,600 );
+    glTexCoord2d(1, 0); glVertex2i(800,600);
+    glTexCoord2d(1, 1); glVertex2i(800,0);
+    glTexCoord2d(0, 1); glVertex2i(0,0);
+    glEnd();
+
+    //End 2D
+    glMatrixMode (GL_PROJECTION);
+    glPopMatrix ();
+    glMatrixMode (GL_MODELVIEW);
+    glEnable(GL_DEPTH_TEST);
+
 }

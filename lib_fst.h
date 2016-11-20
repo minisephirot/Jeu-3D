@@ -13,8 +13,8 @@
 void sdl3d(int x, int y, int c);
 void camera(double x, double y, double z, double e1, double e2, double e3);
 void cube(double taille, double x, double y, double z,double a, double b, double c);
-void sphere(int x, int y , int z, int a, int b, int c);
-void sphere_position(int x,int y , int z, int a, int b, int c);
+void sphere(int x, int y , int z);
+void sphere_position(int x,int y , int z);
 void cube_position(int taille, double x, double y, double z,double a, double b, double c);
 double direction(double a);
 void plat(double taille,double x,double y,double z,double a,double b,double c);
@@ -23,3 +23,4 @@ void plafond(double taille,double x,double y,double z,double a,double b,double c
 void plaf_pos(double taille,double x,double y,double z,double a,double b,double c);
 void cubeennemis(double taille,double x,double y,double z,double a,double b,double c);
 void cubeennemis_position(int taille, double x, double y, double z,double a, double b, double c);
+void interface();

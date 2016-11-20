@@ -283,11 +283,14 @@ int gameStart(){
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
         camera(x,y,z,x+dx,y+dy,20+h); //explication en annexe
 
-        deplcementEnnemis(cubes, ncubes, scorejoueur+40);
+        deplcementEnnemis(cubes, ncubes, scorejoueur+100);
         generationbonus(scoring, nbonus);
 
-        //---------Debut Du Plateau---------
+        //---------Debut Du Plateau & HUD---------
 
+          //HUD
+          //glBindTexture(GL_TEXTURE_2D,texture1);
+          void interface();
           //ciel en fond
           glBindTexture(GL_TEXTURE_2D, texture1);
           cube_position(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2,0,0,0);

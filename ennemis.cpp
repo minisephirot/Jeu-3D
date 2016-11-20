@@ -10,8 +10,8 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur)
       //---------Géstion des Ennemis---------
       //****************************************
 
-          cube[i].x+=cube[i].dx * (scorejoueur/40) ;
-          cube[i].y+=cube[i].dy * (scorejoueur/40) ;
+          cube[i].x+=cube[i].dx * (scorejoueur/100) ;
+          cube[i].y+=cube[i].dy * (scorejoueur/100) ;
           //---gestion mouvement---
           if (cube[i].x >= ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES))
           {
@@ -69,7 +69,7 @@ void generationbonus(Bonus *scoring, int nbonus){
 
 
      glBindTexture(GL_TEXTURE_2D, texture2);
-     sphere_position(scoring[i].x,scoring[i].y,scoring[i].z,1,1,1);
+     sphere_position(scoring[i].x,scoring[i].y,scoring[i].z);
 
 	}
 }
