@@ -5,7 +5,7 @@
 
 void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur)
 {
-    GLuint texture2 = loadTexture("texture/mur.jpg");
+    GLuint texture2 = loadTexture("texture/thwomp.jpg");
 	for (int i=0; i<ncubes; i++) {
       //---------Géstion des Ennemis---------
       //****************************************
@@ -54,7 +54,7 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur)
           //---fin gestion---
 
           glBindTexture(GL_TEXTURE_2D, texture2);
-          cube_position(TAILLE_CUBES/2,cube[i].x,cube[i].y,0,90,0,0);
+          cubeennemis_position(TAILLE_CUBES/2,cube[i].x,cube[i].y,0,90,0,0);
 
 	}
       //---------Fin de géstion---------
@@ -64,10 +64,11 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur)
 
 
 void generationbonus(Bonus *scoring, int nbonus){
+ GLuint texture2 = loadTexture("texture/piece.jpg");
  for (int i=0; i<nbonus; i++) {
 
 
-
+     glBindTexture(GL_TEXTURE_2D, texture2);
      sphere_position(scoring[i].x,scoring[i].y,scoring[i].z,1,1,1);
 
 	}

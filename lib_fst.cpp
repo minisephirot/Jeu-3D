@@ -52,7 +52,7 @@ void cube(double taille,double x,double y,double z,double a,double b,double c){
 
     glBegin(GL_QUADS);
     //1 gauche
-    glTexCoord2d(1,1);
+    glTexCoord2d(0,1);
     glVertex3d(taille,taille,taille);
     glTexCoord2d(0,0);
     glVertex3d(taille,taille,-taille);
@@ -87,7 +87,7 @@ void cube(double taille,double x,double y,double z,double a,double b,double c){
     glVertex3d(taille,-taille,-taille);
     glTexCoord2d(1,1);
     glVertex3d(-taille,-taille,-taille);
-    //5 deriere 
+    //5 deriere
     glTexCoord2d(0,1);
     glVertex3d(-taille,taille,taille);
     glTexCoord2d(1,1);
@@ -108,13 +108,84 @@ void cube(double taille,double x,double y,double z,double a,double b,double c){
     glEnd();
 }
 
+void cubeennemis(double taille,double x,double y,double z,double a,double b,double c){
+
+
+    glTranslated(x,y,z);
+    glRotated(a,b,c,1);
+
+    glBegin(GL_QUADS);
+    //1 gauche
+    glTexCoord2d(0,1);
+    glVertex3d(taille,taille,taille);
+    glTexCoord2d(0,0);
+    glVertex3d(taille,taille,-taille);
+    glTexCoord2d(0.5,0);
+    glVertex3d(-taille,taille,-taille);
+    glTexCoord2d(0.5,1);
+    glVertex3d(-taille,taille,taille);
+   //2 haut
+    glTexCoord2d(0.5,1);
+    glVertex3d(taille,-taille,taille);
+    glTexCoord2d(0.5,0);
+    glVertex3d(taille,taille,taille);
+    glTexCoord2d(1,0);
+    glVertex3d(-taille,taille,taille);
+    glTexCoord2d(1,1);
+    glVertex3d(-taille,-taille,taille);
+   //3 droite
+    glTexCoord2d(1,0);
+    glVertex3d(taille,-taille,-taille);
+    glTexCoord2d(1,1);
+    glVertex3d(taille,-taille,taille);
+    glTexCoord2d(0.5,1);
+    glVertex3d(-taille,-taille,taille);
+    glTexCoord2d(0.5,0);
+    glVertex3d(-taille,-taille,-taille);
+    //4 sol
+    glTexCoord2d(0.5,1);
+    glVertex3d(-taille,taille,-taille);
+    glTexCoord2d(0.5,0);
+    glVertex3d(taille,taille,-taille);
+    glTexCoord2d(1,0);
+    glVertex3d(taille,-taille,-taille);
+    glTexCoord2d(1,1);
+    glVertex3d(-taille,-taille,-taille);
+    //5 deriere
+    glTexCoord2d(0.5,1);
+    glVertex3d(-taille,taille,taille);
+    glTexCoord2d(1,1);
+    glVertex3d(-taille,-taille,taille);
+    glTexCoord2d(1,0);
+    glVertex3d(-taille,-taille,-taille);
+    glTexCoord2d(0.5,0);
+    glVertex3d(-taille,taille,-taille);
+    //6 devant
+    glTexCoord2d(0.5,1);
+    glVertex3d(taille,taille,taille);
+    glTexCoord2d(1,1);
+    glVertex3d(taille,-taille,taille);
+    glTexCoord2d(1,0);
+    glVertex3d(taille,-taille,-taille);
+    glTexCoord2d(0.5,0);
+    glVertex3d(taille,taille,-taille);
+    glEnd();
+}
+
+void cubeennemis_position(int taille, double x, double y, double z,double a, double b, double c){
+        glPushMatrix();
+        cubeennemis(taille,x,y,z,a,b,c);
+        glPopMatrix();
+}
+
 void sphere(int x, int y , int z, int a, int b, int c) {
   glTranslated(x,y,z);
   glRotated(a,b,c,1);
   GLUquadricObj* pQuadric = gluNewQuadric();
-  glTexCoord2d(0,0);
+  glTexCoord2d(0,1);
   //glColor3f(255,255,0);
-  glScalef(0.5, 1.0, 1.0);
+  glScalef(0.25, 1.0, 1.0);
+  gluQuadricTexture( pQuadric, GL_TRUE);
   gluSphere(pQuadric,25,64,16);
 }
 
@@ -128,14 +199,15 @@ void plat(double taille,double x,double y,double z,double a,double b,double c){
     glTranslated(x,y,z);
     glRotated(a,b,c,1);
     glBegin(GL_QUADS);
-    glTexCoord2d(0,3);
+    glTexCoord2d(0,8);
     glVertex3d(-taille,taille,-taille);
     glTexCoord2d(0,0);
     glVertex3d(taille,taille,-taille);
-    glTexCoord2d(3,0);
+    glTexCoord2d(8,0);
     glVertex3d(taille,-taille,-taille);
-    glTexCoord2d(3,3);
+    glTexCoord2d(8,8);
     glVertex3d(-taille,-taille,-taille);
+    glEnd();
 }
 
 void plat_pos(double taille,double x,double y,double z,double a,double b,double c){
@@ -149,13 +221,14 @@ void plafond(double taille,double x,double y,double z,double a,double b,double c
     glRotated(a,b,c,1);
     glBegin(GL_QUADS);
     glTexCoord2d(0,1);
-    glVertex3d(taille,-taille,taille);
+    glVertex3d(-taille,taille,-taille);
     glTexCoord2d(0,0);
-    glVertex3d(taille,taille,taille);
+    glVertex3d(taille,taille,-taille);
     glTexCoord2d(1,0);
-    glVertex3d(-taille,taille,taille);
+    glVertex3d(taille,-taille,-taille);
     glTexCoord2d(1,1);
-    glVertex3d(-taille,-taille,taille);
+    glVertex3d(-taille,-taille,-taille);
+    glEnd();
 }
 
 void plaf_pos(double taille,double x,double y,double z,double a,double b,double c){

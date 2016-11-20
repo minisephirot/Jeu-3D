@@ -21,3 +21,5 @@ void plat(double taille,double x,double y,double z,double a,double b,double c);
 void plat_pos(double taille,double x,double y,double z,double a,double b,double c);
 void plafond(double taille,double x,double y,double z,double a,double b,double c);
 void plaf_pos(double taille,double x,double y,double z,double a,double b,double c);
+void cubeennemis(double taille,double x,double y,double z,double a,double b,double c);
+void cubeennemis_position(int taille, double x, double y, double z,double a, double b, double c);

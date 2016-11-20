@@ -19,7 +19,7 @@ int gameStart(){
     int scorejoueur = 0, cd = 100;
 
     //Position de la camera
-    double x, y, z;
+    double x, y, z, h;
     double dx, dy;
     //direction
     double direc;
@@ -37,6 +37,8 @@ int gameStart(){
     bool esc=false;
     bool fgauche=false;
     bool fdroite=false;
+    bool fhaut=false;
+    bool fbas=false;
 
 /*  *****************
     *     Debut     *
@@ -49,6 +51,7 @@ int gameStart(){
      x = TAILLE_CUBES*2;
      y = TAILLE_CUBES*2;
      z = 20;
+     h = 0;
      direc = 0;
 
     //---------Génération des Ennemis et du bonus---------
@@ -89,11 +92,10 @@ int gameStart(){
     glEnable(GL_TEXTURE_2D);
     GLuint texture1 = loadTexture("texture/ciel.jpg");
     GLuint texture2 = loadTexture("texture/mur.jpg");
-    GLuint texture3 = loadTexture("texture/sol.jpg");
-
+    GLuint texture3 = loadTexture("texture/sol2.jpg");
     GLuint texture4 = loadTexture("texture/cieluni.jpg");
 
-    
+
 
 
 
@@ -110,7 +112,7 @@ int gameStart(){
     while(exit)
     {
 
-    printf("%d %d %f %f %f" "\n",scorejoueur, cd ,x ,y, scoring[0].z);
+    printf("%d %d %f %f %f" "\n",scorejoueur, cd ,x ,y, h);
     //-------Actualisation tout les  10ms---
       Time = SDL_GetTicks();
       if (Time - Lasttime > Timer) {
@@ -139,6 +141,8 @@ int gameStart(){
           esc = keystates[SDLK_ESCAPE];
           fgauche = keystates[SDLK_LEFT];
           fdroite = keystates[SDLK_RIGHT];
+          fhaut = keystates[SDLK_UP];
+          fbas = keystates[SDLK_DOWN];
           spc = keystates[SDLK_SPACE];
           F3 = keystates[SDLK_F3];
 
@@ -190,6 +194,16 @@ int gameStart(){
         if (fdroite){
           direc=direc-VITESSE_ORIENTATION;
         }
+        if (fhaut){
+         if (h < 5) {
+          h=h+0.15;
+          }
+        }
+        if (fbas){
+         if (h > -5) {
+          h=h-0.15;
+          }
+        }
         if (spc && cd > 0){
           Timer=20;
           cd -= 1;
@@ -230,21 +244,21 @@ int gameStart(){
         }
         for (int i=0; i<=nbonus-1; i++)
         {
-            if (scoring[i].z > 17)
+            if (scoring[i].z > 19)
             {
                 monter = false;
             }
-            if (scoring[i].z < 1)
+            if (scoring[i].z < 3)
             {
                 monter = true;
             }
             if (monter == true)
             {
-                scoring[i].z = scoring[i].z + 0.2;
+                scoring[i].z = scoring[i].z + 0.4;
             }
             if (monter == false)
             {
-                scoring[i].z = scoring[i].z - 0.2;
+                scoring[i].z = scoring[i].z - 0.4;
             }
             if (x >= (((scoring[i].x)-25/2)-7) &&
             x <= (((scoring[i].x)+25/2)+7) &&
@@ -267,28 +281,24 @@ int gameStart(){
         direc = direction(direc);
 
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-        camera(x,y,z,x+dx,y+dy,20); //explication en annexe
-
-
-        
+        camera(x,y,z,x+dx,y+dy,20+h); //explication en annexe
 
         deplcementEnnemis(cubes, ncubes, scorejoueur+40);
         generationbonus(scoring, nbonus);
 
         //---------Debut Du Plateau---------
-           glBindTexture(GL_TEXTURE_2D, texture1);
-          //cube en fond
+
+          //ciel en fond
+          glBindTexture(GL_TEXTURE_2D, texture1);
           cube_position(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2,0,0,0);
-          
+          //sol en fond
           glBindTexture(GL_TEXTURE_2D, texture3);
           plat_pos(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2+1,0,0,0);
-
+          //plafond en fond
           glBindTexture(GL_TEXTURE_2D, texture4);
           plaf_pos(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)+(TAILLE_PLATEAU*TAILLE_CUBES/2),0,0,0);
 
           int i=0;
-
-          
           while(i<=TAILLE_PLATEAU){
             glBindTexture(GL_TEXTURE_2D, texture2);
             cube_position(TAILLE_CUBES/2,TAILLE_PLATEAU*(TAILLE_CUBES),i*(TAILLE_CUBES),0,0,0,0);
