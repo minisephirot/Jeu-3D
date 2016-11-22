@@ -260,7 +260,6 @@ double direction(double a){
 }
 
 void interface(){
-    GLuint texture1 = loadTexture("texture/score.jpg");
     glEnable(GL_TEXTURE_2D);
     glMatrixMode (GL_PROJECTION);
     glPushMatrix ();
@@ -271,12 +270,11 @@ void interface(){
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glBindTexture(GL_TEXTURE_2D,texture1);
     glBegin(GL_QUADS);
-    glTexCoord2d(0, 0); glVertex2i(0,600 );
-    glTexCoord2d(1, 0); glVertex2i(800,600);
-    glTexCoord2d(1, 1); glVertex2i(800,0);
-    glTexCoord2d(0, 1); glVertex2i(0,0);
+    glTexCoord2d(0, 0); glVertex2d(0,0 );
+    glTexCoord2d(1, 0); glVertex2d(800,0);
+    glTexCoord2d(1, 1); glVertex2d(800,600);
+    glTexCoord2d(0, 1); glVertex2d(0,600);
     glEnd();
 
     //End 2D
