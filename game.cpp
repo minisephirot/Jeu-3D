@@ -33,7 +33,6 @@ int gameStart(){
     bool d=false;
     bool azerty = false;
     bool F3 = false;
-
     bool esc=false;
     bool fgauche=false;
     bool fdroite=false;
@@ -94,6 +93,10 @@ int gameStart(){
     GLuint texture2 = loadTexture("texture/mur.jpg");
     GLuint texture3 = loadTexture("texture/sol2.jpg");
     GLuint texture4 = loadTexture("texture/cieluni.jpg");
+    GLuint texture5 = loadTexture("texture/piece.jpg");
+    GLuint texture6 = loadTexture("texture/thwomp.jpg");
+    GLuint texture7 = loadTexture("texture/hud.png");
+    GLuint texture8 = loadTexture("texture/cryo.png");
 
 
 
@@ -283,14 +286,12 @@ int gameStart(){
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
         camera(x,y,z,x+dx,y+dy,20+h); //explication en annexe
 
-        deplcementEnnemis(cubes, ncubes, scorejoueur+100);
-        generationbonus(scoring, nbonus);
+        deplcementEnnemis(cubes, ncubes, scorejoueur+100,texture6);
+        generationbonus(scoring, nbonus, texture5);
 
         //---------Debut Du Plateau & HUD---------
 
-          //HUD
-          //glBindTexture(GL_TEXTURE_2D,texture1);
-          void interface();
+
           //ciel en fond
           glBindTexture(GL_TEXTURE_2D, texture1);
           cube_position(TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2,TAILLE_PLATEAU*TAILLE_CUBES/2, (TAILLE_PLATEAU*TAILLE_CUBES-TAILLE_CUBES)/2,0,0,0);
@@ -314,6 +315,13 @@ int gameStart(){
             cube_position(TAILLE_CUBES/2,0,i*(TAILLE_CUBES),TAILLE_CUBES,0,0,0);
             i++;
           }
+          //HUD
+          if (spc && cd > 0) {
+            glBindTexture(GL_TEXTURE_2D,texture8);
+            interface();
+          }
+          glBindTexture(GL_TEXTURE_2D,texture7);
+          interface();
 
         //---------Fin Du Plateau---------
 
