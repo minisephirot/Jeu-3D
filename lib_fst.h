@@ -24,3 +24,8 @@ void plaf_pos(double taille,double x,double y,double z,double a,double b,double 
 void cubeennemis(double taille,double x,double y,double z,double a,double b,double c);
 void cubeennemis_position(int taille, double x, double y, double z,double a, double b, double c);
 void interface();
+void interface0();
+void interface10();
+void interface100();
+int choixscore(int score, int* centaine);
+
