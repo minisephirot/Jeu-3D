@@ -6,13 +6,12 @@
 
 void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
 {
-    //GLuint texture2 = loadTexture("texture/thwomp.jpg");
+    double vitesse = scorejoueur / 100.0 ;
 	for (int i=0; i<ncubes; i++) {
       //---------Géstion des Ennemis---------
       //****************************************
-
-          cube[i].x+=cube[i].dx * (scorejoueur/100) ;
-          cube[i].y+=cube[i].dy * (scorejoueur/100) ;
+          cube[i].x+=cube[i].dx * vitesse ;
+          cube[i].y+=cube[i].dy * vitesse ;
           //---gestion mouvement---
           if (cube[i].x >= ((TAILLE_CUBES*TAILLE_PLATEAU)-TAILLE_CUBES))
           {
@@ -36,6 +35,8 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
 		cube[i].y = cube[i].y - 6;
           }
           //---gestion collision intercubes---
+
+
           if ((((cube[i-1].x)-TAILLE_CUBES/2)-33) >= (((cube[i].x)-TAILLE_CUBES/2)-33) &&
             (((cube[i-1].x)+TAILLE_CUBES/2)-33) <= (((cube[i].x)+TAILLE_CUBES/2)+33) &&
             (((cube[i-1].y)-TAILLE_CUBES/2)-33) >= (((cube[i].y)-TAILLE_CUBES/2)-33) &&
