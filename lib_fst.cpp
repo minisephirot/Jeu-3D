@@ -284,3 +284,120 @@ void interface(){
     glEnable(GL_DEPTH_TEST);
 
 }
+
+void interface0(){
+    glEnable(GL_TEXTURE_2D);
+    glMatrixMode (GL_PROJECTION);
+    glPushMatrix ();
+    glLoadIdentity ();
+    glOrtho (0,800,0,600, -1.0f, 1.0f);
+    glMatrixMode (GL_MODELVIEW);
+    glLoadIdentity ();
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBegin(GL_QUADS);
+    glTexCoord2d(0, 0); glVertex2d(438,471);
+    glTexCoord2d(0, 1); glVertex2d(438,534);
+    glTexCoord2d(1, 1); glVertex2d(475,534);
+    glTexCoord2d(1, 0); glVertex2d(475,471);
+    glEnd();
+
+    //End 2D
+    glMatrixMode (GL_PROJECTION);
+    glPopMatrix ();
+    glMatrixMode (GL_MODELVIEW);
+    glEnable(GL_DEPTH_TEST);
+
+}
+
+void interface10(){
+    glEnable(GL_TEXTURE_2D);
+    glMatrixMode (GL_PROJECTION);
+    glPushMatrix ();
+    glLoadIdentity ();
+    glOrtho (0,800,0,600, -1.0f, 1.0f);
+    glMatrixMode (GL_MODELVIEW);
+    glLoadIdentity ();
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBegin(GL_QUADS);
+    glTexCoord2d(0, 0); glVertex2d(438-50,471);
+    glTexCoord2d(0, 1); glVertex2d(438-50,534);
+    glTexCoord2d(1, 1); glVertex2d(475-50,534);
+    glTexCoord2d(1, 0); glVertex2d(475-50,471);
+    glEnd();
+
+    //End 2D
+    glMatrixMode (GL_PROJECTION);
+    glPopMatrix ();
+    glMatrixMode (GL_MODELVIEW);
+    glEnable(GL_DEPTH_TEST);
+
+}
+
+void interface100(){
+    glEnable(GL_TEXTURE_2D);
+    glMatrixMode (GL_PROJECTION);
+    glPushMatrix ();
+    glLoadIdentity ();
+    glOrtho (0,800,0,600, -1.0f, 1.0f);
+    glMatrixMode (GL_MODELVIEW);
+    glLoadIdentity ();
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBegin(GL_QUADS);
+    glTexCoord2d(0, 0); glVertex2d(438-100,471);
+    glTexCoord2d(0, 1); glVertex2d(438-100,534);
+    glTexCoord2d(1, 1); glVertex2d(475-100,534);
+    glTexCoord2d(1, 0); glVertex2d(475-100,471);
+    glEnd();
+
+    //End 2D
+    glMatrixMode (GL_PROJECTION);
+    glPopMatrix ();
+    glMatrixMode (GL_MODELVIEW);
+    glEnable(GL_DEPTH_TEST);
+
+}
+
+int choixscore(int scored, int *centaine){
+    int res = 0;
+        switch ((scored-100* *centaine)/10) {
+            case 1 :
+                res = 1 ;
+                break;
+            case 2 :
+                res = 2 ;
+                break;
+            case 3 :
+                res = 3 ;
+                break;
+            case 4 :
+                res = 4 ;
+                break;
+            case 5 :
+                res = 5 ;
+                break;
+            case 6 :
+                res = 6 ;
+                break;
+            case 7 :
+                res = 7 ;
+                break;
+            case 8 :
+                res = 8 ;
+                break;
+            case 9 :
+                res = 9 ;
+                break;
+            case 10 :
+                *centaine = *centaine + 1 ;
+                res = 0 ;
+                break;
+        }
+        printf("%d \n",*centaine);
+    return res;
+}
