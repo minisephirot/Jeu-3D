@@ -17,6 +17,7 @@ int gameStart(){
     int i;
     int Lasttime = 0, Time = 0, Lasttime2 = 0, Time2 = 0, Timer = 10;
     int scorejoueur = 0, cd = 100;
+    int centaine = 0 ;
 
     //Position de la camera
     double x, y, z, h;
@@ -97,9 +98,16 @@ int gameStart(){
     GLuint texture6 = loadTexture("texture/thwomp.jpg");
     GLuint texture7 = loadTexture("texture/hud.png");
     GLuint texture8 = loadTexture("texture/cryo.png");
-
-
-
+    GLuint texturen0 = loadTexture("texture/0.png");
+    GLuint texturen1 = loadTexture("texture/1.png");
+    GLuint texturen2 = loadTexture("texture/2.png");
+    GLuint texturen3 = loadTexture("texture/3.png");
+    GLuint texturen4 = loadTexture("texture/4.png");
+    GLuint texturen5 = loadTexture("texture/5.png");
+    GLuint texturen6 = loadTexture("texture/6.png");
+    GLuint texturen7 = loadTexture("texture/7.png");
+    GLuint texturen8 = loadTexture("texture/8.png");
+    GLuint texturen9 = loadTexture("texture/9.png");
 
 
     /************************
@@ -241,8 +249,8 @@ int gameStart(){
             y >= (((cubes[i].y)-TAILLE_CUBES/2)-7) &&
             y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
-                exit=0;
-                choix= gameover();
+                //exit=0;
+                //choix= gameover();
             }
         }
         for (int i=0; i<=nbonus-1; i++)
@@ -320,6 +328,98 @@ int gameStart(){
             glBindTexture(GL_TEXTURE_2D,texture8);
             interface();
           }
+          //Affichage HUD des dizaines et centaines
+
+          //dizaines
+          int dizaines = choixscore(scorejoueur,&centaine) ;
+          if (dizaines == 0) {
+            glBindTexture(GL_TEXTURE_2D,texturen0) ;
+            interface10();
+          }
+          if (dizaines == 1) {
+            glBindTexture(GL_TEXTURE_2D,texturen1) ;
+            interface10();
+          }
+          if (dizaines == 2) {
+            glBindTexture(GL_TEXTURE_2D,texturen2) ;
+            interface10();
+          }
+          if (dizaines == 3) {
+            glBindTexture(GL_TEXTURE_2D,texturen3) ;
+            interface10();
+          }
+          if (dizaines == 4) {
+            glBindTexture(GL_TEXTURE_2D,texturen4) ;
+            interface10();
+          }
+          if (dizaines == 5) {
+            glBindTexture(GL_TEXTURE_2D,texturen5) ;
+            interface10();
+          }
+          if (dizaines == 6) {
+            glBindTexture(GL_TEXTURE_2D,texturen6) ;
+            interface10();
+          }
+          if (dizaines == 7) {
+            glBindTexture(GL_TEXTURE_2D,texturen7) ;
+            interface10();
+          }
+          if (dizaines == 8) {
+            glBindTexture(GL_TEXTURE_2D,texturen8) ;
+            interface10();
+          }
+          if (dizaines == 9) {
+            glBindTexture(GL_TEXTURE_2D,texturen9) ;
+            interface10();
+          }
+          //fin des dizaines
+          //centaines
+          if (centaine == 0) {
+            glBindTexture(GL_TEXTURE_2D,texturen0) ;
+            interface100();
+          }
+          if (centaine == 1) {
+            glBindTexture(GL_TEXTURE_2D,texturen1) ;
+            interface100();
+          }
+          if (centaine == 2) {
+            glBindTexture(GL_TEXTURE_2D,texturen2) ;
+            interface100();
+          }
+          if (centaine == 3) {
+            glBindTexture(GL_TEXTURE_2D,texturen3) ;
+            interface100();
+          }
+          if (centaine == 4) {
+            glBindTexture(GL_TEXTURE_2D,texturen4) ;
+            interface100();
+          }
+          if (centaine == 5) {
+            glBindTexture(GL_TEXTURE_2D,texturen5) ;
+            interface100();
+          }
+          if (centaine == 6) {
+            glBindTexture(GL_TEXTURE_2D,texturen6) ;
+            interface100();
+          }
+          if (centaine == 7) {
+            glBindTexture(GL_TEXTURE_2D,texturen7) ;
+            interface100();
+          }
+          if (centaine == 8) {
+            glBindTexture(GL_TEXTURE_2D,texturen8) ;
+            interface100();
+          }
+          if (centaine == 9) {
+            glBindTexture(GL_TEXTURE_2D,texturen9) ;
+            interface100();
+          }
+          //fin des centaines
+
+
+          glBindTexture(GL_TEXTURE_2D, texturen0 );
+          interface0();
+
           glBindTexture(GL_TEXTURE_2D,texture7);
           interface();
 
