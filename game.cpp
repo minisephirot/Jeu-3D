@@ -249,8 +249,8 @@ int gameStart(){
             y >= (((cubes[i].y)-TAILLE_CUBES/2)-7) &&
             y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
-                //exit=0;
-                //choix= gameover();
+                exit=0;
+                choix= gameover();
             }
         }
         for (int i=0; i<=nbonus-1; i++)
