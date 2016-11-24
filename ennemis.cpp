@@ -35,24 +35,31 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
 		cube[i].y = cube[i].y - 6;
           }
           //---gestion collision intercubes---
+        for (int j=0; j<ncubes; j++) {
+        if (j != i ){
 
-
-          if ((((cube[i-1].x)-TAILLE_CUBES/2)-33) >= (((cube[i].x)-TAILLE_CUBES/2)-33) &&
-            (((cube[i-1].x)+TAILLE_CUBES/2)-33) <= (((cube[i].x)+TAILLE_CUBES/2)+33) &&
-            (((cube[i-1].y)-TAILLE_CUBES/2)-33) >= (((cube[i].y)-TAILLE_CUBES/2)-33) &&
-            (((cube[i-1].y)+TAILLE_CUBES/2)-33) <= (((cube[i].y)+TAILLE_CUBES/2)+33))
+          if ((((cube[i-j].x)-TAILLE_CUBES/2)-33) >= (((cube[i].x)-TAILLE_CUBES/2)-33) &&
+            (((cube[i-j].x)+TAILLE_CUBES/2)-33) <= (((cube[i].x)+TAILLE_CUBES/2)+33) &&
+            (((cube[i-j].y)-TAILLE_CUBES/2)-33) >= (((cube[i].y)-TAILLE_CUBES/2)-33) &&
+            (((cube[i-j].y)+TAILLE_CUBES/2)-33) <= (((cube[i].y)+TAILLE_CUBES/2)+33))
           {
             cube[i].dx *= -1 ;
-            cube[i-1].dx *= -1 ;
+            cube[i-j].dx *= -1 ;
+            cube[i].dy *= -1 ;
+            cube[i-j].dy *= -1 ;
           }
-          if ((((cube[i+1].x)-TAILLE_CUBES/2)-33) >= (((cube[i].x)-TAILLE_CUBES/2)-33) &&
-            (((cube[i+1].x)+TAILLE_CUBES/2)-33) <= (((cube[i].x)+TAILLE_CUBES/2)+33) &&
-            (((cube[i+1].y)-TAILLE_CUBES/2)-33) >= (((cube[i].y)-TAILLE_CUBES/2)-33) &&
-            (((cube[i+1].y)+TAILLE_CUBES/2)-33) <= (((cube[i].y)+TAILLE_CUBES/2)+33))
+          if ((((cube[i+j].x)-TAILLE_CUBES/2)-33) >= (((cube[i].x)-TAILLE_CUBES/2)-33) &&
+            (((cube[i+j].x)+TAILLE_CUBES/2)-33) <= (((cube[i].x)+TAILLE_CUBES/2)+33) &&
+            (((cube[i+j].y)-TAILLE_CUBES/2)-33) >= (((cube[i].y)-TAILLE_CUBES/2)-33) &&
+            (((cube[i+j].y)+TAILLE_CUBES/2)-33) <= (((cube[i].y)+TAILLE_CUBES/2)+33))
           {
             cube[i].dx *= -1 ;
-            cube[i+1].dx *= -1 ;
+            cube[i+j].dx *= -1 ;
+            cube[i].dy *= -1 ;
+            cube[i+j].dy *= -1 ;
           }
+         }
+        }
           //---fin gestion---
 
           glBindTexture(GL_TEXTURE_2D, tex);
