@@ -5,6 +5,23 @@
 #include "accueil.h"
 #include "ennemis.h"
 
+
+void tri(int n, int *tab){
+  int a,i,j,k;
+  for(i=0; i<(n-1); i++){
+    for(j=i+1; j<(n); j++){
+      if(tab[i]<tab[j]){
+        a = tab[i];
+        tab[i] = tab[j];
+        tab[j] = a;
+      }
+    }
+  }
+  
+  for(k = 0; k<(n); k++)
+    printf("%d\n",tab[k]);
+}
+
 int gameStart(){
 
 /*  *****************
@@ -440,8 +457,8 @@ int gameStart(){
 
 
   //---------Debut de sauvgarde---------
+  fichier = fopen("score.txt","r");
   if (fichier != NULL){
-    fichier = fopen("score.txt","r");
     fscanf(fichier,"%d\n%d\n%d\n%d\n%d", &scoretab[0], &scoretab[1],&scoretab[2],&scoretab[3],&scoretab[4]);
     fclose(fichier);
   }
