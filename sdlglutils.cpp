@@ -206,7 +206,7 @@ int XPMFromImage(const char * imagefile, const char * XPMfile)
     Uint32 pixel;
     Uint8 r,g,b,a;
     int x,y;
-    unsigned int w;
+    int w;
     char * xpm_name;
     Uint32 rmask, gmask, bmask, amask;
 
