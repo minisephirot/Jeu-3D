@@ -18,8 +18,6 @@
 
 int main(int argc, char *argv[])
 {
-  freopen( "CON", "w", stdout );
-  freopen( "CON", "w", stderr );
   int choix;
   choix = 1;
   while(choix!=0){

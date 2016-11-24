@@ -6,21 +6,7 @@
 #include "ennemis.h"
 
 
-void tri(int n, int *tab){
-  int a,i,j,k;
-  for(i=0; i<(n-1); i++){
-    for(j=i+1; j<(n); j++){
-      if(tab[i]<tab[j]){
-        a = tab[i];
-        tab[i] = tab[j];
-        tab[j] = a;
-      }
-    }
-  }
-  
-  for(k = 0; k<(n); k++)
-    printf("%d\n",tab[k]);
-}
+
 
 int gameStart(){
 
