@@ -5,8 +5,6 @@
 #include "accueil.h"
 #include "ennemis.h"
 
-
-
 int gameStart(){
 
 /*  *****************
@@ -90,6 +88,7 @@ int gameStart(){
     SDL_WM_SetCaption("JEU", NULL);
     SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier toute les 10ms
 
+    //---------initialisation des textures---------
     glEnable(GL_TEXTURE_2D);
     GLuint texture1 = loadTexture("texture/ciel.jpg");
     GLuint texture2 = loadTexture("texture/mur.jpg");
@@ -110,6 +109,7 @@ int gameStart(){
     GLuint texturen8 = loadTexture("texture/8.png");
     GLuint texturen9 = loadTexture("texture/9.png");
 
+    //---------Fichier sauvegarde---------
     FILE* fichier = NULL;
     int scoretab[6]={0};
 
@@ -127,7 +127,6 @@ int gameStart(){
     while(exit)
     {
 
-    printf("%d %d %f %f %f" "\n",scorejoueur, cd ,x ,y, h);
     //-------Actualisation tout les  10ms---
       Time = SDL_GetTicks();
       if (Time - Lasttime > Timer) {
@@ -438,7 +437,9 @@ int gameStart(){
     /************************
     *      Fin du jeu      *
     ************************/
-  printf("score : %d\n",scorejoueur);
+
+
+  //---------Debut de sauvgarde---------
   if (fichier != NULL){
     fichier = fopen("score.txt","r");
     fscanf(fichier,"%d\n%d\n%d\n%d\n%d", &scoretab[0], &scoretab[1],&scoretab[2],&scoretab[3],&scoretab[4]);
@@ -449,6 +450,7 @@ int gameStart(){
   fichier = fopen("score.txt","w+");
   fprintf(fichier, "%d\n%d\n%d\n%d\n%d\n%d", scoretab[0], scoretab[1],scoretab[2],scoretab[3],scoretab[4],scoretab[5]);
   fclose(fichier);
+  //---------fin de sauvgarde---------
   
 
   return choix;
