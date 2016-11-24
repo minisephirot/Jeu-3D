@@ -255,8 +255,8 @@ int gameStart(){
             y >= (((cubes[i].y)-TAILLE_CUBES/2)-7) &&
             y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
-                exit=0;
-                choix= gameover();
+                //exit=0;
+                //choix= gameover();
             }
         }
         for (int i=0; i<=nbonus-1; i++)
@@ -454,7 +454,7 @@ int gameStart(){
   fprintf(fichier, "%d\n%d\n%d\n%d\n%d\n%d", scoretab[0], scoretab[1],scoretab[2],scoretab[3],scoretab[4],scoretab[5]);
   fclose(fichier);
   //---------fin de sauvgarde---------
-  
+
 
   return choix;
 

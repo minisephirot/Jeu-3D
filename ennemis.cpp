@@ -38,23 +38,43 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
         for (int j=0; j<ncubes; j++) {
         if (j != i ){
 
-          if ((((cube[i-j].x)-TAILLE_CUBES/2)-33) >= (((cube[i].x)-TAILLE_CUBES/2)-33) &&
-            (((cube[i-j].x)+TAILLE_CUBES/2)-33) <= (((cube[i].x)+TAILLE_CUBES/2)+33) &&
-            (((cube[i-j].y)-TAILLE_CUBES/2)-33) >= (((cube[i].y)-TAILLE_CUBES/2)-33) &&
-            (((cube[i-j].y)+TAILLE_CUBES/2)-33) <= (((cube[i].y)+TAILLE_CUBES/2)+33))
+          if ((((cube[i-j].x)-TAILLE_CUBES/2)-27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
+            (((cube[i-j].x)+TAILLE_CUBES/2)-27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
+            (((cube[i-j].y)-TAILLE_CUBES/2)-27) >= (((cube[i].y)-TAILLE_CUBES/2)-27) &&
+            (((cube[i-j].y)+TAILLE_CUBES/2)-27) <= (((cube[i].y)+TAILLE_CUBES/2)+27))
           {
             cube[i].dx *= -1 ;
             cube[i-j].dx *= -1 ;
+            //cube[i].dy *= -1 ;
+            //cube[i-j].dy *= -1 ;
+          }
+          if ((((cube[i-j].x)-TAILLE_CUBES/2)+27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
+            (((cube[i-j].x)+TAILLE_CUBES/2)+27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
+            (((cube[i-j].y)-TAILLE_CUBES/2)+27) >= (((cube[i].y)-TAILLE_CUBES/2)-27) &&
+            (((cube[i-j].y)+TAILLE_CUBES/2)+27) <= (((cube[i].y)+TAILLE_CUBES/2)+27))
+          {
+            //cube[i].dx *= -1 ;
+            //cube[i-j].dx *= -1 ;
             cube[i].dy *= -1 ;
             cube[i-j].dy *= -1 ;
           }
-          if ((((cube[i+j].x)-TAILLE_CUBES/2)-33) >= (((cube[i].x)-TAILLE_CUBES/2)-33) &&
-            (((cube[i+j].x)+TAILLE_CUBES/2)-33) <= (((cube[i].x)+TAILLE_CUBES/2)+33) &&
-            (((cube[i+j].y)-TAILLE_CUBES/2)-33) >= (((cube[i].y)-TAILLE_CUBES/2)-33) &&
-            (((cube[i+j].y)+TAILLE_CUBES/2)-33) <= (((cube[i].y)+TAILLE_CUBES/2)+33))
+          if ((((cube[i+j].x)-TAILLE_CUBES/2)-27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
+            (((cube[i+j].x)+TAILLE_CUBES/2)-27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
+            (((cube[i+j].y)-TAILLE_CUBES/2)-27) >= (((cube[i].y)-TAILLE_CUBES/2)-27) &&
+            (((cube[i+j].y)+TAILLE_CUBES/2)-27) <= (((cube[i].y)+TAILLE_CUBES/2)+27))
           {
             cube[i].dx *= -1 ;
             cube[i+j].dx *= -1 ;
+            //cube[i].dy *= -1 ;
+            //cube[i+j].dy *= -1 ;
+          }
+          if ((((cube[i+j].x)-TAILLE_CUBES/2)+27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
+            (((cube[i+j].x)+TAILLE_CUBES/2)+27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
+            (((cube[i+j].y)-TAILLE_CUBES/2)+27) >= (((cube[i].y)-TAILLE_CUBES/2)-27) &&
+            (((cube[i+j].y)+TAILLE_CUBES/2)+27) <= (((cube[i].y)+TAILLE_CUBES/2)+27))
+          {
+            //cube[i].dx *= -1 ;
+            //cube[i+j].dx *= -1 ;
             cube[i].dy *= -1 ;
             cube[i+j].dy *= -1 ;
           }
