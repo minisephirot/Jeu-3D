@@ -28,5 +28,5 @@ void interface0();
 void interface10();
 void interface100();
 int choixscore(int score, int* centaine);
-//void tri(int n, int tab[n]);
+void tri(int n, int *tab);
 
