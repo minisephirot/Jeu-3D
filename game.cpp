@@ -5,6 +5,21 @@
 #include "accueil.h"
 #include "ennemis.h"
 
+void tri(int n, int *tab){
+  int a,i,j,k;
+  for(i=0; i<(n-1); i++){
+    for(j=i+1; j<(n); j++){
+      if(tab[i]<tab[j]){
+        a = tab[i];
+        tab[i] = tab[j];
+        tab[j] = a;
+      }
+    }
+  }
+  
+  for(k = 0; k<(n); k++)
+    printf("%d\n",tab[k]);
+}
 
 int gameStart(){
 
@@ -108,6 +123,9 @@ int gameStart(){
     GLuint texturen7 = loadTexture("texture/7.png");
     GLuint texturen8 = loadTexture("texture/8.png");
     GLuint texturen9 = loadTexture("texture/9.png");
+
+    FILE* fichier = NULL;
+    int scoretab[6]={0};
 
 
     /************************
@@ -435,12 +453,26 @@ int gameStart(){
     *      Fin du jeu      *
     ************************/
   printf("score : %d\n",scorejoueur);
+  if (fichier != NULL){
+    fichier = fopen("score.txt","r");
+    fscanf(fichier,"%d\n%d\n%d\n%d\n%d", &scoretab[0], &scoretab[1],&scoretab[2],&scoretab[3],&scoretab[4]);
+    fclose(fichier);
+  }
+  scoretab[5]=scorejoueur;
+  tri(6,scoretab);
+  fichier = fopen("score.txt","w+");
+  fprintf(fichier, "%d\n%d\n%d\n%d\n%d\n%d", scoretab[0], scoretab[1],scoretab[2],scoretab[3],scoretab[4],scoretab[5]);
+  fclose(fichier);
+  
+
   return choix;
 
 /****************
  *     Fin      *
  ****************/
 }
+
+
 
 
 

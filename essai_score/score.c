@@ -21,7 +21,7 @@ int main(){
   return 0;
 }
 
-void tri(int n, int tab[n]){
+void tri(int n, int *tab){
   int a,i,j,k;
   for(i=0; i<(n-1); i++){
     for(j=i+1; j<(n); j++){

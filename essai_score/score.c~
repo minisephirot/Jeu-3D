@@ -18,8 +18,6 @@ int main(){
   printf("%d\n%d\n%d\n%d\n%d\n\n", score[0], score[1],score[2],score[3],score[4]);
   tri(5,score);
   fclose(fichier);
-    for(k = 0; k<(5); k++)
-    printf("\n%d\n",score[k]);
   return 0;
 }
 
