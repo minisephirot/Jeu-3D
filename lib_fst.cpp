@@ -402,7 +402,7 @@ int choixscore(int scored, int *centaine){
 }
 
 void tri(int n, int *tab){
-  int a,i,j,k;
+  int a,i,j;
   for(i=0; i<(n-1); i++){
     for(j=i+1; j<(n); j++){
       if(tab[i]<tab[j]){

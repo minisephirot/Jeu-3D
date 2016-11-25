@@ -1,4 +1,5 @@
 #include <math.h>
+#include <SDL_mixer.h>
 #include "game.h"
 #include "lib_fst.h"
 #include "sdlglutils.h"
@@ -17,7 +18,7 @@ int gameStart(){
     // variable annoncant la fin de jeu
     int exit, choix;
     int i;
-    int Lasttime = 0, Time = 0, Lasttime2 = 0, Time2 = 0, Timer = 10;
+    int Lasttime = 0, Time = 0, Timer = 10;
     int scorejoueur = 0, cd = 100;
     int centaine = 0 ;
 
@@ -89,10 +90,12 @@ int gameStart(){
 
     //---------initialisation de la fenetre---------
     sdl3d(800,600, 100);
-    SDL_WM_SetCaption("JEU", NULL);
+    SDL_WM_SetCaption("Arcade : Cube", NULL);
     SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier toute les 10ms
-
-    //---------initialisation des textures---------
+    //Init audio
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 2048);
+    Mix_AllocateChannels(10);
+    //---------initialisation des textures & sons---------
     glEnable(GL_TEXTURE_2D);
     GLuint texture1 = loadTexture("texture/ciel.jpg");
     GLuint texture2 = loadTexture("texture/mur.jpg");
@@ -112,6 +115,15 @@ int gameStart(){
     GLuint texturen7 = loadTexture("texture/7.png");
     GLuint texturen8 = loadTexture("texture/8.png");
     GLuint texturen9 = loadTexture("texture/9.png");
+    Mix_Music *musicbg = Mix_LoadMUS("texture/bomb.mp3");
+    Mix_Chunk *walk = Mix_LoadWAV("texture/grass.wav");
+    Mix_Chunk *ding = Mix_LoadWAV("texture/ding.wav");
+    Mix_Chunk *thwomp = Mix_LoadWAV("texture/thwomp.wav");
+    Mix_FadeInMusic(musicbg, -1,3000);
+    Mix_VolumeMusic(6);
+    Mix_VolumeChunk(walk,10);
+    Mix_VolumeChunk(thwomp,10);
+    Mix_VolumeChunk(ding,10);
 
     //---------Fichier sauvegarde---------
     FILE* fichier = NULL;
@@ -165,7 +177,6 @@ int gameStart(){
           F3 = keystates[SDLK_F3];
           F4 = keystates[SDLK_F4];
 
-
           // Fin du jeu : echap ou fermé
            SDL_Event event;
            SDL_PollEvent(&event);
@@ -187,7 +198,7 @@ int gameStart(){
            }
            if (F3){
             F4 = false;
-            z = 400;           
+            z = 400;
            }
            if (F4){
             F3 = false;
@@ -199,18 +210,22 @@ int gameStart(){
         if (w){
           x += dx;
           y += dy;
+          if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
         }
         if (s){
           x -= dx;
           y -= dy;
+          if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
         }
         if (a){
           x -= dy;
           y += dx;
+          if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
         }
         if (d){
           x += dy;
           y -= dx;
+          if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
         }
         if (fgauche){
           direc=direc+VITESSE_ORIENTATION;
@@ -262,8 +277,9 @@ int gameStart(){
             y >= (((cubes[i].y)-TAILLE_CUBES/2)-7) &&
             y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
-                //exit=0;
-                //choix= gameover();
+                Mix_FadeOutMusic(2000);
+                exit=0;
+                choix= gameover();
             }
         }
         for (int i=0; i<=nbonus-1; i++)
@@ -289,13 +305,10 @@ int gameStart(){
             y >= (((scoring[i].y)-25)-7) &&
             y <= (((scoring[i].y)+25)+7))
             {
-                Time2 = SDL_GetTicks();
-                if (Time2 - Lasttime2 > 1000) {
-                  scorejoueur = (scorejoueur+10);
-                  Lasttime2 = Time2;
-                  scoring[i].x= rand() % ((TAILLE_CUBES*TAILLE_PLATEAU)-80) + (TAILLE_PLATEAU+6);
-                  scoring[i].y= rand() % ((TAILLE_CUBES*TAILLE_PLATEAU)-80) + (TAILLE_PLATEAU+6);
-                }
+                if (Mix_Playing(3) == 0) { Mix_PlayChannel(3, ding, 0); }
+                scorejoueur = (scorejoueur+10);
+                scoring[i].x= rand() % ((TAILLE_CUBES*TAILLE_PLATEAU)-80) + (TAILLE_PLATEAU+6);
+                scoring[i].y= rand() % ((TAILLE_CUBES*TAILLE_PLATEAU)-80) + (TAILLE_PLATEAU+6);
             }
         }
         //---------Fin de la gestion des collisions---------
@@ -307,7 +320,7 @@ int gameStart(){
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
         camera(x,y,z,x+dx,y+dy,20+h); //explication en annexe
 
-        deplcementEnnemis(cubes, ncubes, scorejoueur+100,texture6);
+        deplcementEnnemis(cubes, ncubes, scorejoueur+100,texture6, *thwomp);
         generationbonus(scoring, nbonus, texture5);
 
         //---------Debut Du Plateau & HUD---------
@@ -447,8 +460,11 @@ int gameStart(){
     /************************
     *      Fin du jeu      *
     ************************/
-
-
+  Mix_FreeChunk(walk);
+  Mix_FreeChunk(thwomp);
+  Mix_FreeChunk(ding);
+  Mix_FreeMusic(musicbg);
+  Mix_CloseAudio();
   //---------Debut de sauvgarde---------
   fichier = fopen("score.txt","r");
   if (fichier != NULL){
@@ -461,7 +477,7 @@ int gameStart(){
   fprintf(fichier, "%d\n%d\n%d\n%d\n%d\n%d", scoretab[0], scoretab[1],scoretab[2],scoretab[3],scoretab[4],scoretab[5]);
   fclose(fichier);
   //---------fin de sauvgarde---------
-  
+
 
   return choix;
 
