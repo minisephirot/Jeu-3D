@@ -36,6 +36,7 @@ int gameStart(){
     bool d=false;
     bool azerty = false;
     bool F3 = false;
+    bool F4 = false;
     bool esc=false;
     bool fgauche=false;
     bool fdroite=false;
@@ -162,6 +163,7 @@ int gameStart(){
           fbas = keystates[SDLK_DOWN];
           spc = keystates[SDLK_SPACE];
           F3 = keystates[SDLK_F3];
+          F4 = keystates[SDLK_F4];
 
 
           // Fin du jeu : echap ou fermé
@@ -184,7 +186,12 @@ int gameStart(){
                azerty = true;
            }
            if (F3){
-            z = 400;
+            F4 = false;
+            z = 400;           
+           }
+           if (F4){
+            F3 = false;
+            z = 20;
            }
         //---------Fin Des Events---------
 
@@ -255,8 +262,8 @@ int gameStart(){
             y >= (((cubes[i].y)-TAILLE_CUBES/2)-7) &&
             y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
-                exit=0;
-                choix= gameover();
+                //exit=0;
+                //choix= gameover();
             }
         }
         for (int i=0; i<=nbonus-1; i++)
