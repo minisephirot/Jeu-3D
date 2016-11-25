@@ -1,10 +1,11 @@
 #include <GL/gl.h>
+#include <SDL_mixer.h>
 #include "ennemis.h"
 #include "lib_fst.h"
 #include "sdlglutils.h"
 
 
-void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
+void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex,Mix_Chunk sound)
 {
     double vitesse = scorejoueur / 100.0 ;
 	for (int i=0; i<ncubes; i++) {
@@ -47,6 +48,7 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
             cube[i-j].dx *= -1 ;
             //cube[i].dy *= -1 ;
             //cube[i-j].dy *= -1 ;
+            if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, &sound, 0); }
           }
           if ((((cube[i-j].x)-TAILLE_CUBES/2)+27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
             (((cube[i-j].x)+TAILLE_CUBES/2)+27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
@@ -57,6 +59,7 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
             //cube[i-j].dx *= -1 ;
             cube[i].dy *= -1 ;
             cube[i-j].dy *= -1 ;
+            if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, &sound, 0); }
           }
           if ((((cube[i+j].x)-TAILLE_CUBES/2)-27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
             (((cube[i+j].x)+TAILLE_CUBES/2)-27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
@@ -67,6 +70,7 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
             cube[i+j].dx *= -1 ;
             //cube[i].dy *= -1 ;
             //cube[i+j].dy *= -1 ;
+            if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, &sound, 0); }
           }
           if ((((cube[i+j].x)-TAILLE_CUBES/2)+27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
             (((cube[i+j].x)+TAILLE_CUBES/2)+27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
@@ -77,6 +81,7 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
             //cube[i+j].dx *= -1 ;
             cube[i].dy *= -1 ;
             cube[i+j].dy *= -1 ;
+            if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, &sound, 0); }
           }
          }
         }

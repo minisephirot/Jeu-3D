@@ -30,5 +30,5 @@ class Bonus
 #endif // CLASS
 
 
-void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex);
+void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex,Mix_Chunk sound);
 void generationbonus(Bonus *scoring, int nbonus, GLuint tex);
