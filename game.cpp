@@ -19,7 +19,7 @@ int gameStart(){
     int exit, choix;
     int i;
     int Lasttime = 0, Time = 0, Timer = 10;
-    int scorejoueur = 100, cd = 100;
+    int scorejoueur = 0, cd = 100;
     int centaine = 0 ;
 
     //Position de la camera
@@ -93,7 +93,7 @@ int gameStart(){
     SDL_WM_SetCaption("Arcade : Cube", NULL);
     SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier toute les 10ms
     //Init audio
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 2048);
     Mix_AllocateChannels(10);
     //---------initialisation des textures & sons---------
     glEnable(GL_TEXTURE_2D);
@@ -115,16 +115,15 @@ int gameStart(){
     GLuint texturen7 = loadTexture("texture/7.png");
     GLuint texturen8 = loadTexture("texture/8.png");
     GLuint texturen9 = loadTexture("texture/9.png");
-
     Mix_Music *musicbg = Mix_LoadMUS("texture/bomb.mp3");
     Mix_Chunk *walk = Mix_LoadWAV("texture/grass.wav");
     Mix_Chunk *ding = Mix_LoadWAV("texture/ding.wav");
     Mix_Chunk *thwomp = Mix_LoadWAV("texture/thwomp.wav");
     Mix_FadeInMusic(musicbg, -1,3000);
     Mix_VolumeMusic(6);
-    Mix_VolumeChunk(walk,4);
-    Mix_VolumeChunk(thwomp,5);
-    Mix_VolumeChunk(ding,8);
+    Mix_VolumeChunk(walk,10);
+    Mix_VolumeChunk(thwomp,10);
+    Mix_VolumeChunk(ding,10);
 
     //---------Fichier sauvegarde---------
     FILE* fichier = NULL;
@@ -321,7 +320,7 @@ int gameStart(){
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
         camera(x,y,z,x+dx,y+dy,20+h); //explication en annexe
 
-        deplcementEnnemis(cubes, ncubes, scorejoueur+100,texture6,*thwomp);
+        deplcementEnnemis(cubes, ncubes, scorejoueur+100,texture6, *thwomp);
         generationbonus(scoring, nbonus, texture5);
 
         //---------Debut Du Plateau & HUD---------
@@ -462,6 +461,8 @@ int gameStart(){
     *      Fin du jeu      *
     ************************/
   Mix_FreeChunk(walk);
+  Mix_FreeChunk(thwomp);
+  Mix_FreeChunk(ding);
   Mix_FreeMusic(musicbg);
   Mix_CloseAudio();
   //---------Debut de sauvgarde---------
