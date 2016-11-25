@@ -29,7 +29,10 @@ int main(int argc, char *argv[])
         choix = tuto();
       else
         if(choix == 3)
-          choix = 0;
+          choix = tabDesScores();
+            else
+              if(choix == 4)
+                choix = 0;
   }
 
 
