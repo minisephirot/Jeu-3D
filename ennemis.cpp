@@ -36,6 +36,7 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex,Mix
 		cube[i].y = cube[i].y - 6;
           }
           //---gestion collision intercubes---
+<<<<<<< HEAD
         for (int j=0; j<ncubes; j++) {
         if (j != i ){
 
@@ -82,9 +83,32 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex,Mix
             cube[i].dy *= -1 ;
             cube[i+j].dy *= -1 ;
             if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, &sound, 0); }
+=======
+          for (int j=0; j<ncubes; j++) {
+            if (j != i ){
+              if ((((cube[i-j].x)-TAILLE_CUBES/2)+TAILLE_CUBES/2) >= (((cube[i].x)-TAILLE_CUBES/2)-TAILLE_CUBES/2) &&
+              (((cube[i-j].x)+TAILLE_CUBES/2)-TAILLE_CUBES/2) <= (((cube[i].x)+TAILLE_CUBES/2)+TAILLE_CUBES/2) &&
+              (((cube[i-j].y)-TAILLE_CUBES/2)+TAILLE_CUBES/2) >= (((cube[i].y)-TAILLE_CUBES/2)-TAILLE_CUBES/2) &&
+              (((cube[i-j].y)+TAILLE_CUBES/2)-TAILLE_CUBES/2) <= (((cube[i].y)+TAILLE_CUBES/2)+TAILLE_CUBES/2))
+              {
+                cube[i].dx *= -1 ;
+                cube[i-j].dx *= -1 ;
+                cube[i].dy *= -1 ;
+                cube[i-j].dy *= -1 ;
+              }
+              if ((((cube[i+j].x)-TAILLE_CUBES/2)+TAILLE_CUBES/2) >= (((cube[i].x)-TAILLE_CUBES/2)-TAILLE_CUBES/2) &&
+              (((cube[i+j].x)+TAILLE_CUBES/2)-TAILLE_CUBES/2) <= (((cube[i].x)+TAILLE_CUBES/2)+TAILLE_CUBES/2) &&
+              (((cube[i+j].y)-TAILLE_CUBES/2)+TAILLE_CUBES/2) >= (((cube[i].y)-TAILLE_CUBES/2)-TAILLE_CUBES/2) &&
+              (((cube[i+j].y)+TAILLE_CUBES/2)-TAILLE_CUBES/2) <= (((cube[i].y)+TAILLE_CUBES/2)+TAILLE_CUBES/2))
+              {
+                cube[i].dx *= -1 ;
+                cube[i+j].dx *= -1 ;
+                cube[i].dy *= -1 ;
+                cube[i+j].dy *= -1 ;
+              }
+            }
+>>>>>>> origin/master
           }
-         }
-        }
           //---fin gestion---
 
           glBindTexture(GL_TEXTURE_2D, tex);

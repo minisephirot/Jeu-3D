@@ -177,6 +177,10 @@ int gameStart(){
           spc = keystates[SDLK_SPACE];
           F3 = keystates[SDLK_F3];
           F4 = keystates[SDLK_F4];
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 
           // Fin du jeu : echap ou fermé
            SDL_Event event;
@@ -199,7 +203,15 @@ int gameStart(){
            }
            if (F3){
             F4 = false;
+<<<<<<< HEAD
             z = 400;
+=======
+            z = 400;           
+           }
+           if (F4){
+            F3 = false;
+            z = 20;
+>>>>>>> origin/master
            }
            if (F4){
             F3 = false;
@@ -278,9 +290,14 @@ int gameStart(){
             y >= (((cubes[i].y)-TAILLE_CUBES/2)-7) &&
             y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
+<<<<<<< HEAD
                 Mix_FadeOutMusic(2000);
                 exit=0;
                 choix= gameover();
+=======
+                //exit=0;
+                //choix= gameover();
+>>>>>>> origin/master
             }
         }
         for (int i=0; i<=nbonus-1; i++)
