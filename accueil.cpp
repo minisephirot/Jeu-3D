@@ -271,7 +271,7 @@ int tabDesScores()
 
   SDL_Init(SDL_INIT_VIDEO);
   ecran = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
-  SDL_WM_SetCaption("NOM DU JEU", NULL);
+  SDL_WM_SetCaption("Arcade : Cube", NULL);
 
   position.x = 0;
   position.y = 0;
