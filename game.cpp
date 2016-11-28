@@ -320,7 +320,9 @@ int gameStart(){
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
         camera(x,y,z,x+dx,y+dy,20+h); //explication en annexe
 
-        deplcementEnnemis(cubes, ncubes, scorejoueur+100,texture6, *thwomp);
+        if (deplcementEnnemis(cubes, ncubes, scorejoueur+100,texture6) == 1 ) {
+            if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, thwomp, 0); }
+        }
         generationbonus(scoring, nbonus, texture5);
 
         //---------Debut Du Plateau & HUD---------
