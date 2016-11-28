@@ -38,6 +38,7 @@ int gameStart(){
     bool azerty = false;
     bool F3 = false;
     bool F4 = false;
+    bool player = false;
     bool esc=false;
     bool fgauche=false;
     bool fdroite=false;
@@ -105,6 +106,7 @@ int gameStart(){
     GLuint texture6 = loadTexture("texture/thwomp.jpg");
     GLuint texture7 = loadTexture("texture/hud.png");
     GLuint texture8 = loadTexture("texture/cryo.png");
+    GLuint texture9 = loadTexture("texture/sol.jpg");
     GLuint texturen0 = loadTexture("texture/0.png");
     GLuint texturen1 = loadTexture("texture/1.png");
     GLuint texturen2 = loadTexture("texture/2.png");
@@ -122,7 +124,7 @@ int gameStart(){
     Mix_FadeInMusic(musicbg, -1,3000);
     Mix_VolumeMusic(6);
     Mix_VolumeChunk(walk,10);
-    Mix_VolumeChunk(thwomp,10);
+    Mix_VolumeChunk(thwomp,4);
     Mix_VolumeChunk(ding,10);
 
     //---------Fichier sauvegarde---------
@@ -199,10 +201,12 @@ int gameStart(){
            if (F3){
             F4 = false;
             z = 400;
+            player = true;
            }
            if (F4){
             F3 = false;
             z = 20;
+            player = false;
            }
         //---------Fin Des Events---------
 
@@ -324,6 +328,11 @@ int gameStart(){
             if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, thwomp, 0); }
         }
         generationbonus(scoring, nbonus, texture5);
+
+        if (player) {
+            glBindTexture(GL_TEXTURE_2D,texture9);
+            cube_position(11,x,y,10,0,0,0);
+        }
 
         //---------Debut Du Plateau & HUD---------
 
