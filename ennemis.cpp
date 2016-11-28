@@ -5,8 +5,9 @@
 #include "sdlglutils.h"
 
 
-void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex,Mix_Chunk sound)
+int deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
 {
+    int res = 0;
     double vitesse = scorejoueur / 100.0 ;
 	for (int i=0; i<ncubes; i++) {
       //---------Géstion des Ennemis---------
@@ -36,7 +37,7 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex,Mix
 		cube[i].y = cube[i].y - 6;
           }
           //---gestion collision intercubes---
-        for (int j=0; j<ncubes; j++) {
+        for (int j=i+1; j<ncubes; j++) {
         if (j != i ){
 
           if ((((cube[i-j].x)-TAILLE_CUBES/2)-27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
@@ -46,20 +47,16 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex,Mix
           {
             cube[i].dx *= -1 ;
             cube[i-j].dx *= -1 ;
-            //cube[i].dy *= -1 ;
-            //cube[i-j].dy *= -1 ;
-            if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, &sound, 0); }
+            res = 1;
           }
           if ((((cube[i-j].x)-TAILLE_CUBES/2)+27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
             (((cube[i-j].x)+TAILLE_CUBES/2)+27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
             (((cube[i-j].y)-TAILLE_CUBES/2)+27) >= (((cube[i].y)-TAILLE_CUBES/2)-27) &&
             (((cube[i-j].y)+TAILLE_CUBES/2)+27) <= (((cube[i].y)+TAILLE_CUBES/2)+27))
           {
-            //cube[i].dx *= -1 ;
-            //cube[i-j].dx *= -1 ;
             cube[i].dy *= -1 ;
             cube[i-j].dy *= -1 ;
-            if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, &sound, 0); }
+            res = 1;
           }
           if ((((cube[i+j].x)-TAILLE_CUBES/2)-27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
             (((cube[i+j].x)+TAILLE_CUBES/2)-27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
@@ -68,20 +65,16 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex,Mix
           {
             cube[i].dx *= -1 ;
             cube[i+j].dx *= -1 ;
-            //cube[i].dy *= -1 ;
-            //cube[i+j].dy *= -1 ;
-            if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, &sound, 0); }
+            res = 1;
           }
           if ((((cube[i+j].x)-TAILLE_CUBES/2)+27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
             (((cube[i+j].x)+TAILLE_CUBES/2)+27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
             (((cube[i+j].y)-TAILLE_CUBES/2)+27) >= (((cube[i].y)-TAILLE_CUBES/2)-27) &&
             (((cube[i+j].y)+TAILLE_CUBES/2)+27) <= (((cube[i].y)+TAILLE_CUBES/2)+27))
           {
-            //cube[i].dx *= -1 ;
-            //cube[i+j].dx *= -1 ;
             cube[i].dy *= -1 ;
             cube[i+j].dy *= -1 ;
-            if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, &sound, 0); }
+            res = 1;
           }
          }
         }
@@ -93,6 +86,7 @@ void deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex,Mix
 	}
       //---------Fin de géstion---------
       //**************************************
+      return res;
 }
 
 
