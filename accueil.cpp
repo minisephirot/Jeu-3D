@@ -1,4 +1,4 @@
-#include <SDL/SDL_mixer.h>
+//#include <SDL/SDL_mixer.h>
 #include "accueil.h"
 
 int menu(){
@@ -206,9 +206,9 @@ int gameover()
   SDL_Init(SDL_INIT_VIDEO);
   ecran = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
   SDL_WM_SetCaption("Arcade : Cube", NULL);
-  Mix_Chunk *fail = Mix_LoadWAV("texture/fail.wav");
-  Mix_VolumeChunk(fail,6);
-  Mix_PlayChannel(1, fail, 0);
+  //Mix_Chunk *fail = Mix_LoadWAV("texture/fail.wav");
+  //Mix_VolumeChunk(fail,6);
+  //Mix_PlayChannel(1, fail, 0);
   position.x = 0;
   position.y = 0;
 
