@@ -1,5 +1,5 @@
 #include <math.h>
-#include <SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 #include "game.h"
 #include "lib_fst.h"
 #include "sdlglutils.h"

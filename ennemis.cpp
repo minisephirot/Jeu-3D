@@ -1,5 +1,5 @@
 #include <GL/gl.h>
-#include <SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 #include "ennemis.h"
 #include "lib_fst.h"
 #include "sdlglutils.h"
@@ -39,38 +39,37 @@ int deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
           //---gestion collision intercubes---
         for (int j=i+1; j<ncubes; j++) {
         if (j != i ){
-
-          if ((((cube[i-j].x)-TAILLE_CUBES/2)-27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
-            (((cube[i-j].x)+TAILLE_CUBES/2)-27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
-            (((cube[i-j].y)-TAILLE_CUBES/2)-27) >= (((cube[i].y)-TAILLE_CUBES/2)-27) &&
-            (((cube[i-j].y)+TAILLE_CUBES/2)-27) <= (((cube[i].y)+TAILLE_CUBES/2)+27))
+          if ((cube[i-j].x-TAILLE_CUBES+5) >= (cube[i].x-TAILLE_CUBES+5) &&
+              (cube[i-j].x) <= (cube[i].x+TAILLE_CUBES+5) &&
+              (cube[i-j].y-TAILLE_CUBES+5) >= (cube[i].y-TAILLE_CUBES+5) &&
+              (cube[i-j].y) <= (cube[i].y+TAILLE_CUBES+5))
           {
             cube[i].dx *= -1 ;
             cube[i-j].dx *= -1 ;
             res = 1;
           }
-          if ((((cube[i-j].x)-TAILLE_CUBES/2)+27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
-            (((cube[i-j].x)+TAILLE_CUBES/2)+27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
-            (((cube[i-j].y)-TAILLE_CUBES/2)+27) >= (((cube[i].y)-TAILLE_CUBES/2)-27) &&
-            (((cube[i-j].y)+TAILLE_CUBES/2)+27) <= (((cube[i].y)+TAILLE_CUBES/2)+27))
+          if ((cube[i-j].x) >= (cube[i].x-TAILLE_CUBES+5) &&
+             (cube[i-j].x+TAILLE_CUBES+5) <= (cube[i].x+TAILLE_CUBES+5) &&
+             (cube[i-j].y) >= (cube[i].y-TAILLE_CUBES+5) &&
+             (cube[i-j].y+TAILLE_CUBES+5) <= (cube[i].y+TAILLE_CUBES+5))
           {
             cube[i].dy *= -1 ;
             cube[i-j].dy *= -1 ;
             res = 1;
           }
-          if ((((cube[i+j].x)-TAILLE_CUBES/2)-27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
-            (((cube[i+j].x)+TAILLE_CUBES/2)-27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
-            (((cube[i+j].y)-TAILLE_CUBES/2)-27) >= (((cube[i].y)-TAILLE_CUBES/2)-27) &&
-            (((cube[i+j].y)+TAILLE_CUBES/2)-27) <= (((cube[i].y)+TAILLE_CUBES/2)+27))
+          if ((cube[i+j].x-TAILLE_CUBES+5) >= (cube[i].x-TAILLE_CUBES+5) &&
+             (cube[i+j].x) <= (cube[i].x+TAILLE_CUBES+5) &&
+             (cube[i+j].y-TAILLE_CUBES+5) >= (cube[i].y-TAILLE_CUBES+5) &&
+             (cube[i+j].y) <= (cube[i].y+TAILLE_CUBES+5))
           {
             cube[i].dx *= -1 ;
             cube[i+j].dx *= -1 ;
             res = 1;
           }
-          if ((((cube[i+j].x)-TAILLE_CUBES/2)+27) >= (((cube[i].x)-TAILLE_CUBES/2)-27) &&
-            (((cube[i+j].x)+TAILLE_CUBES/2)+27) <= (((cube[i].x)+TAILLE_CUBES/2)+27) &&
-            (((cube[i+j].y)-TAILLE_CUBES/2)+27) >= (((cube[i].y)-TAILLE_CUBES/2)-27) &&
-            (((cube[i+j].y)+TAILLE_CUBES/2)+27) <= (((cube[i].y)+TAILLE_CUBES/2)+27))
+          if ((cube[i+j].x) >= (cube[i].x-TAILLE_CUBES+5) &&
+              (cube[i+j].x+TAILLE_CUBES+5) <= (cube[i].x+TAILLE_CUBES+5) &&
+              (cube[i+j].y) >= (cube[i].y-TAILLE_CUBES+5) &&
+              (cube[i+j].y+TAILLE_CUBES+5) <= (cube[i].y+TAILLE_CUBES+5))
           {
             cube[i].dy *= -1 ;
             cube[i+j].dy *= -1 ;
@@ -91,13 +90,21 @@ int deplcementEnnemis(Ennemis *cube, int ncubes, int scorejoueur,GLuint tex)
 
 
 
-void generationbonus(Bonus *scoring, int nbonus, GLuint tex){
-
+void generationbonus(Bonus *scoring, int nbonus, GLuint tex)
+{
  for (int i=0; i<nbonus; i++) {
-
-
-     glBindTexture(GL_TEXTURE_2D, tex);
-     sphere_position(scoring[i].x,scoring[i].y,scoring[i].z);
-
-	}
+   glBindTexture(GL_TEXTURE_2D, tex);
+   sphere_position(scoring[i].x,scoring[i].y,scoring[i].z);
+  }
 }
+/*
+      a = (cube[i-j].x) >= (cube[i].x-TAILLE_CUBES) &&
+          (cube[i-j].x) <= (cube[i].x+TAILLE_CUBES) &&
+          (cube[i-j].y) >= (cube[i].y-TAILLE_CUBES) &&
+          (cube[i-j].y) <= (cube[i].y+TAILLE_CUBES);
+
+      b = (cube[i+j].x) >= (cube[i].x-TAILLE_CUBES) &&
+          (cube[i+j].x) <= (cube[i].x+TAILLE_CUBES) &&
+          (cube[i+j].y) >= (cube[i].y-TAILLE_CUBES) &&
+          (cube[i+j].y) <= (cube[i].y+TAILLE_CUBES);
+*/

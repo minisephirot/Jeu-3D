@@ -1,4 +1,4 @@
-#include <SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 #include "accueil.h"
 
 int menu(){
