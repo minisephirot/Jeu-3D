@@ -1,5 +1,4 @@
 #include <GL/gl.h>
-#include <SDL/SDL_mixer.h>
 #include "ennemis.h"
 #include "lib_fst.h"
 #include "sdlglutils.h"
