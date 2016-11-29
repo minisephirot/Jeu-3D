@@ -1,5 +1,5 @@
 #include <math.h>
-#include <SDL/SDL_mixer.h>
+//#include <SDL/SDL_mixer.h>
 #include "game.h"
 #include "lib_fst.h"
 #include "sdlglutils.h"
@@ -94,8 +94,8 @@ int gameStart(){
     SDL_WM_SetCaption("Arcade : Cube", NULL);
     SDL_EnableKeyRepeat(10, 10); //Permet la répétition des entrées de clavier toute les 10ms
     //Init audio
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 2048);
-    Mix_AllocateChannels(10);
+    //Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 2048);
+    //Mix_AllocateChannels(10);
     //---------initialisation des textures & sons---------
     glEnable(GL_TEXTURE_2D);
     GLuint texture1 = loadTexture("texture/ciel.jpg");
@@ -117,15 +117,15 @@ int gameStart(){
     GLuint texturen7 = loadTexture("texture/7.png");
     GLuint texturen8 = loadTexture("texture/8.png");
     GLuint texturen9 = loadTexture("texture/9.png");
-    Mix_Music *musicbg = Mix_LoadMUS("texture/bomb.mp3");
-    Mix_Chunk *walk = Mix_LoadWAV("texture/grass.wav");
-    Mix_Chunk *ding = Mix_LoadWAV("texture/ding.wav");
-    Mix_Chunk *thwomp = Mix_LoadWAV("texture/thwomp.wav");
-    Mix_FadeInMusic(musicbg, -1,3000);
-    Mix_VolumeMusic(6);
-    Mix_VolumeChunk(walk,10);
-    Mix_VolumeChunk(thwomp,4);
-    Mix_VolumeChunk(ding,10);
+    //Mix_Music *musicbg = Mix_LoadMUS("texture/bomb.mp3");
+    //Mix_Chunk *walk = Mix_LoadWAV("texture/grass.wav");
+    //Mix_Chunk *ding = Mix_LoadWAV("texture/ding.wav");
+    //Mix_Chunk *thwomp = Mix_LoadWAV("texture/thwomp.wav");
+    //Mix_FadeInMusic(musicbg, -1,3000);
+    //Mix_VolumeMusic(6);
+    //Mix_VolumeChunk(walk,10);
+    //Mix_VolumeChunk(thwomp,4);
+    //Mix_VolumeChunk(ding,10);
 
     //---------Fichier sauvegarde---------
     FILE* fichier = NULL;
@@ -214,22 +214,22 @@ int gameStart(){
         if (w){
           x += dx;
           y += dy;
-          if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
+          //if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
         }
         if (s){
           x -= dx;
           y -= dy;
-          if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
+          //if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
         }
         if (a){
           x -= dy;
           y += dx;
-          if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
+          //if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
         }
         if (d){
           x += dy;
           y -= dx;
-          if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
+          //if (Mix_Playing(1) == 0) { Mix_PlayChannel(1, walk, 0); }
         }
         if (fgauche){
           direc=direc+VITESSE_ORIENTATION;
@@ -281,7 +281,7 @@ int gameStart(){
             y >= (((cubes[i].y)-TAILLE_CUBES/2)-7) &&
             y <= (((cubes[i].y)+TAILLE_CUBES/2)+7))
             {
-                Mix_FadeOutMusic(2000);
+                //Mix_FadeOutMusic(2000);
                 exit=0;
                 choix= gameover();
             }
@@ -309,7 +309,7 @@ int gameStart(){
             y >= (((scoring[i].y)-25)-7) &&
             y <= (((scoring[i].y)+25)+7))
             {
-                if (Mix_Playing(3) == 0) { Mix_PlayChannel(3, ding, 0); }
+                //if (Mix_Playing(3) == 0) { Mix_PlayChannel(3, ding, 0); }
                 scorejoueur = (scorejoueur+10);
                 scoring[i].x= rand() % ((TAILLE_CUBES*TAILLE_PLATEAU)-80) + (TAILLE_PLATEAU+6);
                 scoring[i].y= rand() % ((TAILLE_CUBES*TAILLE_PLATEAU)-80) + (TAILLE_PLATEAU+6);
@@ -325,7 +325,7 @@ int gameStart(){
         camera(x,y,z,x+dx,y+dy,20+h); //explication en annexe
 
         if (deplcementEnnemis(cubes, ncubes, scorejoueur+100,texture6) == 1 ) {
-            if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, thwomp, 0); }
+            //if (Mix_Playing(2) == 0) { Mix_PlayChannel(2, thwomp, 0); }
         }
         generationbonus(scoring, nbonus, texture5);
 
@@ -471,11 +471,11 @@ int gameStart(){
     /************************
     *      Fin du jeu      *
     ************************/
-  Mix_FreeChunk(walk);
-  Mix_FreeChunk(thwomp);
-  Mix_FreeChunk(ding);
-  Mix_FreeMusic(musicbg);
-  Mix_CloseAudio();
+  //Mix_FreeChunk(walk);
+  //Mix_FreeChunk(thwomp);
+  //Mix_FreeChunk(ding);
+  //Mix_FreeMusic(musicbg);
+  //Mix_CloseAudio();
   //---------Debut de sauvgarde---------
   fichier = fopen("score.txt","r");
   if (fichier != NULL){
