@@ -51,7 +51,7 @@ GLuint loadTexture(const char * filename,bool useMipMap)
     glBindTexture(GL_TEXTURE_2D, glID);
 
 
-    if (useMipMap)
+    if (useMipMap) // gluBuild2DMipmaps est outdated et provoque des erreurs ("never use this" sur opengl.org)
     {
 
         gluBuild2DMipmaps(GL_TEXTURE_2D, 4, gl_fliped_surface->w,
