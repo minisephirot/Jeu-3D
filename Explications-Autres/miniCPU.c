@@ -1,25 +1,25 @@
 /*
  * -------------------------- TP du module Archi1 -------------------------
  *
- * ATTENTION : un outil de détection de plagiat logiciel sera utilisé lors de la correction,
- * vous avez donc tout intérêt à effectuer un travail PERSONNEL
+ * ATTENTION : un outil de dÃ©tection de plagiat logiciel sera utilisÃ© lors de la correction,
+ * vous avez donc tout intÃ©rÃªt Ã  effectuer un travail PERSONNEL
  *
- * Un mot/registre de 10 à 30 bits est représenté par un tableau d'entiers égaux à 0 ou 1.
- * Une ALSU est représentée par une structure ALSU, avec registre accumulateur
- * et registre d'état.
- * Un CPU (très très simplifié) est représenté par une ALSU et quelques registres
- * nécessaires pour stocker les résultats intermédiaires.
+ * Un mot/registre de 10 Ã  30 bits est reprÃ©sentÃ© par un tableau d'entiers Ã©gaux Ã  0 ou 1.
+ * Une ALSU est reprÃ©sentÃ©e par une structure ALSU, avec registre accumulateur
+ * et registre d'Ã©tat.
+ * Un CPU (trÃ¨s trÃ¨s simplifiÃ©) est reprÃ©sentÃ© par une ALSU et quelques registres
+ * nÃ©cessaires pour stocker les rÃ©sultats intermÃ©diaires.
  *
- * Certaines fonctions vous sont fournies, d'autres sont à implanter ou à compléter,
- * de préférence dans l'ordre où eles sont indiquées.
- * Il vous est fortement conseillé de lire attentivement l'ensemble des commentaires.
+ * Certaines fonctions vous sont fournies, d'autres sont Ã  implanter ou Ã  complÃ©ter,
+ * de prÃ©fÃ©rence dans l'ordre oÃ¹ eles sont indiquÃ©es.
+ * Il vous est fortement conseillÃ© de lire attentivement l'ensemble des commentaires.
  *
- * Parmi les opérations arithmétiques et logiques, seules 4 opérations de base sont
- * directement fournies par l'ALSU, les autres doivent être décrites comme des algorithmes
- * travaillant à l'aide des opérateurs de base de l'ALSU simplifiée et pouvant utiliser les
+ * Parmi les opÃ©rations arithmÃ©tiques et logiques, seules 4 opÃ©rations de base sont
+ * directement fournies par l'ALSU, les autres doivent Ãªtre dÃ©crites comme des algorithmes
+ * travaillant Ã  l'aide des opÃ©rateurs de base de l'ALSU simplifiÃ©e et pouvant utiliser les
  * registres du CPU.
  *
- * La fonction main() vous permet de tester au fur et à mesure les fonctions que vous implantez.
+ * La fonction main() vous permet de tester au fur et Ã  mesure les fonctions que vous implantez.
  *
  * ----------------------------------------------------------------------------------------------
  *
@@ -31,7 +31,7 @@
 #include <math.h>
 
 /////////////////////////////////////////////////////////
-// définition de types
+// dÃ©finition de types
 /////////////////////////////////////////////////////////
 
 typedef struct {
@@ -56,7 +56,7 @@ typedef struct {
 /////////////////////////////////////////////////////////
 
 /*
- * allocation d'un mot/registre entier de 10 à 30 bits initialisé à 0
+ * allocation d'un mot/registre entier de 10 Ã  30 bits initialisÃ© Ã  0
  */
 Register reg(int size) {
   Register R;
@@ -72,11 +72,11 @@ Register reg(int size) {
 }
 
 /*
- * Initialisation du mot (mot de 10 à 30 bits, codant un entier en Cà2) avec une valeur entière.
+ * Initialisation du mot (mot de 10 Ã  30 bits, codant un entier en CÃ 2) avec une valeur entiÃ¨re.
  */
 void setValue(Register R,int n) {
-  int premier1 = 0; // Booléen qui s'active au premier 1
-  int premier1intact = 0; // Booléen qui s'active quand on a skip le premier 1
+  int premier1 = 0; // BoolÃ©en qui s'active au premier 1
+  int premier1intact = 0; // BoolÃ©en qui s'active quand on a skip le premier 1
   int i = 0;
   if (n >= 0) {
     while(R.size != i) {
@@ -93,18 +93,18 @@ void setValue(Register R,int n) {
 
         if (R.word[i] == 1 && premier1 == 0) {premier1 = 1;} // activation bool detection du premier 1
 
-        if (premier1 == 1 && premier1intact == 1) { // Si on a détecter le premier un est vrai et qu'on l'as passé, alors on commence a inverser
+        if (premier1 == 1 && premier1intact == 1) { // Si on a dÃ©tecter le premier un est vrai et qu'on l'as passÃ©, alors on commence a inverser
         if (R.word[i] == 1) {R.word[i] = 0;}
         else {R.word[i] = 1;} // bit 0 devient 1
         }
-        if (premier1 == 1 && premier1intact == 0) { premier1intact = 1;} // passage au suivant après le premier 1
+        if (premier1 == 1 && premier1intact == 0) { premier1intact = 1;} // passage au suivant aprÃ¨s le premier 1
         i++ ;
     }
   }
 }
 
 /*
- * instanciation d'un mot de 10 à 30 bits initialisé avec la valeur n
+ * instanciation d'un mot de 10 Ã  30 bits initialisÃ© avec la valeur n
  */
 Register initR(int size,int n) {
   Register R=reg(size);
@@ -113,11 +113,9 @@ Register initR(int size,int n) {
 }
 
 /*
- * Initialisation du mot (mot de 10 à 30 bits) par recopie des bits du mot en paramètre.
+ * Initialisation du mot (mot de 10 Ã  30 bits) par recopie des bits du mot en paramÃ¨tre.
  */
 void copyValue(Register R,Register src) {
-  // DEMANDER AU PROF SI OK
-  reg(src.size);
   int i = 0;
   while(R.size != i) {
     R.word[i] = src.word[i] ;
@@ -126,11 +124,10 @@ void copyValue(Register R,Register src) {
 }
 
 /*
- * instanciation d'un mot de 10 à 30 bits initialisé par recopie d'un mot
+ * instanciation d'un mot de 10 Ã  30 bits initialisÃ© par recopie d'un mot
  */
 Register copyRegister(Register R) {
-  Register C;
-  C.size = R.size;
+  Register C = reg(R.size);
   int i = 0;
   while(R.size != i) {
     C.word[i] = R.word[i] ;
@@ -166,7 +163,7 @@ CPU initCPU(int size) {
 /////////////////////////////////////////////////////////
 
 /*
- * Retourne la valeur entière signée représentée par le mot (complément à 2).
+ * Retourne la valeur entiÃ¨re signÃ©e reprÃ©sentÃ©e par le mot (complÃ©ment Ã  2).
  */
 int intValue(Register R) {
   int i = 0;
@@ -195,7 +192,7 @@ int intValue(Register R) {
 }
 
 /*
- * Retourne une chaîne de caractères décrivant les 10 à 30 bits
+ * Retourne une chaÃ®ne de caractÃ¨res dÃ©crivant les 10 Ã  30 bits
  */
 char* toString(Register R) {
   int i,j=0;
@@ -209,7 +206,7 @@ char* toString(Register R) {
 }
 
 /*
- * Retourne l'écriture des indicateurs associés à l'ALSU.
+ * Retourne l'Ã©criture des indicateurs associÃ©s Ã  l'ALSU.
  */
 char* flagsToString(ALSU alsu) {
   char *string=(char*)malloc(10*sizeof(char));
@@ -218,46 +215,78 @@ char* flagsToString(ALSU alsu) {
 }
 
 /*
- * affiche à l'écran le contenu d'une ALSU
+ * affiche Ã  l'Ã©cran le contenu d'une ALSU
  */
 void printing(ALSU alsu) {
-  // à implanter
+  printf("Le registre de l'ALSU contient %s \nce qui correspond a %d et subit %s  flags\n" , toString(alsu.accu) , intValue(alsu.accu) , flagsToString(alsu) ); 
 }
 
 /////////////////////////////////////////////////////////
-// fonctions de manipulations élémentaires
+// fonctions de manipulations Ã©lÃ©mentaires
 /////////////////////////////////////////////////////////
 
 /*
- * Positionne l'indicateur Z en fonction de l'état de l'accumulateur
+ * Positionne l'indicateur Z en fonction de l'Ã©tat de l'accumulateur
  */
 void setZ(ALSU alsu) {
-  // à compléter
+  int resval0=1;
+  int stop=0;
+  int i=0;
+  while (alsu.accu.size != i && stop == 0) {
+    if (alsu.accu.word[i] == 1) {resval0 = 0; stop = 1;}
+    i++ ;
+  }
+  if ( resval0 == 1 ) {
+    alsu.flags[0] = 1 ;
+    printf("la valeur de l'accu vaut 0, Z est passÃ© Ã  1\n");
+  }
+  else { alsu.flags[0] = 0 ;printf("la valeur de l'accu ne vaut pas 0, Z est passÃ© Ã  0\n");} // si la valeur du mot != 0 , Z vaut 0
+}
+
+void setN(ALSU alsu) {
+  if (alsu.accu.word[(alsu.accu.size)-1] == 1) {alsu.flags[3] = 1;}
+  else {alsu.flags[3] = 0;} //si le bit de poids fort est = 0, N=0
 }
 
 /////////////////////////////////////////////////////////
-// opérateurs de base de l'ALSU
+// opÃ©rateurs de base de l'ALSU
 /////////////////////////////////////////////////////////
 
 /*
- * Stocke le paramètre dans le registre accumulateur
+ * Stocke le paramÃ¨tre dans le registre accumulateur
  */
 void pass(ALSU alsu,Register B) {
-  // à compléter
+  copyValue(alsu.accu,B);
+  setZ(alsu); // S'occupe de Z
+  alsu.flags[1] = 0; //Dans un pass pas de retenue
+  alsu.flags[2] = 0; // Dans un pass pas d'overflow
+  setN(alsu);
 }
 
 /*
- * Effectue un NAND (NON-ET) entre le contenu de l'accumulateur et le paramètre.
+ * Effectue un NAND (NON-ET) entre le contenu de l'accumulateur et le paramÃ¨tre.
  */
 void nand(ALSU alsu,Register B) {
-  // à compléter
+  int i = 0;
+  while (alsu.accu.size != i){
+    if (alsu.accu.word[i] == 1 && B.word[i] == 1) {alsu.accu.word[i] = 0;}
+    else {alsu.accu.word[i] = 1;}
+  }
+  setZ(alsu);
+  setN(alsu);
 }
 
 /*
- * Décale le contenu de l'accumulateur de 1 bit vers la droite
+ * DÃ©cale le contenu de l'accumulateur de 1 bit vers la droite
  */
 void shift(ALSU alsu) {
-  // à compléter
+  int i = 1;
+  while (alsu.accu.size != i){
+    alsu.accu.word[i-1] = alsu.accu.word[i];
+    i++;
+  }
+  alsu.accu.word[(alsu.accu.size)-1] = 0;
+  setZ(alsu);
 }
 
 /*
@@ -266,34 +295,34 @@ void shift(ALSU alsu) {
  */
 int* fullAdder(int a,int b,int cin) {
   int* res=(int*)malloc(2*sizeof(int));
-  // à compléter
+  // Ã  complÃ©ter
   return res;
 }
 
 /*
- * Additionne le paramètre au contenu de l'accumulateur (addition entière Cà2).
- * Les indicateurs sont positionnés conformément au résultat de l'opération.
+ * Additionne le paramÃ¨tre au contenu de l'accumulateur (addition entiÃ¨re CÃ 2).
+ * Les indicateurs sont positionnÃ©s conformÃ©ment au rÃ©sultat de l'opÃ©ration.
  */
 void add(ALSU alsu,Register B) {
-  // à compléter
+  // Ã  complÃ©ter
 }
 
 ////////////////////////////////////////////////////////////////////
-// Opérations logiques :
+// OpÃ©rations logiques :
 ////////////////////////////////////////////////////////////////////
 
 /*
- * Négation.
+ * NÃ©gation.
  */
 void not(CPU cpu){
-  // à compléter
+  // Ã  complÃ©ter
 }
 
 /*
  * Et.
  */
 void and(CPU cpu,Register B) {
-  // à compléter
+  // Ã  complÃ©ter
 }
 
 
@@ -301,50 +330,50 @@ void and(CPU cpu,Register B) {
  * Ou.
  */
 void or(CPU cpu,Register B) {
-  // à compléter
+  // Ã  complÃ©ter
 }
 
 /*
  * Xor.
  */
 void xor(CPU cpu,Register B) {
-  // à compléter
+  // Ã  complÃ©ter
 }
 
 /*
- * Décale le receveur de |n| positions.
- * Le décalage s'effectue vers la gauche si n>0 vers la droite dans le cas contraire.
- * C'est un décalage logique (pas de report du bit de signe dans les positions
- * libérées en cas de décalage à droite).
- * Les indicateurs sont positionnés avec le dernier bit "perdu".
+ * DÃ©cale le receveur de |n| positions.
+ * Le dÃ©calage s'effectue vers la gauche si n>0 vers la droite dans le cas contraire.
+ * C'est un dÃ©calage logique (pas de report du bit de signe dans les positions
+ * libÃ©rÃ©es en cas de dÃ©calage Ã  droite).
+ * Les indicateurs sont positionnÃ©s avec le dernier bit "perdu".
  */
 void logicalShift(CPU cpu,int n) {
-  // à compléter
+  // Ã  complÃ©ter
 }
 
 /////////////////////////////////////////////////////////
-// Opérations arithmétiques entières
+// OpÃ©rations arithmÃ©tiques entiÃ¨res
 /////////////////////////////////////////////////////////
 
 /*
- * Opposé.
+ * OpposÃ©.
  */
 void opp(CPU cpu) {
-  // à compléter
+  // Ã  complÃ©ter
 }
 
 /*
  * Soustraction.
  */
 void sub(CPU cpu,Register B) {
-  // à compléter
+  // Ã  complÃ©ter
 }
 
 /*
  * Multiplication.
  */
 void mul(CPU cpu,Register B) {
-  // à compléter
+  // Ã  complÃ©ter
 }
 
 /////////////////////////////////////////////////////////
@@ -353,12 +382,11 @@ void mul(CPU cpu,Register B) {
 
 int main(int argc,char *argv[]) {
 
-  // Champs privés
+  // Champs privÃ©s
 
   Register operand;
   ALSU alsu;
   CPU cpu;
-
   int chosenInt,integer ;
   int go_on = 1 ;
 
@@ -372,7 +400,6 @@ int main(int argc,char *argv[]) {
   operand=reg(20);
   cpu=initCPU(20);
   alsu=cpu.alsu;
-
   while (go_on==1) {
     printf("%s",invite);
     scanf("%d",&chosenInt);
@@ -388,6 +415,7 @@ int main(int argc,char *argv[]) {
       break ;
     case 2 :
       pass(alsu,operand);
+      printf("OK \n");
       break ;
     case 3 :
       printing(alsu);
@@ -456,6 +484,3 @@ int main(int argc,char *argv[]) {
   printf("Au revoir et a bientot\n");
   return 0;
 }
-
-
-
