@@ -142,7 +142,8 @@ Register copyRegister(Register R) {
 ALSU initALSU(int size) {
   ALSU res;
   res.accu=reg(size);
-  res.flags=(int*)malloc(4*sizeof(int));
+  res.flags=(int*)calloc(4,sizeof(int));// J'ai modifié le malloc en calloc car si l'on fesait un printing de l'alsu, le fait que les flags soient seulement alloué en mémoire fesait planter la fonction.
+  res.flags[0] = 1 ; // voir le commentaire au dessus.
   return res;
 }
 
@@ -218,7 +219,7 @@ char* flagsToString(ALSU alsu) {
  * affiche à l'écran le contenu d'une ALSU
  */
 void printing(ALSU alsu) {
-  printf("Le registre de l'ALSU contient %s \nce qui correspond a %d et subit %s  flags\n" , toString(alsu.accu) , intValue(alsu.accu) , flagsToString(alsu) ); 
+    printf("Le registre de l'ALSU vaut %s \nce qui correspond a %d et contient %s  flags\n" , toString(alsu.accu) , intValue(alsu.accu) , flagsToString(alsu) );
 }
 
 /////////////////////////////////////////////////////////
@@ -238,14 +239,22 @@ void setZ(ALSU alsu) {
   }
   if ( resval0 == 1 ) {
     alsu.flags[0] = 1 ;
-    printf("la valeur de l'accu vaut 0, Z est passé à 1\n");
+    printf("la valeur de l'accu vaut 0, Z = 1\n");
   }
-  else { alsu.flags[0] = 0 ;printf("la valeur de l'accu ne vaut pas 0, Z est passé à 0\n");} // si la valeur du mot != 0 , Z vaut 0
+  else { alsu.flags[0] = 0 ;printf("la valeur de l'accu ne vaut pas 0, Z = 0\n");} // si la valeur du mot != 0 , Z vaut 0
 }
-
+/*
+ * Positionne l'indicateur N en fonction de l'état de l'accumulateur
+ */
 void setN(ALSU alsu) {
-  if (alsu.accu.word[(alsu.accu.size)-1] == 1) {alsu.flags[3] = 1;}
-  else {alsu.flags[3] = 0;} //si le bit de poids fort est = 0, N=0
+  if (alsu.accu.word[(alsu.accu.size)-1] == 1) {
+    alsu.flags[3] = 1;
+    printf("la valeur de l'accu est negative, N = 1\n");
+  }
+  else {
+    alsu.flags[3] = 0;
+    printf("la valeur de l'accu est positive ou nulle, N = 0\n") ;
+  } //si le bit de poids fort est = 0, N=0
 }
 
 /////////////////////////////////////////////////////////
@@ -295,7 +304,23 @@ void shift(ALSU alsu) {
  */
 int* fullAdder(int a,int b,int cin) {
   int* res=(int*)malloc(2*sizeof(int));
-  // à compléter
+
+  if (a == 0 && b == 0 && cin == 0) {  // cas 3 nuls
+      res[0] = 0 ; res[1] = 0 ;
+  }
+  if ((a == 1 && b == 0 && cin == 0)|| // Cas 2 nuls
+      (a == 0 && b == 1 && cin == 0)||
+      (a == 0 && b == 0 && cin == 1)){
+      res[0] = 1 ; res[1] = 0 ;
+  }
+  if ((a == 1 && b == 1 && cin == 0)|| //cas 1 nuls
+      (a == 0 && b == 1 && cin == 1)||
+      (a == 1 && b == 0 && cin == 1)){
+      res[0] = 0 ; res[1] = 1 ;
+  }
+  if (a == 1 && b == 1 && cin == 1) {  // cas 0 nuls
+      res[0] =1 ; res[1] = 1 ;
+  }
   return res;
 }
 
@@ -304,7 +329,31 @@ int* fullAdder(int a,int b,int cin) {
  * Les indicateurs sont positionnés conformément au résultat de l'opération.
  */
 void add(ALSU alsu,Register B) {
-  // à compléter
+  int i = 0;
+  int retenue = 0;
+  int* res = fullAdder(0,0,0);
+  while (alsu.accu.size != i){
+    res = fullAdder(alsu.accu.word[i],B.word[i],retenue);
+    retenue = res[1];
+    alsu.accu.word[i] = res[0] ;
+    i++ ;
+  }
+  if (res[1] == 1) {alsu.flags[1] = 1 ; printf("la somme a engendree une retenue 'en trop' , C = 1\n") ; }
+  else {alsu.flags[1] = 0 ; printf("la somme n'as pas engendree de retenue 'en trop' , C = 0\n") ; }
+  setZ(alsu);
+  setN(alsu);
+}
+//utile pour la soustraction : additionne le registre B à A
+void addreg(Register A,Register B) {
+  int i = 0;
+  int retenue = 0;
+  int* res = fullAdder(0,0,0);
+  while (A.size != i){
+    res = fullAdder(A.word[i],B.word[i],retenue);
+    retenue = res[1];
+    A.word[i] = res[0] ;
+    i++ ;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -315,14 +364,38 @@ void add(ALSU alsu,Register B) {
  * Négation.
  */
 void not(CPU cpu){
-  // à compléter
+  int i = 0;
+  while(cpu.alsu.accu.size != i) {
+    if (cpu.alsu.accu.word[i] == 0) {cpu.alsu.accu.word[i] = 1;}
+    else {cpu.alsu.accu.word[i] = 0;} // si le bit rang i vaut 1
+    i++;
+  }
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
+
+}
+//utile pour la soustraction : NOT mais pour un registre
+void notreg(Register B){
+  int i = 0;
+  while(B.size != i) {
+    if (B.word[i] == 0) {B.word[i] = 1;}
+    else {B.word[i] = 0;} // si le bit rang i vaut 1
+    i++;
+  }
 }
 
 /*
  * Et.
  */
 void and(CPU cpu,Register B) {
-  // à compléter
+  int i = 0;
+  while(cpu.alsu.accu.size != i) {
+    if (cpu.alsu.accu.word[i] == 1 && B.word[i] == 1) {cpu.alsu.accu.word[i] = 1 ; }
+    else {cpu.alsu.accu.word[i] = 0 ;} // si bit reg1 = 0 ou bit reg2 = 0 alors res = 0
+    i++;
+  }
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
 
 
@@ -330,14 +403,29 @@ void and(CPU cpu,Register B) {
  * Ou.
  */
 void or(CPU cpu,Register B) {
-  // à compléter
+  int i = 0;
+  while(cpu.alsu.accu.size != i) {
+    if ((cpu.alsu.accu.word[i] == 0 && B.word[i] == 0)||
+        (cpu.alsu.accu.word[i] == 1 && B.word[i] == 1)) {cpu.alsu.accu.word[i] = 0 ; }
+    else {cpu.alsu.accu.word[i] = 1 ;} // si bit reg1 = 1 et bit reg2 = 0 ou inversement alors res = 1
+    i++;
+  }
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
 
 /*
  * Xor.
  */
 void xor(CPU cpu,Register B) {
-  // à compléter
+  int i = 0;
+  while(cpu.alsu.accu.size != i) {
+    if (cpu.alsu.accu.word[i] == 0 && B.word[i] == 0) {cpu.alsu.accu.word[i] = 0 ; }
+    else {cpu.alsu.accu.word[i] = 1 ;} // si bit reg1 = 1 ou bit reg2 = 1 alors res = 1
+    i++;
+  }
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
 
 /*
@@ -348,7 +436,35 @@ void xor(CPU cpu,Register B) {
  * Les indicateurs sont positionnés avec le dernier bit "perdu".
  */
 void logicalShift(CPU cpu,int n) {
-  // à compléter
+if ( abs(n) < cpu.alsu.accu.size ) {
+  if (n < 0) { // decalage a droite
+    int i = abs(n);
+    int j = 0;
+    while (cpu.alsu.accu.size != i){
+      cpu.alsu.accu.word[i-abs(n)] = cpu.alsu.accu.word[i];
+      i++;
+    }
+    while (j <= abs(n) ){
+      cpu.alsu.accu.word[(cpu.alsu.accu.size)-j] = 0;
+      j++;
+    }
+  }
+  if (n > 0) { //décalage a gauche
+    int i = 0;
+    int j = 0;
+    while ( (cpu.alsu.accu.size - i ) >= n){
+      cpu.alsu.accu.word[cpu.alsu.accu.size-i] = cpu.alsu.accu.word[cpu.alsu.accu.size -i - n];
+      i++;
+    }
+    while (j < n ){
+      cpu.alsu.accu.word[j] = 0;
+      j++;
+    }
+  }
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
+}
+else {printf("la val absolue de l'entier ne peux pas etre superieure a .size \n ");}
 }
 
 /////////////////////////////////////////////////////////
@@ -359,21 +475,57 @@ void logicalShift(CPU cpu,int n) {
  * Opposé.
  */
 void opp(CPU cpu) {
-  // à compléter
+  // on fait notre opération
+  setValue(cpu.R0 , 1);
+  not(cpu);
+  add(cpu.alsu,cpu.R0);
+  // on remet a 0 les reg temporaires
+  setValue(cpu.R0 , 0);
+  // test des flags
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
+}
+//utile pour la soustraction: convertis temporairement un registre en son inverse
+void oppverreg(CPU cpu, Register B) {
+  // on fait notre opération
+  setValue(cpu.R0 , 1);
+  notreg(B);
+  addreg(B,cpu.R0);
+  // on remet a 0 les reg temporaires
+  setValue(cpu.R0 , 0);
 }
 
 /*
  * Soustraction.
  */
 void sub(CPU cpu,Register B) {
-  // à compléter
+  // on fait notre opération
+  oppverreg(cpu,B);
+  add(cpu.alsu,B);
+  // on remet les reg modifiés a leur valeurs initiales
+  oppverreg(cpu,B);
+  // test des flags
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
 
 /*
  * Multiplication.
  */
 void mul(CPU cpu,Register B) {
-  // à compléter
+  int i = 0;
+  // on fait notre opération
+  while(cpu.alsu.accu.size != i) {
+   if (B.word[i]== 1){
+    addreg(cpu.R1,cpu.alsu.accu);
+    logicalShift(cpu,1);
+   }
+   else { logicalShift(cpu,1); } // si le bit vaut 0 on shift a gauche
+   i++;
+  } // fin des additions de la multiplications, qui sont stockés dans R1
+  cpu.alsu.accu = cpu.R1 ;
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
 
 /////////////////////////////////////////////////////////
@@ -381,7 +533,6 @@ void mul(CPU cpu,Register B) {
 /////////////////////////////////////////////////////////
 
 int main(int argc,char *argv[]) {
-
   // Champs privés
 
   Register operand;
@@ -391,7 +542,7 @@ int main(int argc,char *argv[]) {
   int go_on = 1 ;
 
   char* menu =
-    "              Programme de test\n\n0  Quitter\n1  setValue(operande,int)\n2  pass(alsu,operande)\n3  printing(alsu)\n4  afficher toString(operande)\n5  afficher intValue(operande)\n6  afficher intValue(accu)\n8  accu=add(accu,operande)\n9  accu=sub(accu,operande)\n10  accu=and(accu,operande)\n11 accu=or(accu,operande)\n12 accu=xor(accu,operande)\n13 accu=not(accu)\n14 accu=opp(accu)\n15 accu=logicalShift(accu,int)\n17 accu=mul(accu,operande)\n\n" ;
+    "              Programme de test\n\n0  Quitter\n1  setValue(operande,int)\n2  pass(alsu,operande)\n3  printing(alsu)\n4  afficher toString(operande)\n5  afficher intValue(operande)\n6  afficher intValue(accu)\n7 add(alsu,operande)\n8  accu=sub(alsu,operand)\n9  accu=and(cpu,operand)\n10  accu=or(cpu,operand)\n11 accu=xor(cpu,operand)\n12 accu=not(cpu)\n13 accu=opp(cpu)\n14 accu=logicalShift(cpu,integer)\n15 accu=mul(cpu,operand)\n\n" ;
 
   char* invite = "--> Quel est votre choix  ? " ;
 
@@ -430,7 +581,7 @@ int main(int argc,char *argv[]) {
       printf("intValue(accu)=%d\n",intValue(alsu.accu));
       break ;
     case 7 :
-      add(alsu,operand);
+      add(cpu.alsu,operand);
       printf("apres add(), accu = ");
       printing(alsu);
       break ;
