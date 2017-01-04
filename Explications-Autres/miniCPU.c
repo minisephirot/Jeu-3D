@@ -197,7 +197,7 @@ int intValue(Register R) {
  */
 char* toString(Register R) {
   int i,j=0;
-  char* s=(char*)malloc(40*sizeof(char));
+  char* s=(char*)calloc(40,sizeof(char));
   for (i=R.size-1;i>=0;i--) {
     if (R.word[i]==1) s[j]='1';
     else s[j]='0';
@@ -514,6 +514,7 @@ void sub(CPU cpu,Register B) {
  */
 void mul(CPU cpu,Register B) {
   int i = 0;
+  setValue(cpu.R1 , 0);
   // on fait notre opération
   while(cpu.alsu.accu.size != i) {
    if (B.word[i]== 1){
