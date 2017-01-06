@@ -197,7 +197,7 @@ int intValue(Register R) {
  */
 char* toString(Register R) {
   int i,j=0;
-  char* s=(char*)calloc(40,sizeof(char));
+  char* s=(char*)malloc(40*sizeof(char));
   for (i=R.size-1;i>=0;i--) {
     if (R.word[i]==1) s[j]='1';
     else s[j]='0';
@@ -280,6 +280,7 @@ void nand(ALSU alsu,Register B) {
   while (alsu.accu.size != i){
     if (alsu.accu.word[i] == 1 && B.word[i] == 1) {alsu.accu.word[i] = 0;}
     else {alsu.accu.word[i] = 1;}
+    i++;
   }
   setZ(alsu);
   setN(alsu);
@@ -362,7 +363,7 @@ void addreg(Register A,Register B) {
 
 /*
  * Négation.
- */
+
 void not(CPU cpu){
   int i = 0;
   while(cpu.alsu.accu.size != i) {
@@ -373,7 +374,15 @@ void not(CPU cpu){
   setZ(cpu.alsu);
   setN(cpu.alsu);
 
+}*/
+
+void not(CPU cpu){
+  copyValue(cpu.R0,cpu.alsu.accu);
+  nand(cpu.alsu,cpu.R0);
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
+
 //utile pour la soustraction : NOT mais pour un registre
 void notreg(Register B){
   int i = 0;
@@ -386,7 +395,7 @@ void notreg(Register B){
 
 /*
  * Et.
- */
+
 void and(CPU cpu,Register B) {
   int i = 0;
   while(cpu.alsu.accu.size != i) {
@@ -396,12 +405,18 @@ void and(CPU cpu,Register B) {
   }
   setZ(cpu.alsu);
   setN(cpu.alsu);
+}  */
+void and(CPU cpu,Register B) {
+  nand(cpu.alsu,B);
+  not(cpu);
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
 
 
 /*
  * Ou.
- */
+
 void or(CPU cpu,Register B) {
   int i = 0;
   while(cpu.alsu.accu.size != i) {
@@ -412,11 +427,21 @@ void or(CPU cpu,Register B) {
   }
   setZ(cpu.alsu);
   setN(cpu.alsu);
+} */
+void or(CPU cpu,Register B) {
+  not(cpu);
+  copyValue(cpu.R1,cpu.alsu.accu);
+  pass(cpu.alsu,B);
+  not(cpu);
+  nand(cpu.alsu,cpu.R1);
+
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
 
 /*
  * Xor.
- */
+
 void xor(CPU cpu,Register B) {
   int i = 0;
   while(cpu.alsu.accu.size != i) {
@@ -426,7 +451,26 @@ void xor(CPU cpu,Register B) {
   }
   setZ(cpu.alsu);
   setN(cpu.alsu);
+} */
+
+void xor(CPU cpu,Register B) {
+  // A and not(B)
+  copyValue(cpu.R1,cpu.alsu.accu);
+  pass(cpu.alsu,B);
+  not(cpu);
+  and(cpu,cpu.R1);
+  copyValue(cpu.R2,cpu.alsu.accu);
+  //not(A) and B
+  pass(cpu.alsu,cpu.R1);
+  not(cpu);
+  and(cpu,B);
+  // OU des deux
+  or (cpu, cpu.R2);
+
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
+
 
 /*
  * Décale le receveur de |n| positions.
@@ -434,7 +478,7 @@ void xor(CPU cpu,Register B) {
  * C'est un décalage logique (pas de report du bit de signe dans les positions
  * libérées en cas de décalage à droite).
  * Les indicateurs sont positionnés avec le dernier bit "perdu".
- */
+
 void logicalShift(CPU cpu,int n) {
 if ( abs(n) < cpu.alsu.accu.size ) {
   if (n < 0) { // decalage a droite
@@ -465,6 +509,25 @@ if ( abs(n) < cpu.alsu.accu.size ) {
   setN(cpu.alsu);
 }
 else {printf("la val absolue de l'entier ne peux pas etre superieure a .size \n ");}
+}*/
+void logicalShift(CPU cpu,int n) {
+  int i = 0;
+  if (n < 0) { // decalage a droite
+     n = abs(n);
+     while (i < n){
+       shift(cpu.alsu);
+       i++;
+     }
+  }
+  if (n > 0) { // decalage a droite
+    while (i < n){
+      copyValue(cpu.R0, cpu.alsu.accu);
+      add(cpu.alsu, cpu.R0);
+      i++;
+    }
+  }
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
 
 /////////////////////////////////////////////////////////
@@ -476,16 +539,17 @@ else {printf("la val absolue de l'entier ne peux pas etre superieure a .size \n 
  */
 void opp(CPU cpu) {
   // on fait notre opération
-  setValue(cpu.R0 , 1);
+  setValue(cpu.R2 , 1);
   not(cpu);
-  add(cpu.alsu,cpu.R0);
+  add(cpu.alsu,cpu.R2);
   // on remet a 0 les reg temporaires
-  setValue(cpu.R0 , 0);
+  setValue(cpu.R2 , 0);
   // test des flags
   setZ(cpu.alsu);
   setN(cpu.alsu);
 }
-//utile pour la soustraction: convertis temporairement un registre en son inverse
+
+/*//utile pour la soustraction: convertis temporairement un registre en son inverse
 void oppverreg(CPU cpu, Register B) {
   // on fait notre opération
   setValue(cpu.R0 , 1);
@@ -495,9 +559,8 @@ void oppverreg(CPU cpu, Register B) {
   setValue(cpu.R0 , 0);
 }
 
-/*
  * Soustraction.
- */
+
 void sub(CPU cpu,Register B) {
   // on fait notre opération
   oppverreg(cpu,B);
@@ -507,14 +570,26 @@ void sub(CPU cpu,Register B) {
   // test des flags
   setZ(cpu.alsu);
   setN(cpu.alsu);
+}*/
+
+void sub(CPU cpu,Register B) {
+  // on fait notre opération
+  copyValue(cpu.R1,cpu.alsu.accu);
+  pass(cpu.alsu,B);
+  opp(cpu);
+  copyValue(cpu.R0,cpu.alsu.accu);
+  pass(cpu.alsu,cpu.R1);
+  add(cpu.alsu,cpu.R0);
+  // test des flags
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
 }
 
 /*
  * Multiplication.
- */
+
 void mul(CPU cpu,Register B) {
   int i = 0;
-  setValue(cpu.R1 , 0);
   // on fait notre opération
   while(cpu.alsu.accu.size != i) {
    if (B.word[i]== 1){
@@ -524,7 +599,27 @@ void mul(CPU cpu,Register B) {
    else { logicalShift(cpu,1); } // si le bit vaut 0 on shift a gauche
    i++;
   } // fin des additions de la multiplications, qui sont stockés dans R1
-  cpu.alsu.accu = cpu.R1 ;
+  copyValue(cpu.alsu.accu,cpu.R1);
+  setValue(cpu.R1,0);
+  setZ(cpu.alsu);
+  setN(cpu.alsu);
+}*/
+
+void mul(CPU cpu,Register B) {
+  int i = 0;
+  setValue(cpu.R1,0);
+  // on fait notre opération
+  while(cpu.alsu.accu.size != i) {
+   if (B.word[i]== 1){
+    add(cpu.alsu,cpu.R1);
+    copyValue(cpu.R1,cpu.alsu.accu);
+    logicalShift(cpu,1);
+   }
+   else { logicalShift(cpu,1); } // si le bit vaut 0 on shift a gauche
+   i++;
+  } // fin des additions de la multiplications, qui sont stockés dans R1
+  copyValue(cpu.alsu.accu,cpu.R1);
+  setValue(cpu.R1,0);
   setZ(cpu.alsu);
   setN(cpu.alsu);
 }
